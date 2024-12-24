@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/devops/vm/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>VM 虚拟机 - Security Development Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "VM \u865a\u62df\u673a";
+        var mkdocs_page_input_path = "devops/vm.md";
+        var mkdocs_page_url = "/devops/vm/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/ruby.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Security Development Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">About the Notes 关于笔记</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Development 安全研发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/term/">相关术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/sec_dev_lifecycle/">SDL 安全开发流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/scanner/">Scanner 扫描器</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/firewall/">Firewall 防火墙</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/code_sec/">Code Security 代码安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/netflow_analysis/">Netflow Analysis 流量分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/log_audit/">Log Audit 日志审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cyber_range/">Cyber Range 网络靶场</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/zero_trust/">Zero Trust 零信任</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/open_source/">Opensource 开源项目推荐</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/skill_tree/">Skill Tree 技能树</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/dev_sec_ops/">DevSecOps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/enterprise_security/">Enterprise Security 企业安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/intelligent_risk_control/">Intelligent Risk Control 智能风控</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/pentest_automation/">渗透测试自动化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/fingerprints/">指纹识别</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/anti_bot/">反爬虫/Bot</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_sqlmap/">源码学习之SqlMap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_pocsuite/">源码学习之Pocsuite3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_snort/">源码学习之Snort3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_viper/">源码学习之Viper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/socket/">socket编程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/research_list/">导航列表</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/exploit/">漏洞挖掘</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/threat_intelligence/">威胁情报</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/apt/">APT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/att%26ck/">ATT&CK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/code_audit/">代码审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/fuzzing/">模糊测试</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/black_market/">黑产研究</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/botnet/">DDoS和Botnet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/binary_sec/">二进制安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/data_sec/">数据安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/device_sec/">路由设备安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ic_sec/">工控安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iot_sec/">物联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/5g_sec/">5g安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iov_sec/">车联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/cloud_sec/">云原生安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/block_chain_sec/">区块链安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/android_sec/">Android安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/browser_sec/">浏览器安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/protocol_sec/">协议安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/boofuzz/">Boofuzz</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/api_sec/">API安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/python_sec/">Python安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/js_sec/">JS安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/c/">C语言</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/cso/">CSO与安全负责人</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/enterprise_sec/">企业安全建设</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/classified_protection/">等级保护</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/sec_jd/">安全招聘</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Product Marketing 安全产品营销</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_operation/">安全运营</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/traceback/">溯源反制</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CVE</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cve/cve/">CVE相关参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pentest 渗透测试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/term/">Term 术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/kali_linux/">Kali Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/brute_force/">Brute Force 暴力破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/sql_injection/">SQL Injection SQL注入</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/ddos/">DDoS 分布式拒绝服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/xss/">XSS 跨站脚本攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/re/">Reverse Engineering 逆向工程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/backdoor/">Backdoor 后门</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/capture_package/">抓包</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/crack/">破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_lifecycle/">网络攻击生命周期</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/log_clear/">日志清理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/report/">报告和笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/nmap/">Nmap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/thinkphp5_rce/">ThinkPHP5 RCE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/ctf_skill/">CTF竞赛常用基本解题技巧</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/pwn/">PWN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/crypto/">Crypto</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/re/">RE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/hackthebox/">HackTheBox</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Algorithm 算法</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/leetcode/">Leetcode</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture 架构</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/notes/">读书笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/design_pattern/">Design Pattern 设计模式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/ddd/">DDD 领域驱动设计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/micro_services/">Micro Services 微服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/scrum/">Scrum</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/computer_networking/">计算机网络</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/os/">OS 操作系统</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/database/">Database 数据库</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/performance_optimization/">性能优化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rpc/">RPC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/search_engine/">搜索引擎</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/high_concurrency/">高并发</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/python/">Python</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/go/">Golang</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/c/">C</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/java/">Java</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rust/">Rust</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/perl/">Perl</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/proxy/">Proxy 代理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rabbitmq/">RabbitMQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/kafka/">Kafka</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/jwt/">JWT认证</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/big_data/">Big Data 大数据</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/regex/">Regex 正则表达式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git/">Git</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git_flow/">Git Flow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/vim/">Vim</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/machine_learning/">机器学习</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/nlp/">自然语言处理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/llms/">大语言模型LLMs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/statistical_learning/">统计学习方法笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Front-end Development 前端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/html5/">HTML5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/css/">CSS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/js/">JavaScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/typescript/">TypeScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/vue/">Vue.js</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/react/">React</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/npm/">NPM</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MOOC Notes 幕课笔记</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/pku_datastructure/">数据结构与算法Python版</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/CS_basic/">编程必备基础知识</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Test Development 测试开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/test_management/">测试管理流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/performance/">性能测试</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">软考</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/ruankao/">考试相关信息</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_analyst/">高级系统分析师复习笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_architect/">高级系统架构设计师复习笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">爬虫开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../crawler/cookie_pool/">Cookie池设计</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DevOps</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../k8s/">Kubernetes</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">VM 虚拟机</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">常见问题？</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#vmware-workstation-ovfova">VMware Workstation导出文件 ovf和ova的区别？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vm-esxi">VM ESXi是什么？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vm-esxi-vm-workstation">VM ESXi 和 VM Workstation 的区别？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vmware-vsphere">VMware vSphere是什么？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vmware-workstation-pro-rest-api">使用VMware Workstation Pro REST API服务</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qemu">QEMU是什么？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kvm">KVM是什么？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qemu-kvm">QEMU-KVM是什么？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qemu_1">QEMU的网络配置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#novncwebvnc">NoVNC以Web方式交付VNC远程连接</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vmware">VMware虚拟机几张网卡的作用</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">网络适配器模式区分</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">应用场景区分</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#vmwareuwin10">使用VMware虚拟机模拟U盘安装Win10</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">常用虚拟机操作指令</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#kvm-virsh">KVM virsh命令</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">高频使用命令</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#5vmkvm">5.VM虚拟机转KVM虚拟机</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">查询系统是否开启虚拟化</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">查询虚拟服务是否启动</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#virshshell">virsh结合shell批量操作虚拟机</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">查看虚拟机硬盘信息</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">创建快照</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">恢复快照</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_12">查看指定虚拟机的快照列表</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_13">删除快照</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_14">查看快照详细信息</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sabe">sabe快照运维</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#faq">FAQ</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#kvm_1">kvm网卡参数设置错误导致网卡不能承受过高流量问题排查</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#vmware-workstation-upgrade">虚拟机使用的是此版本 VMware Workstation 不支持的硬件版本。模块“Upgrade”启动失败。未能启动虚拟机。</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pyenv">安装pyenv</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#ubuntu-1804">Ubuntu 18.04</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#centos-76">CentOS 7.6</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#pyenv-install">pyenv install太慢的解决方式</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#pyenv-virtualenv">安装辅助插件 pyenv-virtualenv</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#go">安装go</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ssh">安装ssh服务</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ip">给网卡配置静态IP</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sre/">SRE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../shell/">Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../syslog/">syslog</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">SEO 搜索引擎优化</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/knowledge/">基本知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/whitehat_seo/">白帽SEO</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/blackhat_seo/">黑帽SEO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview 面试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/navigation/">Navigation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/security/">Security Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/backend/">Backend Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/ai/">AI Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/qa/">QA Interview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Academic 学术</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../academic/academic/">Information 相关信息</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Math 数学</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../math/learn_guide/">学习参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Others</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/introduce/">简介</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/bookmark/">Bookmark</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/learning_view/">Learning View 学习观</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/law/">Law 法律</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hugo/">Hugo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hexo/">Hexo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/english_grammar/">英语语法框架</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../todo_list/">Todo List</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Security Development Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">DevOps</li>
+      <li class="breadcrumb-item active">VM 虚拟机</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">虚拟机相关</h1>
+<h2 id="_2">常见问题？</h2>
+<h3 id="vmware-workstation-ovfova">VMware Workstation导出文件 ovf和ova的区别？</h3>
+<p>后缀是ovf，则会导出多个相关文件（.ovf .mf .vmdk .iso）；
+后缀是ova，则只会导出一个ova的压缩包。</p>
+<h3 id="vm-esxi">VM ESXi是什么？</h3>
+<p>VM ESXi是VMware的一款产品。VMware服务器虚拟化的一整套解决方案叫VMware vSphere，里面包括两个重要部件：一个是ESXi，在虚拟化中通常叫Hypervisor，提供的是计算虚拟化；另一个部分叫VMware vCenter Server，是集中管理多台ESXi，并且可以实现许多高级功能，比如动态迁移、容错等功能。</p>
+<h3 id="vm-esxi-vm-workstation">VM ESXi 和 VM Workstation 的区别？</h3>
+<p>通常Windows PC用的是VMware Workstation，是提供虚拟化的软件。</p>
+<p>ESXi和Workstation最大的区别在于系统架构不同，ESXi是裸金属结构，也就是直接安装在物理服务器上的；Workstation是寄生结构，它是装在Windows或Linux操作系统之上的.</p>
+<p>如果不深究的话，可以认为一个是服务器版，一个是桌面版的虚拟化解决方案。</p>
+<h3 id="vmware-vsphere">VMware vSphere是什么？</h3>
+<p>VMware vSphere则是根据企业的实际情况设计的一个虚拟化方案，它涉及的软件很多，VMware ESXi就是它其中的一种软件。</p>
+<h3 id="vmware-workstation-pro-rest-api">使用VMware Workstation Pro REST API服务</h3>
+<p>如何用API控制VMware虚拟机，<a href="https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-C3361DF5-A4C1-432E-850C-8F60D83E5E2B.html">使用 VMware Workstation Pro REST API 服务</a></p>
+<p>实测配置还是比较简单的。<a href="https://developer.vmware.com/apis/1043/">VMware Workstation Pro REST API官方文档</a></p>
+<p>还有一个调用更加专业的SDK，但看起来要vSphere才支持：https://developer.vmware.com/web/sdk/html-console/</p>
+<h3 id="qemu">QEMU是什么？</h3>
+<p>QEMU是一个主机上的VMM（virtual machine monitor）,通过动态二进制转换来模拟CPU，并提供一系列的硬件模型，使guest os认为自己和硬件直接打交道，其实是同QEMU模拟出来的硬件打交道，QEMU再将这些指令翻译给真正硬件进行操作。
+通过这种模式，guest os可以和主机上的硬盘，网卡，CPU，CD-ROM，音频设备和USB设备进行交互。但由于所有指令都需要经过QEMU来翻译，因而性能会比较差。</p>
+<h3 id="kvm">KVM是什么？</h3>
+<p>KVM实际是linux内核提供的虚拟化架构，可将内核直接充当hypervisor来使用。KVM需要处理器硬件本身支持虚拟化扩展，如intel VT 和AMD AMD-V技术。</p>
+<h3 id="qemu-kvm">QEMU-KVM是什么？</h3>
+<p>KVM负责cpu虚拟化+内存虚拟化，实现了cpu和内存的虚拟化，但kvm并不能模拟其他设备，还必须有个运行在用户空间的工具才行。
+KVM的开发者选择了比较成熟的开源虚拟化软件QEMU来作为这个工具，QEMU模拟IO设备（网卡，磁盘等），对其进行了修改，最后形成了QEMU-KVM。</p>
+<p>QEMU-KVM，是QEMU的一个特定于KVM加速模块的分支，里面包含了很多关于KVM的特定代码，与KVM模块一起配合使用。
+目前QEMU-KVM已经与QEMU合二为一，所有特定于KVM的代码也都合入了QEMU，当需要与KVM模块配合使用的时候，只需要在QEMU命令行加上 --enable-kvm就可以。</p>
+<p>ref: <a href="https://www.cnblogs.com/echo1937/p/7138294.html">QEMU,KVM及QEMU-KVM介绍</a></p>
+<h3 id="qemu_1">QEMU的网络配置</h3>
+<p>QEMU 提供 4种网络通信方法，分别是：</p>
+<pre><code>1. User mode stack：用户协议栈方式，这种方式的大概原理是在 QEMU 进程中实现一个协议栈，这个协议栈可以被视为一个主机与虚拟机之间的 NAT 服务器，它负责将 QEMU 所模拟的系统网络请求转发到外部网卡上面，从而实现网络通信。但是不能将外面的请求转发到虚拟机内部，并且虚拟机 VLAN 中的每个接口必须放在 10.0.2.0 子网中。
+2. socket： 为 VLAN 创建套接字，并把多个 VLAN 连接起来。
+3. TAP/bridge：最重要的一种通信方式，我们想要实现 QEMU 虚拟机和外部通信就需要使用这种方式。
+4. VDE：也是用于连接 VLAN 的，如果没有 VLAN 连接需求基本用不到。
+</code></pre>
+<p>重点解释TAP模式：</p>
+<pre><code>TAP 属于 Linux 内核支持的一种虚拟化网络设备，还有 TUN 也属于这种设备，它们完全由软件模拟实现，TUN/TAP 负责在内核协议栈和用户进程之间传送协议数据单元。
+TUN 工作在网络层，而 TAP 工作在数据链路层，TUN 负责与应用程序交换 IP 数据包，而 TAP 与应用程序交换以太网帧。
+所以 TUN 经常涉及路由，而 TAP 常用于网络桥接。
+
+所谓桥接可以简单理解为在两张网卡之间搭一座桥，一端有数据就可以通过桥走到另一端，对于实现 QEMU 虚拟机通信正合适。
+桥接技术在 VMWARE 中非常常用，我们设置虚拟机网络的时候就能看见桥接选项，实际上 VMware 在物理机上虚拟化了 3 张网卡，分别负责桥接、仅主机、共享网络。
+</code></pre>
+<p>ref: <a href="https://wzt.ac.cn/2021/05/28/QEMU-networking/">QEMU 网络配置一把梭</a></p>
+<h3 id="novncwebvnc">NoVNC以Web方式交付VNC远程连接</h3>
+<ul>
+<li><a href="https://blog.csdn.net/qq_37242520/article/details/103688221">NoVNC—以Web方式交付VNC远程连接</a></li>
+</ul>
+<p>什么是noVNC?</p>
+<pre><code>noVNC是一个 HTML5 VNC 客户端，采用 HTML 5 WebSockets, Canvas 和 JavaScript 实现，
+noVNC 被普遍用在各大云计算、虚拟机控制面板中，比如 OpenStack Dashboard 和 OpenNebula Sunstone 都用的是 noVNC。
+</code></pre>
+<h3 id="vmware">VMware虚拟机几张网卡的作用</h3>
+<p>vmnet1是为host-only方式服务的，vmnet8是为NAT方式服务的。</p>
+<ul>
+<li>
+<p>设置私有网络（Host Only）时，用来和主机通信，禁用以后就无法正常使用Host-Only模式了；</p>
+</li>
+<li>
+<p>设置网络地址翻译（NAT）时，和主机通讯使用，如果禁用，那么虚拟机在NAT模式下依然可以通过主机网卡访问外网，但不能通过内部网络和主机直接通信。</p>
+</li>
+<li>
+<p>而使用桥接网络时，则不需要这两个网卡了。</p>
+</li>
+</ul>
+<h4 id="_3">网络适配器模式区分</h4>
+<ul>
+<li>
+<p>使用Host-Only模式的guest系统与主机通信需要VMnet1网卡的支持；</p>
+</li>
+<li>
+<p>通过NAT方式上网的guest系统与主机通信需要VMnet8网卡的支持；</p>
+</li>
+<li>
+<p>使用桥接模式上网需要网络中存在DHCP服务器，且提供服务。</p>
+</li>
+</ul>
+<h4 id="_4">应用场景区分</h4>
+<ul>
+<li>VMnet1</li>
+</ul>
+<p>使用Host-Only模式的guest系统与主机通信需要VMnet1网卡的支持</p>
+<ul>
+<li>VMnet8</li>
+</ul>
+<p>使用NAT网络模式，在宿主机安装多台虚拟机，和宿主组成一个小局域网，宿主机，虚拟机之间都可以互相通信，虚拟机也可访问外网，例如 搭建 hadoop 集群，分布式服务</p>
+<ul>
+<li>VMNet0 （宿主机网络适配器仅增加VMnet1和VMnet8，但虚拟机网络编辑器中桥接对应VMnet0）</li>
+</ul>
+<p>使用桥接模式，安装VM后，在VM里建立虚拟机 默认 就是该模式。
+如果你只是需要一台虚拟机可以和宿主互通，并可以访问外网，此模式即可。</p>
+<p>ref: https://blog.csdn.net/qq_45893475/article/details/120161930</p>
+<h4 id="vmwareuwin10">使用VMware虚拟机模拟U盘安装Win10</h4>
+<p>U盘：UltraISO将官方iso镜像写入USB，然后开VMware虚拟机，从固件启动，设置USB启动后看是否能正常进入U盘引导。
+<a href="https://www.bilibili.com/read/cv21920477/">详情见此</a></p>
+<h2 id="_5">常用虚拟机操作指令</h2>
+<h3 id="kvm-virsh">KVM virsh命令</h3>
+<h4 id="_6">高频使用命令</h4>
+<pre><code>1.使用centos-7.6.1810-20181204-x86_64.iso创建kvm虚拟机，图形化界面开vnc端口访问
+size的单位是G，值为60表示：60G = 60*1024M
+
+virt-install \
+    --cdrom=/opt/iso/centos-7.6.1810-20181204-x86_64.iso \
+    --virt-type kvm \
+    --name saee \
+    --ram 32768 \
+    --vcpus=12 \
+    --disk path=/opt/vm/saee.disk,size=60 \
+    --network bridge=br0 \
+    --graphics vnc,listen=0.0.0.0 \
+    --noautoconsole
+
+命令参数的具体解析：
+
+virt-install: 这是 virt-install 命令本身，用于创建和管理虚拟机。
+
+--cdrom=/opt/iso/centos-7.6.1810-20181204-x86_64.iso: 指定用于安装虚拟机的 ISO 镜像文件的路径。
+
+--virt-type kvm: 指定虚拟化类型为 KVM。
+
+--name saee: 为虚拟机指定一个名称，这里为 &quot;saee&quot;。
+
+--ram 32768: 指定虚拟机的内存大小为 32768 MB（32 GB）。
+
+--vcpus=12: 指定虚拟机的虚拟 CPU 数量为 12。
+
+--disk path=/opt/vm/saee.disk,size=60: 指定虚拟机的磁盘配置。path 参数指定虚拟机磁盘文件的路径，这里为 &quot;/opt/vm/saee.disk&quot;，size 参数指定磁盘的大小为 60 GB。
+
+--network bridge=br0: 指定虚拟机的网络配置。bridge 参数指定虚拟机使用的网络桥接设备，这里为 &quot;br0&quot;。
+
+--graphics vnc,listen=0.0.0.0: 指定虚拟机的图形界面配置。graphics 参数指定使用 VNC 协议作为图形界面，listen 参数指定监听所有可用的网络接口。
+
+--noautoconsole: 禁止自动连接到虚拟机的控制台。
+
+以上是对给定命令及其参数的解析。根据实际需求，你可以根据需要进行调整和配置。请注意，在运行此命令之前，请确保已经安装了相应的软件和环境，并具备足够的权限。   
+
+2.查看当前服务器有哪些虚拟机
+virsh list --all
+
+3.查看虚拟机的vnc端口：
+virsh vncdisplay [vm_name]
+
+:0 就用vnc访问宿主机ip:5900
+:1 就用vnc访问宿主机ip:5901
+
+注意：宿主机若已开启防火墙需要临时关闭，或者放行对应端口
+
+3.创建快照
+virsh snapshot-create-as [domain] [snapshot-name]
+e.g.
+virsh snapshot-create-as centos7 centos7_snapshot
+
+4.查看指定虚拟机的快照列表
+virsh snapshot-list [domain]
+e.g.
+virsh snapshot-list sabe
+
+5.设置/取消开机启动
+
+virsh list --all
+# 记下要设置开机启动的虚拟机的名称或 ID。
+
+# 设置虚拟机在宿主机启动时自动启动
+virsh autostart &lt;虚拟机名称或ID&gt;
+
+验证虚拟机是否已设置为自动启动
+virsh list --autostart
+
+消自动启动设置
+virsh autostart --disable &lt;虚拟机名称或ID&gt;
+</code></pre>
+<p>更多参考:
+- <a href="https://www.cnblogs.com/liwei0526vip/p/6201582.html">kvm 使用入门详解</a>
+- <a href="https://blog.csdn.net/m0_59041021/article/details/123680397">Centos7 kvm环境制作qcow2 格式镜像</a></p>
+<p>virt-manager在图形化下操作kvm虚拟机，没有就只能通过命令来操作。</p>
+<h4 id="5vmkvm">5.VM虚拟机转KVM虚拟机</h4>
+<p>（个人操作发现可能有兼容性问题，不推荐）</p>
+<pre><code class="language-shell">打开终端，进入VMware安装不目录 cd D:\Program Files (x86)\VMware\VMware Workstation\
+vmware-vdiskmanager.exe -r &quot;D:\VMs\kali-linux-2022.1-vmware-amd64.vmwarevm\&quot;
+（1）vmware-vdiskmanager.exe -r &quot;F:\共享\VM\test\xxx.vmdk&quot; -t 0 &quot;F:\共享\VM\xxx.vmdk&quot;
+（2）qemu-img convert xxx.vmdk -O qcow2 xxx.img
+（3）挂载qcow镜像创建虚拟机：
+ virt-install \
+    --virt-type kvm \
+    --name viper \
+    --ram 2048 \
+    --vcpus=2 \
+    --disk path=/opt/img/xxx.img,format=qcow2 \
+    --network network=default \
+    --graphics vnc,listen=0.0.0.0 \
+    --force \
+    --import \
+    --autostart \
+    --os-variant ubuntu18.04 \
+    --noautoconsole
+</code></pre>
+<p>补充，经测试，KVM在2核2G配置下通过iso安装Kali速度很慢，建议酌情增加配置。</p>
+<pre><code>virt-install \
+    --cdrom=/opt/iso/kali-linux-2022.1-installer-amd64.iso \
+    --virt-type kvm \
+    --name kali2022.1 \
+    --ram 4096 \
+    --vcpus=4 \
+    --disk path=/opt/vm/kali2022.1,size=200 \
+    --network bridge=br0 \
+    --graphics vnc,listen=0.0.0.0 \
+    --noautoconsole
+</code></pre>
+<p>ref: 
+- <a href="https://blog.csdn.net/u010281503/article/details/78215322">迁移VMWare虚拟机到KVM</a>
+- <a href="https://www.cnblogs.com/kex1n/p/5201039.html">ubuntu-kvm上面deploy qcow2格式虚拟机</a></p>
+<h4 id="_7">查询系统是否开启虚拟化</h4>
+<pre><code>[root@localhost vm]# LC_ALL=C lscpu| grep Virtualization
+Virtualization:        VT-x
+</code></pre>
+<h4 id="_8">查询虚拟服务是否启动</h4>
+<pre><code>[root@localhost vm]# systemctl status libvirtd
+● libvirtd.service - Virtualization daemon
+   Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Thu 2022-04-07 23:59:30 CST; 18h ago
+     Docs: man:libvirtd(8)
+           https://libvirt.org
+ Main PID: 5418 (libvirtd)
+    Tasks: 20 (limit: 32768)
+   Memory: 8.1M
+   CGroup: /system.slice/libvirtd.service
+           ├─5418 /usr/sbin/libvirtd
+           ├─8334 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+           └─8335 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+
+</code></pre>
+<h4 id="virshshell">virsh结合shell批量操作虚拟机</h4>
+<pre><code class="language-shell"># 批量 软关机
+for i in $(virsh list --name --autostart); do virsh shutdown $i; done
+
+# 批量 硬关机
+for i in $(virsh list --name --autostart); do virsh destroy $i; done
+
+# 批量 开启
+for i in $(virsh list --name --autostart); do virsh start $i; done
+
+# 批量开启关闭状态的虚拟机
+for i in $(virsh list --name --inactive); do virsh start $i; done
+</code></pre>
+<pre><code># 用这条命令来判断qemu的依赖是否完全，如果缺失会报错
+/usr/libexec/qemu-kvm --version 
+
+---- 安装虚拟机 ---------------------------------------------------------------------
+
+# CentOS7 - 无桌面安装部署kvm虚拟机
+# https://baijiahao.baidu.com/s?id=1612142653122584145&amp;wfr=spider&amp;for=pc
+
+
+
+# 查询cpu是否支持虚拟化，硬件虚拟化为vmx(Inter)、svm（AMD），软件虚拟的效率非常低
+cat /proc/cpuinfo |grep -E 'vmx|svm'
+
+# 查询bios是否开启虚拟化，不支持的话会显示kvm:disabled by bios，正常无回显
+dmesg |grep kvm
+
+# 安装qemu和vir
+yum -y install epel-release
+yum -y install qemu-kvm libvirt virt-install
+
+# 启动服务
+systemctl start libvirtd &amp;&amp; systemctl enable libvirtd
+
+# --virt-type：默认先kvm再qemu，强制指定kvm
+# -name：虚拟机的名字
+# -ram：内存大小MB
+# -vcpus：CPU个数
+# -cdrom：ISO镜像位置
+# -network：网络
+# -graphics：Guest显示设置
+# --noautoconsole：不连接到控制台，默认会直接从ssh连接vnc
+# -disk path：磁盘位置，size磁盘大小G
+
+# virt-install指令可以直接写到.sh文件来执行，以免命令行粘贴出错
+virt-install \
+    --virt-type kvm \
+    --name centos7 \
+    --ram 4096  \
+    --vcpus=4 \
+    --cdrom=/mnt/dvd/CentOS-7-x86_64-Minimal-1810.iso \
+    --disk path=/opt/vm/centos7.disk,size=512 \
+    --network bridge=br0 \
+    --graphics vnc,listen=0.0.0.0 --noautoconsole
+
+virt-install \
+    --virt-type kvm \
+    --name dtd \
+    --ram 4096  \
+    --vcpus=4 \
+    --cdrom=/mnt/dvd/dtd.iso \
+    --disk path=/opt/vm/dtd.disk,size=2048 \
+    --network network=default \
+    --graphics vnc,listen=0.0.0.0 --noautoconsole
+
+# 虚拟机桥接
+/etc/qemu-kvm/bridge.conf
+
+# 虚拟机配置，所有的命令实际上都是修改这个文件
+/etc/libvirt/qemu/*.xml
+
+# 修改配置后，重启服务
+systemctl restart libvirtd
+
+# 关闭指定虚拟机
+virsh shutdown centos7
+
+# 运行指定的虚拟机
+virsh start centos7
+
+# 重启虚拟机
+virsh reboot centos7
+
+# 强制重启虚拟机
+
+如果reboot命令无效，则需要强制重启:
+virsh destroy &lt;VM Name or ID&gt;
+virsh start &lt;VM Name or ID&gt;
+
+---- 桥接 -------------------------------------------------
+
+# 实体机，桥接网卡配置，新建配置文件ifcfg-br0
+/etc/sysconfig/network-scripts/ifcfg-br0
+TYPE=Bridge
+BOOTPROTO=static
+DEFROUTE=yes
+NAME=br0
+DEVICE=br0
+ONBOOT=yes
+IPADDR=10.0.0.100
+NETMASK=255.255.255.0
+GATEWAY=10.0.0.1
+DNS1=114.114.114.114
+ZONE=public
+
+# 实体网卡配置，NM_CONTROLLED=no
+/etc/sysconfig/network-scripts/ifcfg-enp4s0
+TYPE=Ethernet
+BOOTPROTO=none
+NAME=enp4s0
+DEVICE=enp4s0
+ONBOOT=yes
+BRIDGE=br0
+NM_CONTROLLED=no
+
+# 实体机，重启服务
+systemctl restart network
+
+# 虚拟机网卡桥接到br0
+# 把虚拟机网卡vnet0从virbr0组删除
+brctl delif virbr0 vnet0
+
+# 把虚拟网卡vnet0添加到br0组
+brctl addif br0 vnet0
+
+brctl delif virbr0 virbr0-nic
+brctl addif br0 virbr0-nic
+
+brctl delif br0 vnet0
+brctl addif br1 vnet0
+brctl show
+
+# 查看
+brctl show 
+    bridge name bridge id       STP enabled interfaces
+    br0     8000.04d9f5888010   no          enp4s0
+                                            vnet0
+
+
+#  --network bridge=br0的配置
+# 以network=default方式安装的虚拟机，需要修改虚拟机xml配置，否则虚拟机关闭后桥接失效
+    &lt;interface type='bridge'&gt;
+      &lt;mac address='52:54:00:a2:84:89'/&gt;
+      &lt;source bridge='br0'/&gt;
+      &lt;model type='rtl8139'/&gt;
+      &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/&gt;
+    &lt;/interface&gt;
+
+
+# 虚拟机，网卡配置
+/etc/sysconfig/network-scripts/ifcfg-eth0
+TYPE=Ethernet
+BOOTPROTO=static
+DEFROUTE=yes
+NAME=eth0
+DEVICE=eth0
+ONBOOT=yes
+IPADDR=10.0.0.101
+NETMASK=255.255.255.0    #  我一般用255.255.0.0
+GATEWAY=10.0.0.1
+DNS1=114.114.114.114
+ZONE=public
+
+
+# 虚拟机，重启服务
+# 【重要】调整网络配置前，请一定注意关闭所有虚拟机
+systemctl restart network
+or
+systemctl restart network
+
+# 查看指定虚拟机配置信息 mac address
+
+virsh dumpxml tmp_frontend | grep &quot;mac address&quot;
+      &lt;mac address='52:54:00:c5:ac:5a'/&gt;
+
+
+vnet2  就是我新创建的虚拟机
+
+输入命令nmcli con show 查看网卡连接信息
+
+通过 virsh dumpxml tmp_frontend  查看虚拟机开放端口，vnet2这台的vnc是10.0.0.X:5901
+
+然后用vnc连上vm，进行图形化安装centos，安装完成后，虚拟机会重启并关机，需要virsh start vm_name 重启虚拟机
+
+然后用vnc连上vm，继续进行虚拟机内部网络配置，安装的什么系统就怎么配置
+
+
+</code></pre>
+<pre><code>qemu虚拟机virsh指令
+
+#### 查看所有虚拟机列表
+virsh list --all
+
+#### 查看开启的虚拟机列表
+virsh list
+
+#### 运行指定的虚拟机
+virsh start centos7
+virsh start dtd
+virsh start tmp_frontend
+
+#### 强制关闭指定虚拟机
+virsh destroy centos7
+
+#### 查看指定虚拟机的信息 
+virsh dominfo 虚拟机名称
+virsh dominfo sabe
+virsh dominfo snort
+
+#### 查看虚拟机网卡信息
+```bash
+[root@localhost ~]# virsh domiflist sabe
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet0      bridge     br0        virtio      52:54:00:74:5e:94
+vnet1      bridge     br1        virtio      52:54:00:89:8d:c5
+
+[root@localhost ~]# virsh domiflist snort
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet2      bridge     br0        virtio      52:54:00:e3:39:1b
+vnet3      bridge     br1        rtl8139     52:54:00:f3:e8:39
+</code></pre>
+<h4 id="_9">查看虚拟机硬盘信息</h4>
+<p>virsh domblklist</p>
+<h4 id="_10">创建快照</h4>
+<p>virsh snapshot-create-as centos7 centos7_snapshot</p>
+<h4 id="_11">恢复快照</h4>
+<p>1.还原指定domain下的指定快照（高频使用）
+<code>virsh snapshot-revert [domain] [snapshot-name]</code></p>
+<p>e.g.:
+virsh snapshot-revert domain-xxx snapshot-yyy</p>
+<p>2.还原名为centos7的虚拟机的当前快照
+virsh snapshot-revert centos7 --current</p>
+<h4 id="_12">查看指定虚拟机的快照列表</h4>
+<p>virsh snapshot-list sabe</p>
+<h4 id="_13">删除快照</h4>
+<p>virsh snapshot-delete snort snort_snapshot</p>
+<h4 id="_14">查看快照详细信息</h4>
+<p><code>virsh snapshot-info [domain] [snapshot-name]</code></p>
+<h4 id="sabe">sabe快照运维</h4>
+<p>virsh snapshot-delete sabe sabe_snapshot
+virsh snapshot-create-as sabe sabe_snapshot</p>
+<p>virsh snapshot-delete snort snort_snapshot
+virsh snapshot-create-as snort snort_snapshot</p>
+<h3 id="faq">FAQ</h3>
+<h4 id="kvm_1">kvm网卡参数设置错误导致网卡不能承受过高流量问题排查</h4>
+<p>ovirt创建网卡的时候有3中选择，分别是：<code>e1000</code>，<code>rtl8139</code>，<code>virtio</code>。</p>
+<ul>
+<li>rtl8139 类型是 qemu-kvm 默认的模拟网卡类型， 10/100Mb/s</li>
+<li>e1000   类型提供Intel e1000系的网卡模拟，纯QEMU（非qemu-kvm）默认就是提供Intel e1000系, 1Gb/s</li>
+<li>virtio  类型是 qemu-kvm 对半虚拟化IO（virtio）驱动的支持，10Gb/s</li>
+</ul>
+<p><img alt="rtl8139 issue" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed2/20210525120207.png" /></p>
+<pre><code>
+## Ubuntu18.04虚拟机配置
+
+### 安装zsh
+
+```shell
+1.安装和切换zsh
+cat /etc/shells  # 查看所有shell
+echo $SHELL   # 查看当前shell
+
+如果没有zsh,则需要现安装zsh
+sudo apt install zsh
+
+切换默认shell为zsh
+chsh -s /bin/zsh
+reboot
+
+2.安装oh-my-zsh
+ref: https://ohmyz.sh/#install
+
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+
+3.配置~/.zshrc
+cd ~
+git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+vim ~/.zshrc
+修改这个配置
+plugins=(git autojump zsh-syntax-highlighting zsh-autosuggestions)
+
+在plugin = ()下面加这个：
+setopt no_nomatch 
+# 如果不加的话就不能使用*，比如：dpkg -l firefox*
+
+安装ESC和:,输入wq!保存退出
+用 source ~/.zshrc 命令更新配置文件，重启终端即可使用
+
+4.修改主题
+这里以更换主题为agnoster为例:
+如果要更换默认的rubyshell,比如换成 agnoster主题 , 需要先安装相应字体
+sudo apt install fonts-powerline
+vim ~/.zshrc
+修改 ZSH_THEME=&quot;robbyrussell&quot; 为 ZSH_THEME=&quot;agnoster&quot;
+
+安装ESC和:,输入wq!保存退出
+用 source ~/.zshrc 命令更新配置文件，重启终端即可
+
+其他:
+echo $HISTSIZE  # 检查历史记录数量 (可选)
+HIST_STAMPS=&quot;yyyy-mm-dd&quot;  # history信息增加时间戳展示
+</code></pre>
+<h4 id="vmware-workstation-upgrade">虚拟机使用的是此版本 VMware Workstation 不支持的硬件版本。模块“Upgrade”启动失败。未能启动虚拟机。</h4>
+<p>常见原因制作虚拟机的VM版本高于你当前机器使用的版本。</p>
+<p>解决方案：</p>
+<pre><code>1、找到vmware 虚拟机存放目录，使用记事本（sublime等打开也行）方式打开.vmx 文件。
+2、修改和自己Vmware匹配的版本号，比如：将 virtualHW.version = &quot;19&quot; 改为 virtualHW.version = &quot;16&quot; （注意：该参数根据VMware版本变化），保存.vmx文件。
+3、使用记事本打开.vmdk 文件，将 ddb.virtualHWVersion = &quot;19&quot; 改为 ddb.virtualHWVersion = &quot;16&quot; （注意：是和自己安装的Vmware匹配的版本号），保存.vmdk后退出。
+4、重新打开虚拟机，问题解决。
+</code></pre>
+<h3 id="pyenv">安装pyenv</h3>
+<p>ref: https://blog.csdn.net/wssywh/article/details/76143600</p>
+<h4 id="ubuntu-1804">Ubuntu 18.04</h4>
+<pre><code>$ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+
+$ echo 'export PYENV_ROOT=&quot;$HOME/.pyenv&quot;' &gt;&gt; ~/.zshrc
+$ echo 'export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;' &gt;&gt; ~/.zshrc
+$ echo 'eval &quot;$(pyenv init --path)&quot;' &gt;&gt; ~/.zshrc
+$ echo 'eval &quot;$(pyenv init -)&quot;' &gt;&gt; ~/.zshrc
+</code></pre>
+<p>然后，<code>source ~/.zshrc</code>使命令生效。</p>
+<h4 id="centos-76">CentOS 7.6</h4>
+<pre><code>CentOS 7.6 默认不带zsh，需要的自行安装
+
+1. 安装依赖包:
+yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel -y
+
+2. 安装pyenv包:
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+如果http访问要超时，可以换成ssh
+git clone git@github.com:pyenv/pyenv.git ~/.pyenv
+
+3. 设置环境变量:
+vim ~/.bashrc 
+export PYENV_ROOT=&quot;$HOME/.pyenv&quot; 
+export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot; 
+eval &quot;$(pyenv init --path)&quot;
+
+4. 激活修改的配置文件
+source ~/.bashrc
+</code></pre>
+<p>不过pyenv国内源安装慢，需要使用本地安装方式。</p>
+<p>pyenv 常用命令</p>
+<pre><code>pyenv versions # 查看所有安装的python版本
+
+pyenv install --list  # 查询可安装的python版本
+
+# ubuntu 18.04先安装一波依赖看看
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
+
+pyenv install 3.7.10 -v  # 加 -v参数可以看到安装进度情况
+pyenv install 3.8.10 -v
+pyenv install 3.9.5
+
+如果放在~/.pyenv/cache/目录下
+记得安装完成后删除
+rm -rf &quot;~/.pyenv/versions/X.Y.Z&quot;
+rm -rf &quot;~/.pyenv/versions/3.7.10&quot;
+</code></pre>
+<h4 id="pyenv-install">pyenv install太慢的解决方式</h4>
+<pre><code>pyenv搜狐镜像源加速：http://mirrors.sohu.com/python/
+
+下载需要的版本放到~/.pyenv/cache文件夹下面，没有目录的话就自行创建
+mkdir ~/.pyenv/cache
+
+将从官网下载的python官方安装包 Python-*.tar.xz 文件传到这个目录下
+
+然后执行 pyenv install 版本号 安装对应的python版本
+
+简介脚本如下，其中v表示要下载的版本号
+
+但是sohu镜像已经不支持pyenv了
+v=3.7.10|wget http://mirrors.sohu.com/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/;pyenv install $v
+</code></pre>
+<h4 id="pyenv-virtualenv">安装辅助插件 pyenv-virtualenv</h4>
+<p>ref: https://github.com/pyenv/pyenv-virtualenv  （提及了各种python虚拟环境构建信息）</p>
+<p>需要先安装pyenv</p>
+<pre><code>$ git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+
+$ echo 'eval &quot;$(pyenv virtualenv-init -)&quot;' &gt;&gt; ~/.zshrc
+</code></pre>
+<p>pyenv-virtualenv使用方式</p>
+<pre><code># 创建虚拟环境
+pyenv virtualenv 2.7.10 my-virtual-env-2.7.10
+pyenv virtualenv 3.8.10 py38
+
+# 激活虚拟环境
+pyenv activate &lt;name&gt;
+pyenv deactivate
+
+# 删除已存在环境
+pyenv uninstall my-virtual-env
+pyenv virtualenv-delete my-virtual-env
+</code></pre>
+<p>virtualenv环境变量配置</p>
+<p>CentOS 7.6 </p>
+<pre><code># virtualenv custom config
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+export WORKON_HOME=$HOME/virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+<p>virtualenv wrapper + pyenv 使用方式</p>
+<p>默认的python是python2，位于 <code>/usr/bin/python</code>
+pyenv 安装的python一般位于，<code>/root/.pyenv/versions</code> 的对应目录中</p>
+<pre><code>[root@localhost ~]# ls /root/.pyenv/versions
+3.7.10  3.8.10  3.9.5
+</code></pre>
+<p>virtualenv wrapper + pyenv 创建虚拟环境</p>
+<p>1.使用pyenv安装不同版本的python（参考前面的文档）</p>
+<p>mkvirtualenv 、 workon 等命令要先安装virtualenv和virtualenv-wrapper才可用</p>
+<p>2.使用virtualenv wrapper创建虚拟环境</p>
+<pre><code>mkvirtualenv py275 --python=/usr/bin/python
+
+mkvirtualenv py3710 --python=/root/.pyenv/versions/3.7.10/bin/python
+
+mkvirtualenv py3810 --python=/root/.pyenv/versions/3.8.10/bin/python
+
+mkvirtualenv py395 --python=/root/.pyenv/versions/3.9.5/bin/python
+</code></pre>
+<p>创建完成后，执行命令 <code>work on</code> 查看所有 virtualenv wrapper 管理的虚拟环境。</p>
+<p>执行<code>workon on 虚拟环境名称</code>，就会激活并进入相应的虚拟环境。</p>
+<h3 id="go">安装go</h3>
+<p>ref: https://golang.org/doc/install</p>
+<pre><code>先下载go的安装包
+cd /tmp
+wget https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+
+上面的连接可能因为网络问题无法访问,可以用下面的镜像
+wget https://studygolang.com/dl/golang/go1.16.4.linux-amd64.tar.gz
+
+已安装过go的:
+sudo rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
+
+go1.16.4是当前最新版,以后会变化
+
+未安装过go的:
+sudo tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
+
+而配置环境变量
+vim ~/.zshrc
+export PATH=$PATH:/usr/local/go/bin
+export GO111MODULE=on   # 可选,默认不设置为auto
+保存退出并用 source ~/.zshrc 激活
+
+验证安装
+go version
+</code></pre>
+<h3 id="ssh">安装ssh服务</h3>
+<pre><code>desktop 18.04默认是没有装ssh service的,所以要先安装服务
+sudo apt-get install openssh-server
+
+启动ssh server服务
+sudo service ssh start
+
+检查是否启动成功
+ps -e | grep ssh
+返回结果包含 sshd表明启动成功
+
+开机自动启动ssh命令
+sudo systemctl enable ssh
+
+查看ssh是否启动，看到Active: active (running)即表示成功
+sudo systemctl status ssh
+</code></pre>
+<p><img alt="" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed2/20210513151450.png" /></p>
+<h3 id="ip">给网卡配置静态IP</h3>
+<pre><code>vim /etc/netplan/01-network-manager-all.yaml
+
+network:
+  version: 2
+  renderer: networkd    # 不能写错
+  ethernets:
+    ens33:   #配置的网卡名称
+      dhcp4: no    #dhcp4关闭
+      dhcp6: no    #dhcp6关闭
+      addresses: [10.0.7.149/24]   #设置本机IP及掩码
+      gateway4: 10.0.7.1   #设置网关
+      nameservers:
+          addresses: [114.114.114.114, 8.8.8.8]   #设置DNS
+
+
+配置完成后:wq!保存退出
+然后在命令行输入如下命令，应用新的Netplan更改
+$ sudo netplan apply
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../k8s/" class="btn btn-neutral float-left" title="Kubernetes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../linux/" class="btn btn-neutral float-right" title="Linux">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright © 2022</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../k8s/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../linux/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/devops/linux/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Linux - Security Development Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Linux";
+        var mkdocs_page_input_path = "devops/linux.md";
+        var mkdocs_page_url = "/devops/linux/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/ruby.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Security Development Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">About the Notes 关于笔记</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Development 安全研发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/term/">相关术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/sec_dev_lifecycle/">SDL 安全开发流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/scanner/">Scanner 扫描器</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/firewall/">Firewall 防火墙</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/code_sec/">Code Security 代码安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/netflow_analysis/">Netflow Analysis 流量分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/log_audit/">Log Audit 日志审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cyber_range/">Cyber Range 网络靶场</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/zero_trust/">Zero Trust 零信任</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/open_source/">Opensource 开源项目推荐</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/skill_tree/">Skill Tree 技能树</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/dev_sec_ops/">DevSecOps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/enterprise_security/">Enterprise Security 企业安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/intelligent_risk_control/">Intelligent Risk Control 智能风控</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/pentest_automation/">渗透测试自动化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/fingerprints/">指纹识别</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/anti_bot/">反爬虫/Bot</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_sqlmap/">源码学习之SqlMap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_pocsuite/">源码学习之Pocsuite3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_snort/">源码学习之Snort3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_viper/">源码学习之Viper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/socket/">socket编程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/research_list/">导航列表</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/exploit/">漏洞挖掘</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/threat_intelligence/">威胁情报</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/apt/">APT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/att%26ck/">ATT&CK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/code_audit/">代码审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/fuzzing/">模糊测试</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/black_market/">黑产研究</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/botnet/">DDoS和Botnet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/binary_sec/">二进制安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/data_sec/">数据安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/device_sec/">路由设备安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ic_sec/">工控安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iot_sec/">物联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/5g_sec/">5g安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iov_sec/">车联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/cloud_sec/">云原生安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/block_chain_sec/">区块链安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/android_sec/">Android安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/browser_sec/">浏览器安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/protocol_sec/">协议安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/boofuzz/">Boofuzz</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/api_sec/">API安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/python_sec/">Python安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/js_sec/">JS安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/c/">C语言</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/cso/">CSO与安全负责人</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/enterprise_sec/">企业安全建设</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/classified_protection/">等级保护</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/sec_jd/">安全招聘</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Product Marketing 安全产品营销</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_operation/">安全运营</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/traceback/">溯源反制</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CVE</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cve/cve/">CVE相关参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pentest 渗透测试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/term/">Term 术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/kali_linux/">Kali Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/brute_force/">Brute Force 暴力破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/sql_injection/">SQL Injection SQL注入</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/ddos/">DDoS 分布式拒绝服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/xss/">XSS 跨站脚本攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/re/">Reverse Engineering 逆向工程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/backdoor/">Backdoor 后门</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/capture_package/">抓包</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/crack/">破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_lifecycle/">网络攻击生命周期</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/log_clear/">日志清理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/report/">报告和笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/nmap/">Nmap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/thinkphp5_rce/">ThinkPHP5 RCE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/ctf_skill/">CTF竞赛常用基本解题技巧</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/pwn/">PWN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/crypto/">Crypto</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/re/">RE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/hackthebox/">HackTheBox</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Algorithm 算法</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/leetcode/">Leetcode</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture 架构</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/notes/">读书笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/design_pattern/">Design Pattern 设计模式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/ddd/">DDD 领域驱动设计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/micro_services/">Micro Services 微服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/scrum/">Scrum</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/computer_networking/">计算机网络</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/os/">OS 操作系统</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/database/">Database 数据库</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/performance_optimization/">性能优化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rpc/">RPC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/search_engine/">搜索引擎</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/high_concurrency/">高并发</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/python/">Python</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/go/">Golang</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/c/">C</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/java/">Java</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rust/">Rust</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/perl/">Perl</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/proxy/">Proxy 代理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rabbitmq/">RabbitMQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/kafka/">Kafka</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/jwt/">JWT认证</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/big_data/">Big Data 大数据</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/regex/">Regex 正则表达式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git/">Git</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git_flow/">Git Flow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/vim/">Vim</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/machine_learning/">机器学习</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/nlp/">自然语言处理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/llms/">大语言模型LLMs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/statistical_learning/">统计学习方法笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Front-end Development 前端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/html5/">HTML5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/css/">CSS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/js/">JavaScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/typescript/">TypeScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/vue/">Vue.js</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/react/">React</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/npm/">NPM</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MOOC Notes 幕课笔记</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/pku_datastructure/">数据结构与算法Python版</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/CS_basic/">编程必备基础知识</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Test Development 测试开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/test_management/">测试管理流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/performance/">性能测试</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">软考</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/ruankao/">考试相关信息</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_analyst/">高级系统分析师复习笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_architect/">高级系统架构设计师复习笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">爬虫开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../crawler/cookie_pool/">Cookie池设计</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DevOps</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../k8s/">Kubernetes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../vm/">VM 虚拟机</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Linux</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">查系统版本号</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#which">当which不存在时，如何快速定位指定程序的位置</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#macos">MacOS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#centos">CentOS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#md5-hash">计算 MD5 hash</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#date">修改date命令输出的系统时间</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#yum">下载yum离线安装包</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pip">下载pip离线安装包</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pip_1">其他pip命令</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#centos7redis6">CentOS7安装Redis6</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#errno">已知errno如何获取错误描述</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#windows">Windows中查看指定错误码的描述</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#linux">Linux中查看指定错误码的描述</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dmidecode">dmidecode命令详解</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ubuntu">Ubuntu</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kali">Kali</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cpu">查询系统CPU核心数</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#win10md5">Win10文件md5校验</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cmd-terminal">cmd terminal</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#powershell">powershell</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kalieth0ip">Kali设置eth0为静态IP</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">临时配置，重启可能会失效</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ip">持久化设置静态IP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#centos76">CentOS7.6设置多个网卡</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">服务部署</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#centos-76ftp">CentOS 7.6安装FTP服务器</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kali2023ftp">Kali2023安装FTP服务器</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#vsftpd">第一步：安装vsftpd</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#web">给部署web服务增加证书</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crontab">crontab执行设置参考</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">常见操作问题</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#-bash-setupsh-permission-denied">-bash: ./setup.sh: Permission denied</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#linux-chmod-755-chmod-777">Linux中的 chmod 755 和 chmod +777 各是什么意思</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#rwx">关于rwx的具体介绍</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#binsbin">/bin与/sbin的区别</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#usrbinusrsbin">/usr/bin与/usr/sbin的区别</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#usrlocalbinusrlocalsbin">/usr/local/bin与/usr/local/sbin的区别</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">网卡相关设置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#grep">grep命令</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#grep_1">使用grep查找某目录下包含关键字内容的文件</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">排除某关键词的搜索结果</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#configure-prefix">"./configure --prefix"命令</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#scp">scp命令</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tarmd5">tar打包执行目录并校验md5</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tar">tar命令</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tarzst">tar.zst文件格式解压</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pipwhl">pip下载相关whl包</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">常识问题</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#curlhttps">使用curl访问https</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#linuxusr">Linux的/usr目录的全称</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rclocal">rc.local的作用</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tftp">tftp服务器最简单安装配置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#centos-8-dnf">CentOS 8 dnf包管理</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">查看最小化安装软件包（但是记得要是初始安装后的镜像）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">导出已安装的列表</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">已安装包列表</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">查找与安装软件包</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#macoszip">MacOS命令行加密zip</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#linuxp7zip">Linux使用p7zip加密压缩包</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#p7zip">使用p7zip对文件夹进行压缩</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sre/">SRE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../shell/">Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../syslog/">syslog</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">SEO 搜索引擎优化</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/knowledge/">基本知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/whitehat_seo/">白帽SEO</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/blackhat_seo/">黑帽SEO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview 面试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/navigation/">Navigation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/security/">Security Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/backend/">Backend Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/ai/">AI Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/qa/">QA Interview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Academic 学术</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../academic/academic/">Information 相关信息</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Math 数学</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../math/learn_guide/">学习参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Others</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/introduce/">简介</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/bookmark/">Bookmark</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/learning_view/">Learning View 学习观</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/law/">Law 法律</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hugo/">Hugo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hexo/">Hexo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/english_grammar/">英语语法框架</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../todo_list/">Todo List</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Security Development Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">DevOps</li>
+      <li class="breadcrumb-item active">Linux</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="linuxunix">Linux/Unix</h1>
+<h2 id="_1">查系统版本号</h2>
+<p>查内核版本: <code>uname -a</code></p>
+<h2 id="which">当which不存在时，如何快速定位指定程序的位置</h2>
+<p>使用 find 命令来查找 sed 的安装位置</p>
+<pre><code class="language-bash">bash-4.2$ find / -name sed 2&gt;/dev/null
+
+/bin/sed
+</code></pre>
+<p>这个命令将在整个文件系统中搜索名为 sed 的文件，并将结果输出到标准输出。2&gt;/dev/null 部分将错误输出重定向到空设备，以避免显示访问权限错误。</p>
+<h3 id="macos">MacOS</h3>
+<p>ln -s建立软连接。</p>
+<p>注意:
+1. 要用绝对路径
+2. 目标目录在建立链接之前不能存在，但要保证其上级目录存在</p>
+<p>Syntax:</p>
+<pre><code class="language-shell">ln -s 源目录/文件 目标目录/文件
+</code></pre>
+<p>应用场景：使<code>/Users/xxx/CTF/ctfbook</code>实际指向<code>/Users/xxx/SecDev/00pb_ebook/CTF</code>
+e.g.</p>
+<pre><code class="language-shell">ln -s /Users/xxx/SecDev/00pb_ebook/CTF /Users/xxx/CTF/ctfbook
+</code></pre>
+<h3 id="centos">CentOS</h3>
+<p>RedHat系</p>
+<pre><code class="language-shell"># cat /etc/redhat-release 
+CentOS Linux release 7.6.1810 (Core)
+</code></pre>
+<h3 id="md5-hash">计算 MD5 hash</h3>
+<pre><code class="language-shell"># linxu计算指定文件的md5哈希值
+
+md5sum /opt/tar/aaa.iso
+输出：027659ea9d86cf79f964b7029003ea02  /opt/tar/aaa.iso
+</code></pre>
+<h3 id="date">修改date命令输出的系统时间</h3>
+<p>离线环境的服务器容易出现时间不同步的情况，必要时可以手动修改系统时间。</p>
+<p>要更改系统的当前日期和时间，使用 date 命令。 以下是使用 date 命令将系统的当前日期和时间更改为指定时间的示例：</p>
+<pre><code class="language-shell"># 日期时间格式为：YYYY-MM-DD HH:MM:SS
+sudo date -s &quot;20231010 10:01:10&quot;
+</code></pre>
+<p>注意：一般要使用 sudo 或以超级用户权限执行此命令，因为更改系统的日期和时间通常需要管理员权限。</p>
+<h3 id="yum">下载yum离线安装包</h3>
+<pre><code class="language-shell">--downloadonly指定仅下载不安装
+--downloaddir指定rpm包下载路径
+
+yum install --downloadonly --downloaddir=/tmp &lt;package-name&gt; 
+
+
+e.g.:
+
+yum install python-pip --downloadonly --downloaddir=/tmp/rpm
+
+# CentOS7.6需要先改repo源，参考笔记
+yum install -y --downloadonly --downloaddir=/tmp/mongo4.4 mongodb-org
+</code></pre>
+<h3 id="pip">下载pip离线安装包</h3>
+<pre><code class="language-shell">pip下载指定离线包
+pip download supervisor==3.3.2 -d /tmp/pip_lib
+pip download pip-20.3.4 -d /tmp/pip_lib
+
+#安装指定包 ./pip_lib/目录下的离线包
+pip install --no-index --find-links=./pip_lib/ supervisor==3.3.2
+或者
+pip install --no-index --find-links=./init/pip -r ./init/pip/pip.list
+</code></pre>
+<h3 id="pip_1">其他pip命令</h3>
+<pre><code class="language-shell"># 查看已有的包
+pip list
+
+# 查询某个包有哪些可用版本  cryptography为第三方包名
+pip install cryptography==
+
+#将已有的包清单,输出到/tmp目录下文件
+./pip freeze &gt; /tmp/requirements.txt
+
+# 基于列表来进行下载
+pip download  -r /tmp/requirements.txt -d /tmp/paks/
+
+# python2镜像加速
+pip download  -r /tmp/requirements.txt -d /tmp/paks/ -i http://pypi.tuna.tsinghua.edu.cn/simple/ --trusted-host pypi.tuna.tsinghua.edu.cn
+
+#安装指定离线
+pip install --no-index --find-links=/soft/packs/ pandas
+</code></pre>
+<h3 id="centos7redis6">CentOS7安装Redis6</h3>
+<pre><code>wget https://download.redis.io/releases/redis-6.2.12.tar.gz
+tar -zxvf redis-6.2.12.tar.gz
+cd redis-6.2.12
+make
+make install
+</code></pre>
+<p>若无报错，则会在src目录里生成编译好的可执行文件若干，单还不能直接通过redis命令启动，可以使用ln -s软链接到CentOS7的/bin目录下</p>
+<pre><code class="language-shell">sudo ln -s /opt/source/redis-6.2.12/bin/redis-server /bin/redis-server
+sudo ln -s /opt/source/redis-6.2.12/bin/redis-cli /bin/redis-cli
+sudo ln -s /opt/source/redis-6.2.12/bin/redis-benchmark /bin/redis-benchmark
+sudo ln -s /opt/source/redis-6.2.12/bin/redis-sentinel /bin/redis-sentinel
+</code></pre>
+<p>redis.conf中需要修改的内容</p>
+<pre><code>bind 0.0.0.0   # 方便调试，注意，对外开放后一定要设置密码
+requirepass foobared    # 设置密码
+daemonize no   # supervisor启动保持no（因为supervisor都是非daemon启动的），如果是手动启动可以设置为yes
+</code></pre>
+<p>redis-server通过supervisor启动的配置</p>
+<pre><code>[program:redis]
+command=/opt/source/redis-6.2.12/bin/redis-server /opt/source/redis-6.2.12/bin/redis.conf
+autostart=true
+autorestart=true
+startsecs=5
+startretries=2000
+</code></pre>
+<p>验证redis登录</p>
+<blockquote>
+<p>auth requirepass
+keys *</p>
+</blockquote>
+<h3 id="errno">已知errno如何获取错误描述</h3>
+<ul>
+<li><a href="http://scz.617.cn:8/unix/202211151428.txt">参考</a></li>
+</ul>
+<h4 id="windows">Windows中查看指定错误码的描述</h4>
+<p>e.g.</p>
+<pre><code>$ net helpmsg 5
+Access is denied.
+
+C:\Users\xxx&gt;net helpmsg 2
+系统找不到指定的文件。
+</code></pre>
+<h4 id="linux">Linux中查看指定错误码的描述</h4>
+<p><code>apt install moreutils</code></p>
+<p>该包带有/usr/bin/errno，参看errno(1)、errno(3)。</p>
+<pre><code># errno 77       
+EBADFD 77 File descriptor in bad state
+</code></pre>
+<p>显示所有errno的数值及描述</p>
+<pre><code>$ errno -l
+EPERM 1 Operation not permitted
+ENOENT 2 No such file or directory
+ESRCH 3 No such process
+...
+</code></pre>
+<p>显示所有描述信息包含"access"的错误码，大小写不敏感</p>
+<pre><code>errno -s access
+ELIBACC 79 Can not access a needed shared library
+ELIBBAD 80 Accessing a corrupted shared library
+</code></pre>
+<p>errno可用于SHELL编程，若只是交互式查询，检查这两个文件即可</p>
+<pre><code class="language-shell">/usr/include/asm-generic/errno-base.h
+/usr/include/asm-generic/errno.h
+
+$ grep -hw 1 /usr/include/asm-generic/errno*
+#define EPERM            1      /* Operation not permitted */
+
+$ grep -hw 5 /usr/include/asm-generic/errno*
+#define EIO              5      /* I/O error */
+</code></pre>
+<h3 id="dmidecode">dmidecode命令详解</h3>
+<p>dmidecode命令主要是通过DMI获取主机的硬件信息，通常是在不打开计算机机箱的情况下使用该命令来查找硬件详细信息。其输出的信息包括BIOS、系统、主板、处理器、内存、缓存等等。</p>
+<p>linux</p>
+<pre><code>cat /sys/class/dmi/id/product_uuid
+cat /sys/class/dmi/id/product_serial
+</code></pre>
+<pre><code class="language-bash">[root@localhost ~]$ dmidecode -t 1   # 查看system基本信息，-t等价于--type
+[root@localhost ~]$ dmidecode -t 2   # 查看主板信息
+[root@localhost ~]$ dmidecode -t 15  # 查看system Event信息
+[root@localhost ~]$ dmidecode -t 23  # 查看system Reset信息
+[root@localhost ~]$ dmidecode -t 32  # 查看system Boot信息
+[root@localhost ~]$ dmidecode -t 1,15,23,32  # 查看system所有信息,等价于dmidecode -t system
+
+[root@localhost ~]$ dmidecode -t 4 | grep ID  # 查看CPU ID
+[root@localhost ~]$ dmidecode | grep Serial   # 获取系统序列号
+
+[root@localhost ~]$ dmidecode                          # 打印所有硬件信息
+[root@localhost ~]$ dmidecode -q                       # 打印所有硬件信息，比较简洁
+[root@localhost ~]$ dmidecode | grep 'Product Name'    # 以过滤的方式来查看指定的硬件信息
+[root@localhost ~]$ dmidecode --type bios              # 查看BIOS相关的硬件信息
+[root@localhost ~]$ dmidecode --type system            # 查看系统相关的硬件信息
+[root@localhost ~]$ dmidecode --type baseboard         # 查看主板相关的硬件信息
+[root@localhost ~]$ dmidecode --type chassis           # 查看机箱相关的硬件信息
+[root@localhost ~]$ dmidecode --type processor         # 查看处理器相关的硬件信息
+[root@localhost ~]$ dmidecode --type memory            # 查看内存相关的硬件信息
+</code></pre>
+<pre><code class="language-bash">[root@localhost ~]$ dmidecode -q
+//BIOS相关的硬件信息
+BIOS Information
+        Vendor: Bochs
+        Version: Bochs
+        Release Date: 01/01/2011
+        Address: 0xE8000
+        Runtime Size: 96 kB
+        ROM Size: 64 kB
+        Characteristics:
+                BIOS characteristics not supported
+                Targeted content distribution is supported
+        BIOS Revision: 1.0
+
+//系统相关的硬件信息
+System Information
+        Manufacturer: Bochs                                    # 厂商
+        Product Name: Bochs                                    # 服务器型号
+        Version: Not Specified                                 # 版本号
+        Serial Number: 641ab5b5-f6c0-431f-864c-4e750d27de04    # 主板序列号
+        UUID: 641AB5B5-F6C0-431F-864C-4E750D27DE04             # UUID
+        Wake-up Type: Power Switch                             
+        SKU Number: Not Specified
+        Family: Not Specified
+
+//机箱相关的硬件信息
+Chassis Information
+        Manufacturer: Bochs
+        Type: Other
+        Lock: Not Present
+        Version: Not Specified
+        Serial Number: Not Specified
+        Asset Tag: Not Specified
+        Boot-up State: Safe
+        Power Supply State: Safe
+        Thermal State: Safe
+        Security Status: Unknown
+        OEM Information: 0x00000000
+        Height: Unspecified
+        Number Of Power Cords: Unspecified
+
+//处理器相关的硬件信息
+Processor Information
+        Socket Designation: CPU 1
+        Type: Central Processor
+        Family: Other
+        Manufacturer: Bochs
+        ID: F1 06 04 00 FF FB 8B 1F
+        Version: Not Specified
+        Voltage: Unknown
+        External Clock: Unknown
+        Max Speed: 2000 MHz
+        Current Speed: 2000 MHz
+        Status: Populated, Enabled
+        Upgrade: Other
+
+//物理内存阵列
+Physical Memory Array
+        Location: Other
+        Use: System Memory
+        Error Correction Type: Multi-bit ECC
+        Maximum Capacity: 2 GB
+        Number Of Devices: 1
+
+//内存设备
+Memory Device
+        Total Width: 64 bits
+        Data Width: 64 bits
+        Size: 2048 MB
+        Form Factor: DIMM
+        Set: None
+        Locator: DIMM 0
+        Bank Locator: Not Specified
+        Type: RAM
+        Type Detail: None
+
+//内存阵列映射地址
+Memory Array Mapped Address
+        Starting Address: 0x00000000000
+        Ending Address: 0x0007FFFFFFF
+        Range Size: 2 GB
+        Partition Width: 1
+
+//内存设备映射地址
+Memory Device Mapped Address
+        Starting Address: 0x00000000000
+        Ending Address: 0x0007FFFFFFF
+        Range Size: 2 GB
+        Partition Row Position: 1
+
+//系统引导
+System Boot Information
+        Status: No errors detected
+</code></pre>
+<p>dmidecode -t 指令参数参考:   </p>
+<pre><code>   Type   Information
+   ────────────────────────────────────────────
+      0   BIOS
+      1   System
+      2   Baseboard
+      3   Chassis
+      4   Processor
+      5   Memory Controller
+      6   Memory Module
+      7   Cache
+      8   Port Connector
+      9   System Slots
+     10   On Board Devices
+
+     11   OEM Strings
+     12   System Configuration Options
+     13   BIOS Language
+     14   Group Associations
+     15   System Event Log
+     16   Physical Memory Array
+     17   Memory Device
+     18   32-bit Memory Error
+     19   Memory Array Mapped Address
+     20   Memory Device Mapped Address
+     21   Built-in Pointing Device
+     22   Portable Battery
+     23   System Reset
+     24   Hardware Security
+     25   System Power Controls
+     26   Voltage Probe
+     27   Cooling Device
+     28   Temperature Probe
+     29   Electrical Current Probe
+     30   Out-of-band Remote Access
+     31   Boot Integrity Services
+     32   System Boot
+     33   64-bit Memory Error
+     34   Management Device
+     35   Management Device Component
+     36   Management Device Threshold Data
+     37   Memory Channel
+     38   IPMI Device
+     39   Power Supply
+     40   Additional Information
+     41   Onboard Devices Extended Information
+     42   Management Controller Host Interface
+</code></pre>
+<p>ref: 
+https://www.cnblogs.com/pzk7788/p/10314436.html</p>
+<h3 id="ubuntu">Ubuntu</h3>
+<p>Debian系</p>
+<pre><code class="language-shell">~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 16.04.7 LTS
+Release:    16.04
+Codename:   xenial
+
+</code></pre>
+<h3 id="kali">Kali</h3>
+<p>Debian系</p>
+<pre><code>└─# lsb_release -a
+No LSB modules are available.
+Distributor ID: Kali
+Description:    Kali GNU/Linux Rolling
+Release:    2021.2
+Codename:   kali-rolling
+</code></pre>
+<h2 id="cpu">查询系统CPU核心数</h2>
+<pre><code>[root@localhost vm]# LC_ALL=C lscpu| grep Virtualization
+Virtualization:        VT-x
+</code></pre>
+<h2 id="win10md5">Win10文件md5校验</h2>
+<h3 id="cmd-terminal">cmd terminal</h3>
+<pre><code class="language-shell">certutil -hashfile .\CentOS-7-x86_64-Minimal-1810.iso MD5
+
+MD5 的 .\CentOS-7-x86_64-Minimal-1810.iso 哈希:
+bd43d41e01c2a46b3cb23eb9139dce4b
+CertUtil: -hashfile 命令成功完成。
+</code></pre>
+<h3 id="powershell">powershell</h3>
+<pre><code class="language-shell">PS C:\Users\xxx\Downloads&gt; Get-FileHash -Algorithm MD5 .\Wireshark-4.2.4-x64.exe
+
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+MD5             C38012AF36B2F24CF15F971E62E08D87                                       C:\Users\xxx\Downloads...
+</code></pre>
+<h2 id="kalieth0ip">Kali设置eth0为静态IP</h2>
+<h4 id="_2">临时配置，重启可能会失效</h4>
+<pre><code>1.关闭eth0网卡
+sudo ifconfig eth0 down
+
+2.将设置eth0接口的IP地址为192.168.0.2，子网掩码为255.255.255.0。
+sudo ifconfig eth0 192.168.0.2 netmask 255.255.255.0
+
+3.开启eth0网卡
+sudo ifconfig eth0 up
+</code></pre>
+<h4 id="ip">持久化设置静态IP</h4>
+<p>想永久修改网络接口的IP地址，可以编辑相关的网络配置文件，例如/etc/network/interfaces文件。</p>
+<pre><code>1.打开/etc/network/interfaces文件
+sudo vim /etc/network/interfaces
+
+2.找到eth0接口的配置，可能会看到类似如下的配置信息
+auto eth0
+iface eth0 inet dhcp
+
+3.将eth0接口的配置修改为静态IP地址，例如：
+auto eth0
+iface eth0 inet static
+address 192.168.0.2
+netmask 255.255.255.0
+gateway 192.168.0.1
+dns-nameservers 8.8.8.8 8.8.4.4
+
+这将设置eth0接口的IP地址为192.168.0.2，子网掩码为255.255.255.0，网关为192.168.0.1，DNS服务器为8.8.8.8和8.8.4.4。
+
+4.保存并关闭文件。
+
+5.重启网络服务，可以使用以下命令:
+sudo systemctl restart networking
+</code></pre>
+<h4 id="centos76">CentOS7.6设置多个网卡</h4>
+<p>虚拟机，默认网卡ens33，新增网卡ens35。</p>
+<pre><code>0.虚拟机上新增一张网卡，ip a 显示为 ens33
+1.如果 /etc/sysconfig/network-scripts/ 下没有自动生成对应的网卡配置文件 ifcfg-ens35, 就 cp ifcfg-ens33 ifcfg-ens35 复制一份
+2.修改 ifcfg-ens35 的信息为你的指定信息。
+这里注意两点：
+2.1 默认路由只有一个，如果 ifcfg-ens33 的 DEFROUTE=yes ， 则 ifcfg-ens35 的对应字段应设置为 DEFROUTE=no
+2.2 两张网卡的UUID不能一样，ifcfg-ens35的UUID可以手动改，也可以通过命令 uuidgen 生成UUID给 ifcfg-ens35 使用。
+
+[root@localhost network-scripts]# cat ifcfg-ens33
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=static
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens33
+UUID=ccafb028-c3d4-4790-80e3-1f61b75443f0
+DEVICE=ens33
+ONBOOT=yes
+PREFIX=24
+IPADDR=&quot;10.0.2.66&quot;
+GATEWAY=&quot;10.0.2.1&quot;
+DNS1=&quot;114.114.114.114&quot;
+DNS2=&quot;8.8.8.8&quot;
+
+[root@localhost network-scripts]# cat ifcfg-ens35
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=static
+DEFROUTE=no
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens35
+UUID=ccafb028-c3d4-4790-80e3-1f61b75443b0
+DEVICE=ens35
+ONBOOT=yes
+PREFIX=24
+IPADDR=&quot;10.0.4.66&quot;
+GATEWAY=&quot;10.0.4.1&quot;
+DNS1=&quot;114.114.114.114&quot;
+DNS2=&quot;8.8.8.8&quot;
+
+保存后退出
+
+3.重启网络
+systemctl status network
+
+4.用命令ip route检查网络路由情况
+
+如果重启无报错，此时 10.0.4.0/24网段上有存活可ping的主机（比如 10.0.4.10），此时 10.0.4.66 是可以ping通 10.0.4.10的
+
+[root@localhost network-scripts]# ip route
+default via 10.0.2.1 dev ens33 proto static metric 100 
+10.0.2.0/24 dev ens33 proto kernel scope link src 10.0.2.66 metric 100 
+10.0.4.0/24 dev ens35 proto kernel scope link src 10.0.4.66 metric 101 
+</code></pre>
+<p>ext扩展：ip route结果解析</p>
+<ul>
+<li>示例：</li>
+</ul>
+<pre><code class="language-shell">default via 10.0.2.1 dev ens33 proto static metric 100 
+10.0.2.0/24 dev ens33 proto kernel scope link src 10.0.2.66 metric 100 
+10.0.4.0/24 dev ens35 proto kernel scope link src 10.0.4.66 metric 101
+</code></pre>
+<ul>
+<li>解析：</li>
+</ul>
+<pre><code>1.第一行default via 10.0.2.1 dev ens33 proto static metric 100，表示默认路由的设置。它告诉系统将所有未知目的地的数据包发送到10.0.2.1网关，并通过ens33接口发送。proto static表示这是一个静态路由，metric 100表示此路由的优先级为100。
+
+2.第二行10.0.2.0/24 dev ens33 proto kernel scope link src 10.0.2.66 metric 100，表示本地网络的设置。它告诉系统将所有目的地址属于10.0.2.0/24子网的数据包都发送到ens33接口，并使用10.0.2.66作为源地址。proto kernel表示这是一个内核生成的路由，scope link表示此路由只适用于本地网络，metric 100表示此路由的优先级为100。
+
+3.第三行10.0.4.0/24 dev ens35 proto kernel scope link src 10.0.4.66 metric 101，表示另一个本地网络的设置。它告诉系统将所有目的地址属于10.0.4.0/24子网的数据包都发送到ens35接口，并使用10.0.4.66作为源地址。proto kernel表示这是一个内核生成的路由，scope link表示此路由只适用于本地网络，metric 101表示此路由的优先级为101。
+
+在这个输出中，我们可以看到有两个本地网络，分别连接到ens33和ens35接口。默认路由设置为通过ens33接口发送，因为它的优先级更高（较低的metric值）。如果需要更改默认路由，可以通过修改对应的ifcfg配置文件来更改metric值和默认路由（DEFROUTE=yes）。
+</code></pre>
+<pre><code>一些常见的路由表条目类型包括：
+
+default：默认路由表条目，用于将未知目的地的数据包路由到默认网关。
+local：本地路由表条目，用于将数据包路由到本地网络接口。
+unreachable：无法到达路由表条目，用于指示无法到达目的地。
+blackhole：黑洞路由表条目，用于将数据包丢弃而不给发送方任何通知。
+prohibit：禁止路由表条目，用于禁止到达指定目的地。
+除了上述示例中的输出之外，ip route命令还可以显示其他信息，例如网络接口的状态、IP地址和子网掩码等。
+
+若需更多信息，请参考ip route命令的手册页（man ip-route）。
+</code></pre>
+<h2 id="_3">服务部署</h2>
+<h3 id="centos-76ftp">CentOS 7.6安装FTP服务器</h3>
+<ol>
+<li>
+<p>安装包: 从网上下载即可</p>
+</li>
+<li>
+<p>setup.sh的内容如下(为匿名用户登录FTP的配置脚本)：</p>
+</li>
+</ol>
+<pre><code class="language-shell"># vsftpd
+rpm -ih vsftpd-3.0.2-29.el7_9.x86_64.rpm
+vsftpd -v
+
+install -d /opt/ftp/pub
+chmod -R 777 /opt/ftp/pub
+
+sed -i '1i\anon_root=/opt/ftp' /etc/vsftpd/vsftpd.conf
+sed -i '2i\anon_upload_enable=YES' /etc/vsftpd/vsftpd.conf
+sed -i '3i\anon_mkdir_write_enable=YES' /etc/vsftpd/vsftpd.conf
+sed -i '4i\anon_other_write_enable=YES' /etc/vsftpd/vsftpd.conf
+sed -i '5i\anon_umask=022' /etc/vsftpd/vsftpd.conf
+
+systemctl enable vsftpd
+systemctl start vsftpd
+systemctl status vsftpd
+ss -ntl
+
+# firewall
+firewall-cmd --permanent --zone=public --add-service=ftp
+firewall-cmd --reload
+firewall-cmd --list-all
+
+# selinux
+sed -i 's/SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
+setenforce 0
+getenforce
+</code></pre>
+<ol>
+<li>执行安装方式</li>
+</ol>
+<pre><code>tar -zxvf vsftpd.tgz
+cd vsftpd
+sh setup.sh
+</code></pre>
+<p><a href="https://www.cnblogs.com/renshengdezheli/p/14169899.html?ivk_sa=1024320u#%E4%B8%89%E9%A1%B9%E7%9B%AE%E4%B8%80%E6%90%AD%E5%BB%BA%E4%B8%80%E5%8F%B0%E6%89%80%E6%9C%89%E4%BA%BA%E9%83%BD%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AE%E7%9A%84%E9%80%9A%E7%94%A8ftp%E6%9C%8D%E5%8A%A1%E5%99%A8">更多配置参考</a></p>
+<h3 id="kali2023ftp">Kali2023安装FTP服务器</h3>
+<h4 id="vsftpd">第一步：安装vsftpd</h4>
+<pre><code>1.安装vsftpd
+
+sudo apt update
+sudo apt install vsftpd -y
+
+sudo systemctl start vsftpd
+sudo systemctl enable vsftpd
+
+sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bk
+sudo vim /etc/vsftpd.conf
+
+sudo systemctl restart vsftpd
+
+
+sudo ufw allow from any to any port 21
+sudo ufw disable
+sudo ufw enable   # 最好不要enable，因为图形化软件登录会报错，开防火墙状态下ftp cmd还是可以用的
+
+(实测：mobaxterm连不上ftp的坑，隐约记得是未关闭防火墙导致的。最好就保持sudo ufw disable）
+
+# test
+ftp localhost
+
+======================================================================
+
+vsftpd.conf 配置 参考，可略，注意listen和listen_ipv6配置一个即可，不要都使用。
+
+# Example config file /etc/vsftpd.conf
+#
+# The default compiled in settings are fairly paranoid. This sample file
+# loosens things up a bit, to make the ftp daemon more usable.
+# Please see vsftpd.conf.5 for all compiled in defaults.
+#
+# READ THIS: This example file is NOT an exhaustive list of vsftpd options.
+# Please read the vsftpd.conf.5 manual page to get a full idea of vsftpd's
+# capabilities.
+#
+#
+# Run standalone?  vsftpd can run either from an inetd or as a standalone
+# daemon started from an initscript.
+listen=NO
+#
+# This directive enables listening on IPv6 sockets. By default, listening
+# on the IPv6 &quot;any&quot; address (::) will accept connections from both IPv6
+# and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
+# sockets. If you want that (perhaps because you want to listen on specific
+# addresses) then you must run two copies of vsftpd with two configuration
+# files.
+listen_ipv6=YES
+#
+# Allow anonymous FTP? (Disabled by default).
+anonymous_enable=NO
+#
+# Uncomment this to allow local users to log in.
+local_enable=YES
+#
+# Uncomment this to enable any form of FTP write command.
+write_enable=YES
+#
+# Default umask for local users is 077. You may wish to change this to 022,
+# if your users expect that (022 is used by most other ftpd's)
+local_umask=022
+#
+# Uncomment this to allow the anonymous FTP user to upload files. This only
+# has an effect if the above global write enable is activated. Also, you will
+# obviously need to create a directory writable by the FTP user.
+#anon_upload_enable=YES
+#
+# Uncomment this if you want the anonymous FTP user to be able to create
+# new directories.
+#anon_mkdir_write_enable=YES
+#
+# Activate directory messages - messages given to remote users when they
+# go into a certain directory.
+dirmessage_enable=YES
+#
+# If enabled, vsftpd will display directory listings with the time
+# in  your  local  time  zone.  The default is to display GMT. The
+# times returned by the MDTM FTP command are also affected by this
+# option.
+use_localtime=YES
+#
+# Activate logging of uploads/downloads.
+xferlog_enable=YES
+#
+# Make sure PORT transfer connections originate from port 20 (ftp-data).
+connect_from_port_20=YES
+#
+# If you want, you can arrange for uploaded anonymous files to be owned by
+# a different user. Note! Using &quot;root&quot; for uploaded files is not
+# recommended!
+#chown_uploads=YES
+#chown_username=whoever
+#
+# You may override where the log file goes if you like. The default is shown
+# below.
+xferlog_file=/var/log/vsftpd.log
+#
+# If you want, you can have your log file in standard ftpd xferlog format.
+# Note that the default log file location is /var/log/xferlog in this case.
+xferlog_std_format=YES
+#
+# You may change the default value for timing out an idle session.
+#idle_session_timeout=600
+#
+# You may change the default value for timing out a data connection.
+#data_connection_timeout=120
+#
+# It is recommended that you define on your system a unique user which the
+# ftp server can use as a totally isolated and unprivileged user.
+#nopriv_user=ftpsecure
+#
+# Enable this and the server will recognise asynchronous ABOR requests. Not
+# recommended for security (the code is non-trivial). Not enabling it,
+# however, may confuse older FTP clients.
+#async_abor_enable=YES
+#
+# By default the server will pretend to allow ASCII mode but in fact ignore
+# the request. Turn on the below options to have the server actually do ASCII
+# mangling on files when in ASCII mode.
+# Beware that on some FTP servers, ASCII support allows a denial of service
+# attack (DoS) via the command &quot;SIZE /big/file&quot; in ASCII mode. vsftpd
+# predicted this attack and has always been safe, reporting the size of the
+# raw file.
+# ASCII mangling is a horrible feature of the protocol.
+#ascii_upload_enable=YES
+#ascii_download_enable=YES
+#
+# You may fully customise the login banner string:
+#ftpd_banner=Welcome to blah FTP service.
+#
+# You may specify a file of disallowed anonymous e-mail addresses. Apparently
+# useful for combatting certain DoS attacks.
+#deny_email_enable=YES
+# (default follows)
+#banned_email_file=/etc/vsftpd.banned_emails
+#
+# You may restrict local users to their home directories.  See the FAQ for
+# the possible risks in this before using chroot_local_user or
+# chroot_list_enable below.
+#chroot_local_user=YES
+#
+# You may specify an explicit list of local users to chroot() to their home
+# directory. If chroot_local_user is YES, then this list becomes a list of
+# users to NOT chroot().
+# (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
+# the user does not have write access to the top level directory within the
+# chroot)
+#chroot_local_user=YES
+#chroot_list_enable=YES
+# (default follows)
+#chroot_list_file=/etc/vsftpd.chroot_list
+#
+# You may activate the &quot;-R&quot; option to the builtin ls. This is disabled by
+# default to avoid remote users being able to cause excessive I/O on large
+# sites. However, some broken FTP clients such as &quot;ncftp&quot; and &quot;mirror&quot; assume
+# the presence of the &quot;-R&quot; option, so there is a strong case for enabling it.
+#ls_recurse_enable=YES
+#
+# Customization
+#
+# Some of vsftpd's settings don't fit the filesystem layout by
+# default.
+#
+# This option should be the name of a directory which is empty.  Also, the
+# directory should not be writable by the ftp user. This directory is used
+# as a secure chroot() jail at times vsftpd does not require filesystem
+# access.
+secure_chroot_dir=/var/run/vsftpd/empty
+#
+# This string is the name of the PAM service vsftpd will use.
+pam_service_name=vsftpd
+#
+# This option specifies the location of the RSA certificate to use for SSL
+# encrypted connections.
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=NO
+#
+# Uncomment this to indicate that vsftpd use a utf8 filesystem.
+#utf8_filesystem=YES
+
+第二步：创建一个ftp用户文件夹
+groupadd ftpuser
+mkdir /home/ftpuser
+
+第三步：新建ftp用户，并指向它的主目录和所有的shell
+useradd -d /home/ftpuser -g ftpuser -s /bin/bash ftpuser
+
+第四步：设置用户密码
+passwd ftpuser
+
+123456
+
+第五步：设置用户权限
+
+chown ftpuser:ftpuser /home/ftpuser
+
+第六步：重启ftp服务
+systemctl restart vsftpd
+
+第七步：登录ftp
+在浏览器地址栏输入以下格式
+ftp://ftpuser:密码@127.0.0.1        //默认端口是21
+
+如果配置没有问题，则可以测试用ftpuser登录ftp服务器
+┌──(root㉿kali)-[~]
+└─# ftp ftpuser@172.16.16.x
+Connected to 172.16.16.17.
+220 (vsFTPd 3.0.3)
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; 
+</code></pre>
+<p>踩坑特别提示：实测mobaxterm连不上ftp的坑，隐约记得是未关闭防火墙导致的。最好就保持sudo ufw disable</p>
+<p>https://blog.csdn.net/weixin_47830774/article/details/121865655
+一般vsftpd配置参考这个</p>
+<p>用户设置参考这个：
+https://blog.csdn.net/paradox_1_0/article/details/102706658</p>
+<h3 id="web">给部署web服务增加证书</h3>
+<pre><code class="language-shell"># 生成根密钥，访问密码123456 （写abcdef也行，随意）
+openssl genrsa -des3 -out root.key 2048
+
+# 创建根证书申请文件root.csr
+openssl req -new -key root.key -out root.csr
+
+# 创建根证书root.crt
+openssl x509 -req -days 3650 -sha1 -extensions v3_ca -signkey root.key -in root.csr -out root.crt
+
+-----------------------------------------------------------------
+# 创建服务器证书密钥dtd.key
+openssl genrsa -out dtd.key 2048
+
+# 创建服务器证书的申请文件dtd.csr
+openssl req -new -key dtd.key -out dtd.csr
+
+# 创建服务器证书dtd.crt
+openssl x509 -req -days 3650 -sha1 -extensions v3_req -CA root.crt -CAkey root.key -CAserial root.srl -CAcreateserial -in dtd.csr -out dtd.crt
+
+
+=========================
+self use
+# 创建服务器证书密钥 tmp.key
+openssl genrsa -out tmp.key 2048
+
+# 创建服务器证书的申请文件tmp.csr
+openssl req -new -key tmp.key -out tmp.csr
+
+# 创建服务器证书tmp.crt
+openssl x509 -req -days 3650 -sha1 -extensions v3_req -CA root.crt -CAkey root.key -CAserial root.srl -CAcreateserial -in tmp.csr -out tmp.crt
+</code></pre>
+<h3 id="crontab">crontab执行设置参考</h3>
+<p>常规使用：</p>
+<pre><code class="language-shell">编辑当前用户的crontab
+crontab -e
+
+写入（举例 从0开始每3小时执行一次）：
+0 */3 * * * nohup /usr/bin/python3 /opt/kbdtd_log_proxy/ext_clear_ftp_log.py &gt;&gt; /opt/kbdtd_log_proxy/nohup_clear_ftp_log.out 2&gt;&amp;1 &amp;
+保存后退出
+
+检查配置：
+crontab -l
+
+等待脚本按照定时开始执行
+</code></pre>
+<p>每隔多少分钟，每隔多少小时，每天/每周/每月/每年的crontab设置总结</p>
+<pre><code class="language-shell">每五分钟执行      */5 * * * *
+每五小时执行      0 */5 * * *
+每天执行          0 0 * * *
+每周执行          0 0 * * 0
+每月执行          0 0 1 * *
+每年执行          0 0 1 1 *
+</code></pre>
+<h2 id="_4">常见操作问题</h2>
+<h3 id="-bash-setupsh-permission-denied"><code>-bash: ./setup.sh: Permission denied</code></h3>
+<p>在linux下用<code>./</code>执行sh文件时提示下面信息：
+<code>-bash: ./xx.sh: Permission denied</code></p>
+<p>解决方法：<code>chmod 777 xx.sh</code> or <code>chmod u+x *.sh</code></p>
+<h3 id="linux-chmod-755-chmod-777">Linux中的 chmod 755 和 chmod +777 各是什么意思</h3>
+<p>755 代表用户对该文件拥有读，写，执行的权限，同组其他人员拥有执行和读的权限，没有写的权限，其他用户的权限和同组人员权限一样。</p>
+<p>777 代表user,group,others都有读写和可执行权限。</p>
+<h4 id="rwx">关于rwx的具体介绍</h4>
+<p>在linux终端先输入ls -al，可以看到关于文件权限的表示:</p>
+<pre><code>-rwx-r--r-- (一共10个参数)
+第一个参数代表文件类型跟chmod无关。
+2-4参数:属于user
+5-7参数:属于group
+8-10参数:属于others
+接下来就简单了:r==&gt;可读 w==&gt;可写 x==&gt;可执行
+               r=4      w=2      x=1
+所以755代表 rwxr-xr-x
+</code></pre>
+<p>第一个参数代表文件类型：</p>
+<pre><code>普通文件的文件权限第一个字符为“-”
+
+目录文件的文件权限第一个字符为“d”
+
+字符设备文件的文件权限第一个字符为“c”；
+
+块设备文件的文件权限第一个字符为“b”
+
+符号链接文件的文件权限第一个字符为“s”
+</code></pre>
+<h3 id="binsbin">/bin与/sbin的区别</h3>
+<ul>
+<li>/bin: 存放所有用户皆可用的系统程序，即普通的基本命令，如：touch ls等。</li>
+<li>/sbin：  存放超级用户才能使用的系统程序，即基本的系统命令，如：sreboot等。</li>
+</ul>
+<h3 id="usrbinusrsbin">/usr/bin与/usr/sbin的区别</h3>
+<ul>
+<li>/usr/bin：   存放所有用户都可用的应用程序，一般是已安装软件的运行脚本，如：free、make、wget等。</li>
+<li>/usr/sbin：  存放超级用户才能使用的应用程序 ，一般是与服务器软件程序命令相关的，如：dhcpd、 httpd、samba等。</li>
+</ul>
+<h3 id="usrlocalbinusrlocalsbin">/usr/local/bin与/usr/local/sbin的区别</h3>
+<ul>
+<li>/usr/local/bin：    存放所有用户都可用的第三方软件程序,如mysql</li>
+<li>/usr/local/sbin：   存放超级用户才能使用的第三方软件,如nginx</li>
+</ul>
+<h3 id="_5">网卡相关设置</h3>
+<p>在Linux或CentOS中，可以通过如下命令获取新的网卡uuid信息：</p>
+<pre><code class="language-shell">[root@ligle2 ~]# uuidgen ensXXX    # ensXXX 可通过 ip a 获取
+07d07031-eb0f-4691-8606-befb46645222
+</code></pre>
+<h3 id="grep">grep命令</h3>
+<p>可以和ls、cat等命令配合管道符一起使用。</p>
+<h4 id="grep_1">使用grep查找某目录下包含关键字内容的文件</h4>
+<p>grep -r "keyword" dir_path</p>
+<p>e.g. 查找当前目录下包含关键字 "JBoss Bootstrap Script" 的文件</p>
+<pre><code class="language-bash">grep -r &quot;JBoss Bootstrap Script&quot; ./
+</code></pre>
+<p><img alt="grep_r" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed2/20210507103248.png" /></p>
+<h4 id="_6">排除某关键词的搜索结果</h4>
+<p>grep -v "keyword"</p>
+<p>e.g. 显示当前目录下除.sh文件外的所有文件</p>
+<pre><code class="language-bash">ls -al | grep -v &quot;.sh&quot;
+</code></pre>
+<p><img alt="grep组合使用" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed2/20210507103713.png" /></p>
+<h3 id="configure-prefix">"./configure --prefix"命令</h3>
+<p>源码的安装一般由3个步骤组成：<code>配置(configure)、编译(make)、安装(make install)</code>。</p>
+<p>configure是一个可执行脚本，它有很多选项，在待安装的源码路径下使用命令./configure –help输出详细的选项列表。</p>
+<p>其中--prefix选项是<strong>配置安装的路径</strong>。如果不配置 --prefix 选项，安装后：</p>
+<pre><code>可执行文件默认放在/usr /local/bin，
+
+库文件默认放在/usr/local/lib，
+
+配置文件默认放在/usr/local/etc，
+
+其它的资源文件放在/usr/local/share，
+
+</code></pre>
+<p>比较凌乱。</p>
+<p>如果配置--prefix，如：</p>
+<p>./configure --prefix=/usr/local/test</p>
+<p>可以把所有资源文件放在/usr/local/test的路径中，不会杂乱。</p>
+<p>--prefix选项的另一个好处是卸载软件或移植软件。</p>
+<p>当某个安装的软件不再需要时，只须简单的删除该安装目录，就可以把软件卸载得干干净净；移植软件只需拷贝整个目录到另外一个机器即可（相同的操作系统）。</p>
+<p>当然要卸载程序，也可以在原来的make目录下用一次make uninstall，但前提是make文件指定过uninstall。</p>
+<h3 id="scp">scp命令</h3>
+<p>有时图形化工具不好使用时，用scp来传输文件其实相当方便</p>
+<pre><code class="language-shell">1.把 本地文件 上传到 远端服务器目录下
+
+scp local_file remote_username@remote_ip:remote_folder 
+
+e.g.
+scp test.txt root@10.0.0.1:/tmp/test/
+
+2.把 远端服务文件 下载到 本地目录
+
+scp -r remote_username@remote_ip:remote_folder  /local_folder_tmp/
+
+e.g.
+scp -r mfc@10.0.4.149:/tmp/test/ /tmp/
+完成后本地的机器的 /tmp/目录下会有下载的 /test/ 目录
+</code></pre>
+<h3 id="tarmd5">tar打包执行目录并校验md5</h3>
+<pre><code class="language-shell">tar -czvf xxx.tgz yyy/
+
+# 计算文件md5并写入md5.txt
+md5sum xxx.tgz &gt; md5.txt
+
+# 校验MD5
+md5sum -c md5.txt
+</code></pre>
+<h3 id="tar">tar命令</h3>
+<pre><code class="language-shell"># 压缩
+
+tar打包压缩目录:
+
+tar -zcf xxx.tar.gz dir_name
+
+e.g.:
+
+tar -zcf ic_web1_setup.tar.gz ic_web1_setup
+
+# 打包当前目录下所有文件
+tar -zcf tools.tar.gz *
+
+# z调用gzip，tar本身是打包，z才是压缩
+# c创建新文件，v显示过程，f输出文件
+# C切换工作目录，相当于cd
+# p保持权限，--remove-files删除源文件
+# f指定包的文件名
+# m 不用时间戳检查，而是使用新的系统时间进行解包，解包后的文件时间戳将是新的系统时间而不是原文件的时间戳了
+# -m, –touch, –modification-time【don’t extract file modified time】(针对问题： 在A机器上用tar压缩的文件，在B机器上进行解包的时候，如果两个机器的时间不一致，如B机器的时间落后A机器的时间，这时就会出现time stamp XXX in the future的问题)
+
+# 解压.tar文件
+
+# tar -zcv -f 压缩文件名.tar.gz 压缩目录
+tar -C /home -zcpf test.tar.gz test
+tar -C /home -zcpf test.tar.gz ./
+tar -C /home/nccn -zcpf mnu_log_2019.tgz mnu_log_2019
+tar -C /home/nccn -zcpf mimic_h3c_2019.tgz mimic_h3c_2019
+tar -C /root -zcpf pf_ring.tar.gz ./PF_RING
+tar -C /opt -zcpf libdaq.tar.gz ./libdaq
+tar -C /opt/vm -zcpf snort.tar.gz ./snort.disk.bak
+tar -C /backup/setup -zcpf qemu.tar.gz qemu
+tar -zcpf snort.tar.gz ./snort.disk
+tar -tf snort.tar.gz
+
+
+## 打包 指定 /opt/crm/tools/ 文件夹下的指定get_plm_sync_ids.py文件 为压缩包 tools.tar.gz
+tar -C /opt/crm/tools/ -zcpf tools.tar.gz get_plm_sync_ids.py
+
+# 复制硬连接用-h参数
+tar -zcphf test.tar.gz test
+
+
+# 如果指定源目录使用多层结构，则压缩包也会包含相同多层结构
+# test.tar.gz中包含home和test两层目录
+tar -C /home -zcpf test.tar.gz /home/test
+
+
+# 解压
+# tar -zxvf 压缩文件名.tar.gz -C 解压目录
+tar -zxvf setup.tar.gz -C /mnt/usb
+
+# 注意，必须是tgz或tar.gz，否则压缩包内没有文件夹结构，tar是打包，gz是压缩
+tar -zcvf kafka_2.11-1.1.1.tgz kafka_2.11-1.1.1
+tar -zcvf backup.tgz log_backup
+
+# 解压
+tar -zxvf kafka_2.11-1.1.1.tgz
+tar -zxvf mnu.tgz
+
+# 解压文件
+tar -zxvf mimic_h3c_2019.tgz
+tar -zxvf kbdtd_log_proxy.tgz
+
+# 查看压缩包内容
+tar -tf xxx.tgz
+
+
+
+# 口令压缩
+tar -zcvf - file | openssl des3 -salt -k password -out /path/file.tar.gz
+tar -zcvf - usb | openssl des3 -salt -k 123456 -out usb.tar.gz
+tar -zcvf - client | openssl des3 -salt -k 123456 -out 123456
+tar -C /home -zcvf - setup | openssl des3 -salt -k 123456 -out /home/setup.tar.gz
+
+
+# 口令解压
+openssl des3 -d -k password -salt -in /path/file.tar.gz | tar zxzf - 
+openssl des3 -d -k 123456 -salt -in usb.tar.gz | tar zxvf -
+openssl des3 -d -k 123456 -salt -in /tmp/setup.tar.gz | tar zxvf - -C /tmp
+
+
+# 补充：zip包的解压
+zip all.zip *.jpg  这条命令是将所有.jpg的文件压缩成一个zip包
+unzip all.zip     这条命令是将all.zip中的所有文件解压出来
+
+zip -r file1.zip file1 file2 dir1 将几个文件和目录同时压缩成一个zip格式的压缩包
+-r：递归处理，将指定目录下的所有文件和子目录一并处理；
+-v：显示指令执行过程或显示版本信息；
+</code></pre>
+<h3 id="tarzst">tar.zst文件格式解压</h3>
+<p>下载zsh折腾win10下的git bash的时候遇到这个格式的文件。</p>
+<pre><code>扩展名.zst表示存档由zstd压缩。
+tar命令有一个选项-I（ -  use-compress-program）来指定压缩/解压缩命令。
+可以按照如下命令进行解压：
+$ tar -I zstd -xvf xxxx.tar.zst
+
+但是在执行tar -I zstd -xvf xxxx.tar.zst过程中遇到了如下问题：
+tar (child): zstd: Cannot exec: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+
+出现了这个是因为没有安装zstd包，需要手动安装这个安装包来解压zst
+ubuntu 系统可以直接通过下面命令进行安装
+$ sudo apt install zstd
+
+然后重新执行
+$ tar -I zstd -xvf xxxx.tar.zst
+即可解压文件
+</code></pre>
+<h3 id="pipwhl">pip下载相关whl包</h3>
+<p>进入到完整python依赖环境</p>
+<pre><code class="language-shell">mkdir -p /tmp/whl
+cd /tmp/whl
+pip3 freeze &gt; req.txt
+pip3 download -r req.txt  
+or 
+pip3 download -d /tmp/whl -r req.txt
+ls -l /tmp/whl
+</code></pre>
+<p>这样相关的离线pip安装包都会存到<code>/tmp/whl</code>文件夹下</p>
+<p>安装离线环境依赖包</p>
+<pre><code>pip install --no-index  -f /tmp/whl -r req.txt
+</code></pre>
+<p>修改sshd服务默认配置</p>
+<p>sshd服务默认开启端口为22，如果直接用22端口，网络上很多主机不停的扫描和尝试远程登录（可以查看#cat /var/log/secure）。</p>
+<pre><code class="language-bash">CentOS  /  Ubuntu
+
+修改ssh配置
+# vim /etc/ssh/sshd_config
+</code></pre>
+<h2 id="_7">常识问题</h2>
+<h3 id="curlhttps">使用curl访问https</h3>
+<pre><code class="language-shell">curl -k --tlsv1 &quot;https://aaa.test.com/abc/
+</code></pre>
+<h3 id="linuxusr">Linux的/usr目录的全称</h3>
+<p>usr被称为是Unix System Resource，即Unix系统资源的缩写。/usr 是系统核心所在，包含了所有的共享文件。
+它是 unix 系统中最重要的目录之一，涵盖了二进制文件，各种文档，各种头文件，还有各种库文件；还有诸多程序，例如 ftp，telnet 等等。</p>
+<p><a href="https://www.cnblogs.com/zhuchenglin/p/8686924.html">拓展资料</a></p>
+<pre><code>usr是user的缩写，是曾经的HOME目录，然而现在已经被/home取代了，现在usr被称为是Unix System Resource，即Unix系统资源的缩写。
+
+/usr 是系统核心所在，包含了所有的共享文件。它是 unix 系统中最重要的目录之一，涵盖了二进制文件，各种文档，各种头文件，还有各种库文件；还有诸多程序，例如 ftp，telnet 等等。
+
+曾经的 /usr 还是用户的家目录，存放着各种用户文件 —— 现在已经被 /home 取代了（例如 /usr/someone 已经改为
+
+/home/someone）。现代的 /usr 只专门存放各种程序和数据，用户目录已经转移。虽然 /usr
+
+名称未改，不过其含义已经从“用户目录”变成了“unix 系统资源”目录。值得注意的是，在一些 unix 系统上，仍然把 /usr/someone当做用户家目录，如 Minix
+</code></pre>
+<h3 id="rclocal">rc.local的作用</h3>
+<pre><code>在CentOS7中，实现开机启动程序主要有两种方法：
+
+1）把要启动的程序配置成自定义的系统服务
+
+2）在/etc/rc.local脚本文件中编写启动程序的脚本(注：这是一个软链接)
+</code></pre>
+<h3 id="tftp">tftp服务器最简单安装配置</h3>
+<p>https://blog.csdn.net/woshigaoyuan/article/details/13996291</p>
+<p>待验证部署</p>
+<pre><code>1.安装tftp-server
+sudo apt-get install tftpd-hpa tftp-hpa
+
+tftpd-hpa是服务程序。
+tftp-hpa是客户端。如果不需要可以不安装
+
+2. 配置TFTP服务器
+sudo vim /etc/default/tftpd-hpa
+
+将原来的内容改为：
+TFTP_USERNAME=&quot;tftp&quot;
+TFTP_ADDRESS=&quot;0.0.0.0:69&quot;
+TFTP_OPTIONS=&quot;-l -c -s&quot;
+TFTP_DIRECTORY=&quot;/home/xxx/tftproot&quot;   # tftp服务根目录（这里设置的为/home/xxx/tftproot），需要设置权限为777，chmod 777
+
+TFTP_OPTIONS的三个选项的解释如下：
+-l, --listen
+      Run the server in standalone (listen) mode, rather than run from inetd.  In listen mode, the  --timeout  option  is  ignored,  and  the --address option can be used to specify a specific local address or port to listen to.
+--create, -c
+      Allow new files to be created.  By default, tftpd will only allow upload of files that already exist.  Files are created  with  default permissions allowing anyone to read or write them, unless the --permissive or --umask options are specified.
+--secure, -s
+      Change  root  directory  on startup.  This means the remote host does not need to pass along the directory as part of the transfer, and may add security.  When --secure is specified, exactly one directory should be specified on the command line.  The use of  this  option is recommended for security as well as compatibility with some boot ROMs which cannot be easily made to include a directory name in its request.
+
+
+3.设置tftp服务的启动
+系统默认tftp的服务是随机启动的，如需手动开启、关闭、重启tftp服务，分别执行以下命令即可：
+
+     sudo service tftpd-hpa start
+
+     sudo service tftpd-hpa stop
+
+     sudo service tftpd-hpa restart
+
+4.本机测试
+tftp 172.0.0.1
+
+下载文件：
+tftp-&gt; get /home/xxx/tftproot/a.txt
+下载文件至当前目录下（源文件要使用绝对路径）
+
+tftp-&gt; get /home/xxx/tftproot/a.txt /srv/tftp/a2.txt
+下载文件至指定路径
+/srv/tftp 为tftp客户端工作路径
+</code></pre>
+<h3 id="centos-8-dnf">CentOS 8 dnf包管理</h3>
+<h4 id="_8">查看最小化安装软件包（但是记得要是初始安装后的镜像）</h4>
+<p><code>dnf list --all &gt; list.txt</code></p>
+<h4 id="_9">导出已安装的列表</h4>
+<p><code>dnf list installed --all &gt; dnf_install_list.txt</code></p>
+<p>e.g.:</p>
+<pre><code>cd /tmp
+dnf list installed --all &gt; dnf_install_list.txt
+</code></pre>
+<h4 id="_10">已安装包列表</h4>
+<p><code>dnf list installed</code></p>
+<p>or</p>
+<p><code>dnf list available</code></p>
+<h4 id="_11">查找与安装软件包</h4>
+<pre><code>dnf search httpd
+安装httpd包命令
+
+dnf install httpd
+重装httpd:
+
+dnf reinstall httpd
+某些情况下，你需要下载软件包而不是安装它。
+
+你用下列命令下载指定包：
+dnf download httpd
+
+你能用命令查看http包的详细信息：
+dnf info httpd
+</code></pre>
+<p>ref: https://www.cnblogs.com/mouseleo/p/13945336.html</p>
+<h3 id="macoszip">MacOS命令行加密zip</h3>
+<p>同适用于Kali Linux，注意要装安装了zip和openssl工具</p>
+<pre><code>sudo apt-get update
+sudo apt-get install zip openssl
+</code></pre>
+<pre><code class="language-shell"># zip加密单个文件
+zip -e [压缩后文件名] [需要被压缩文件名]
+e.g.: zip -e archivename.zip filetoprotect.txt
+
+# zip加密多个文件或目录或者全部文件夹
+zip -er [压缩后文件名]
+e.g.: zip -er archive.zip /path/to/directory/
+</code></pre>
+<p>注意zip加密是加密的文件，不能直接加密文件名（若有需求则要改为7z或rar等）。</p>
+<h3 id="linuxp7zip">Linux使用p7zip加密压缩包</h3>
+<p>Linux下要使用7z压缩文件</p>
+<pre><code>yum -y install epel-release
+yum -y install p7zip p7zip-plugins
+</code></pre>
+<h4 id="p7zip">使用p7zip对文件夹进行压缩</h4>
+<pre><code>7z a -p&lt;password&gt; -mhe=on encrypted.7z target_folder/
+</code></pre>
+<pre><code>a 表示创建压缩存档。
+-p&lt;password&gt; 指定加密密码。将 &lt;password&gt; 替换为你想要设置的密码。
+-mhe=on 启用文件名加密，可选项。
+encrypted.7z 是加密后的压缩文件名，你可以根据需要修改名称。
+target_folder/ 是要加密压缩的文件夹路径，你可以替换为你想要压缩的文件夹的路径。
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../vm/" class="btn btn-neutral float-left" title="VM 虚拟机"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../windows/" class="btn btn-neutral float-right" title="Windows">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright © 2022</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../vm/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../windows/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

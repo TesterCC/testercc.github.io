@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/backend/database/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Database 数据库 - Security Development Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Database \u6570\u636e\u5e93";
+        var mkdocs_page_input_path = "backend/database.md";
+        var mkdocs_page_url = "/backend/database/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/ruby.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Security Development Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">About the Notes 关于笔记</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Development 安全研发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/term/">相关术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/sec_dev_lifecycle/">SDL 安全开发流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/scanner/">Scanner 扫描器</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/firewall/">Firewall 防火墙</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/code_sec/">Code Security 代码安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/netflow_analysis/">Netflow Analysis 流量分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/log_audit/">Log Audit 日志审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cyber_range/">Cyber Range 网络靶场</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/zero_trust/">Zero Trust 零信任</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/open_source/">Opensource 开源项目推荐</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/skill_tree/">Skill Tree 技能树</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/dev_sec_ops/">DevSecOps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/enterprise_security/">Enterprise Security 企业安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/intelligent_risk_control/">Intelligent Risk Control 智能风控</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/pentest_automation/">渗透测试自动化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/fingerprints/">指纹识别</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/anti_bot/">反爬虫/Bot</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_sqlmap/">源码学习之SqlMap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_pocsuite/">源码学习之Pocsuite3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_snort/">源码学习之Snort3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_viper/">源码学习之Viper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/socket/">socket编程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/research_list/">导航列表</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/exploit/">漏洞挖掘</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/threat_intelligence/">威胁情报</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/apt/">APT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/att%26ck/">ATT&CK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/code_audit/">代码审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/fuzzing/">模糊测试</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/black_market/">黑产研究</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/botnet/">DDoS和Botnet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/binary_sec/">二进制安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/data_sec/">数据安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/device_sec/">路由设备安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ic_sec/">工控安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iot_sec/">物联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/5g_sec/">5g安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iov_sec/">车联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/cloud_sec/">云原生安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/block_chain_sec/">区块链安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/android_sec/">Android安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/browser_sec/">浏览器安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/protocol_sec/">协议安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/boofuzz/">Boofuzz</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/api_sec/">API安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/python_sec/">Python安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/js_sec/">JS安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/c/">C语言</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/cso/">CSO与安全负责人</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/enterprise_sec/">企业安全建设</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/classified_protection/">等级保护</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/sec_jd/">安全招聘</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Product Marketing 安全产品营销</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_operation/">安全运营</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/traceback/">溯源反制</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CVE</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cve/cve/">CVE相关参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pentest 渗透测试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/term/">Term 术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/kali_linux/">Kali Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/brute_force/">Brute Force 暴力破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/sql_injection/">SQL Injection SQL注入</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/ddos/">DDoS 分布式拒绝服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/xss/">XSS 跨站脚本攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/re/">Reverse Engineering 逆向工程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/backdoor/">Backdoor 后门</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/capture_package/">抓包</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/crack/">破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_lifecycle/">网络攻击生命周期</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/log_clear/">日志清理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/report/">报告和笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/nmap/">Nmap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/thinkphp5_rce/">ThinkPHP5 RCE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/ctf_skill/">CTF竞赛常用基本解题技巧</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/pwn/">PWN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/crypto/">Crypto</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/re/">RE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/hackthebox/">HackTheBox</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Algorithm 算法</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/leetcode/">Leetcode</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture 架构</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/notes/">读书笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/design_pattern/">Design Pattern 设计模式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/ddd/">DDD 领域驱动设计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/micro_services/">Micro Services 微服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/scrum/">Scrum</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../computer_networking/">计算机网络</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../os/">OS 操作系统</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Database 数据库</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">数据库安装</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#redis-install">Redis Install</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">差异问题</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodbbb">MongoDB是B树还是B+树</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb">MongoDB为什么不使用平衡二叉树？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mysqlb">MySQL为什么使用B+树？</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mysql">Mysql</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#redis">Redis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-ubunturedis">1. Ubuntu安装redis</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#apt">apt安装</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">手动安装 （不推荐）</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-redis-on-ubuntu">2. Redis常用命令 （on Ubuntu）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3redis">3.Redis问题解决</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-overcommit_memory">1. overcommit_memory</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-thptransparent-huge-pages">2. THP（Transparent Huge Pages）透明大页</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-tcp-backlog">3. TCP backlog</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#redis_1">Redis主从复制</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mongodb_1">MongoDB</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb-crud">MongoDB CRUD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb-statistics">MongoDB statistics</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb-index">MongoDB Index</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_2">MongoDB批量插入测试数据</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">索引原理</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">增加升序索引</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">查询索引</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">删除索引</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_3">MongoDB索引类型</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_4">MongoDB查询计划</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#explain">explain()的三种显示方法</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">结果分析</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_5">MongoDB慢查询</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">开启和关闭慢查询</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">如何找到慢查询</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_12">慢查询分析</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_6">MongoDB设置用户权限</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_7">MongoDB用密码登录</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_8">MongoDB用户管理</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodbmongo-shell">MongoDB不进入mongo shell设置用户权限的方式</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_9">MongoDB备份和恢复数据操作</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongobd">MongoBD删除数据库</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_10">MongoDB常用内置角色</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodbcompass">MongoDB官方可视化工具Compass</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#postgresql">PostgreSQL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_13">其他问题</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">关系型数据库数据搜索缺点</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">如何对数据库进行优化</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../performance_optimization/">性能优化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rpc/">RPC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../search_engine/">搜索引擎</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../high_concurrency/">高并发</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../go/">Golang</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../c/">C</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rust/">Rust</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../perl/">Perl</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../proxy/">Proxy 代理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rabbitmq/">RabbitMQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../kafka/">Kafka</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jwt/">JWT认证</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../big_data/">Big Data 大数据</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../regex/">Regex 正则表达式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../git/">Git</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../git_flow/">Git Flow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../vim/">Vim</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/machine_learning/">机器学习</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/nlp/">自然语言处理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/llms/">大语言模型LLMs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/statistical_learning/">统计学习方法笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Front-end Development 前端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/html5/">HTML5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/css/">CSS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/js/">JavaScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/typescript/">TypeScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/vue/">Vue.js</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/react/">React</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/npm/">NPM</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MOOC Notes 幕课笔记</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/pku_datastructure/">数据结构与算法Python版</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/CS_basic/">编程必备基础知识</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Test Development 测试开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/test_management/">测试管理流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/performance/">性能测试</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">软考</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/ruankao/">考试相关信息</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_analyst/">高级系统分析师复习笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_architect/">高级系统架构设计师复习笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">爬虫开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../crawler/cookie_pool/">Cookie池设计</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DevOps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/docker/">Docker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/k8s/">Kubernetes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/vm/">VM 虚拟机</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/linux/">Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/windows/">Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/sre/">SRE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/shell/">Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/syslog/">syslog</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">SEO 搜索引擎优化</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/knowledge/">基本知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/whitehat_seo/">白帽SEO</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/blackhat_seo/">黑帽SEO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview 面试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/navigation/">Navigation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/security/">Security Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/backend/">Backend Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/ai/">AI Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/qa/">QA Interview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Academic 学术</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../academic/academic/">Information 相关信息</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Math 数学</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../math/learn_guide/">学习参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Others</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/introduce/">简介</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/bookmark/">Bookmark</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/learning_view/">Learning View 学习观</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/law/">Law 法律</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hugo/">Hugo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hexo/">Hexo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/english_grammar/">英语语法框架</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../todo_list/">Todo List</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Security Development Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Back-end Development 后端开发</li>
+      <li class="breadcrumb-item active">Database 数据库</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">数据库相关</h1>
+<h2 id="_2">数据库安装</h2>
+<p>不同的数据库在不同系统中安装部署方式可能会不同，这里简单做下记录。</p>
+<h3 id="redis-install">Redis Install</h3>
+<ul>
+<li>official docs: https://redis.io/docs/data-types/</li>
+<li>official download: http://download.redis.io/releases/</li>
+<li>os: CentOS 8.2</li>
+<li>redis version: 7.0.6</li>
+</ul>
+<pre><code>1. 下载文件
+cd / &amp;&amp; mkdir sources &amp;&amp; cd sources
+wget http://download.redis.io/releases/redis-7.0.6.tar.gz &amp;&amp; tar -zxvf redis-7.0.6.tar.gz
+cd redis-7.0.6
+make &amp;&amp; make PREFIX=/usr/local/redis install
+cp redis.conf /usr/local/redis/bin/
+vi /usr/local/redis/redis.conf
+
+检查redis安装：
+/usr/local/redis/bin/redis-server -v
+
+启动redis：
+/usr/local/redis/bin/redis-server /usr/local/redis/bin/redis.conf
+
+后台运行redis正常关闭
+./redis-cli shutdown
+
+2. 修改 redis.conf 允许后台运行（如果是supervisor管理则不需要完成后面几步，直接通过supervisor配置）
+daemonize yes
+
+3.添加redis 服务
+
+vi /usr/lib/systemd/system/redis.service
+[Unit]
+Description=Redis
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/redis/bin/redis-server  /usr/local/redis/redis.conf 
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
+4.刷新服务
+
+systemctl daemon-reload
+5.开启、停止、查看状态、重启、设置开机启动
+
+systemctl start redis
+systemctl status redis
+systemctl stop redis
+systemctl restart redis
+systemctl enable redis
+
+6. make install 直接安装的，可以在redis 解压目录 make uninstall 卸载，如果指定目录安装的，先停止服务，再删除目录即可！
+</code></pre>
+<p>设置redis-cli的提示：</p>
+<pre><code>To set redis-cli preferences:
+      &quot;:set hints&quot; enable online hints
+      &quot;:set nohints&quot; disable online hints
+Set your preferences in ~/.redisclirc
+</code></pre>
+<p>第三方python库： pip3 install redis -i https://pypi.tuna.tsinghua.edu.cn/simple</p>
+<p>supervisor自启动</p>
+<pre><code>[program:redis7]
+command=/usr/local/redis/bin/redis-server /usr/local/redis/bin/redis.conf
+autostart=true
+autorestart=true
+startsecs=5
+startretries=500
+</code></pre>
+<h2 id="_3">差异问题</h2>
+<p>面试中涉及的一些数据库问题。</p>
+<h3 id="mongodbbb">MongoDB是B树还是B+树</h3>
+<p>通过查阅资料，可以从 MongoDB 的官网和 WiredTiger 官网找到答案。 MongoDB 官网关于存储引擎（Storage Engine）的描述写道：从 MongoDB 3.2 版本开始，其使用了 WiredTiger
+作为其默认的存储引擎。 而从 WiredTiger 官网文档，可以知道：WiredTiger 使用的是 B+ 树作为其存储结构。</p>
+<p>结论： MongoDB &lt; 3.2，用的B树; MongoDB &gt;= 3.2，使用B+树。</p>
+<p>重点：分清楚B树和B+树的区别；知道在合适的时候，选择合适的数据结构。</p>
+<p>B 树（B-tree，不是B减树）与 B+ 树，其比较大的特点是： B 树对于特定记录的查询，其时间复杂度更低。 B+ 树对于范围查询则更加方便，另外 B+ 树相对于 B 树来说更加扁平。</p>
+<p>注意：B 树不是二叉树，而是一种自平衡树数据结构。B 树是二叉搜索树的一般化，因为 B 树的节点可以有两个以上的子节点。与其他自平衡二进制搜索树不同，B 树非常适合读取和写入相对较大的数据块（如光盘）的存储系统。</p>
+<h3 id="mongodb">MongoDB为什么不使用平衡二叉树？</h3>
+<p>（因为MongoDB需要使用B树能加载大数据量的特性）</p>
+<p>平衡二叉树的查找效率是非常高的，并可以通过降低树的深度来提高查找的效率。但是当数据量非常大，树的存储的元素数量是有限的，这样会导致二叉查找树结构由于树的深度过大而造成磁盘 I/O 读写过于频繁，进而导致查询效率低下。</p>
+<h3 id="mysqlb">MySQL为什么使用B+树？</h3>
+<p>MySQL 跟 B+ 树没有直接的关系，真正与 B+ 树有关系的是 MySQL 的默认存储引擎 InnoDB，MySQL 中存储引擎的主要作用是负责数据的存储和提取，除了 InnoDB 之外，MySQL 中也支持 MyISAM
+作为表的底层存储引擎。</p>
+<p>因为 B+ 树只有叶节点会存储数据，将树中的每一个叶节点通过指针连接起来就能实现顺序遍历，而遍历数据在关系型数据库中非常常见，它经常需要处理各个表之间的关系并通过范围查询一些数据，所以这么选择是完全没有问题的。</p>
+<p>ref: <a href="https://draveness.me/whys-the-design-mysql-b-plus-tree/">为什么 MySQL 使用 B+ 树</a></p>
+<h2 id="mysql">Mysql</h2>
+<p>简单记录各中数据库常用crud命令。</p>
+<p>默认端口：<code>3306</code></p>
+<ul>
+<li><code>查询是否锁表</code></li>
+</ul>
+<pre><code>mysql&gt; show processlist;
++-----------+----------+--------------------+------------+---------+-------+-------+------------------+
+| Id        | User     | Host               | db         | Command | Time  | State | Info             |
++-----------+----------+--------------------+------------+---------+-------+-------+------------------+
+| 725067379 | mytestdb | 10.10.XX.15:35790  | test_event | Sleep   | 21286 |       | NULL             |
+| 725362450 | mytestdb | 10.10.XX.15:39726  | test_event | Sleep   | 13862 |       | NULL             |
+| 725816007 | mytestdb | 10.10.XX.222:49839 | test_event | Query   |     0 | NULL  | show processlist |
+| 725822632 | mytestdb | 10.10.XX.15:58585  | test_event | Sleep   |     2 |       | NULL             |
+| 725822668 | mytestdb | 10.10.XX.15:58660  | test_event | Sleep   |     0 |       | NULL             |
+| 725822669 | mytestdb | 10.10.XX.15:58661  | test_event | Sleep   |     0 |       | NULL             |
+| 725822671 | mytestdb | 10.10.XX.15:58666  | test_event | Sleep   |     0 |       | NULL             |
+| 725822674 | mytestdb | 10.10.XX.15:58673  | test_event | Sleep   |     0 |       | NULL             |
+| 725822675 | mytestdb | 10.10.XX.15:58677  | test_event | Sleep   |     0 |       | NULL             |
++-----------+----------+--------------------+------------+---------+-------+-------+------------------+
+9 rows in set (0.00 sec)
+</code></pre>
+<ul>
+<li><code>查询表中数据总数</code> -- Innod数据量过大这样查询速度很慢，需要给表加索引</li>
+</ul>
+<pre><code>mysql&gt; select count(*) from dev_company_tax;
++----------+
+| count(*) |
++----------+
+| 12542793 |
++----------+
+1 row in set (4.12 sec)
+</code></pre>
+<ul>
+<li><code>查询某张表的索引</code></li>
+</ul>
+<pre><code>mysql&gt; show index from test_company_tax;
++-----------------+------------+-------------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table           | Non_unique | Key_name          | Seq_in_index | Column_name     | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-----------------+------------+-------------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| dev_company_tax |          0 | PRIMARY           |            1 | id              | A         |    12787231 |     NULL | NULL   |      | BTREE      |         |               |
+| dev_company_tax |          1 | tax_number        |            1 | tax_number      | A         |    12787231 |     NULL | NULL   |      | BTREE      |         |               |
+| dev_company_tax |          1 | isshow            |            1 | isshow          | A         |          20 |     NULL | NULL   |      | BTREE      |         |               |
+| dev_company_tax |          1 | is_img_ok         |            1 | is_img_ok       | A         |          20 |     NULL | NULL   |      | BTREE      |         |               |
+| dev_company_tax |          1 | is_img_ok_2       |            1 | is_img_ok       | A         |          20 |     NULL | NULL   |      | BTREE      |         |               |
+| dev_company_tax |          1 | is_img_qichacha   |            1 | is_img_qichacha | A         |          20 |     NULL | NULL   |      | BTREE      |         |               |
+| dev_company_tax |          1 | is_img_qichacha_2 |            1 | is_img_qichacha | A         |          20 |     NULL | NULL   |      | BTREE      |         |               |
++-----------------+------------+-------------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+7 rows in set (0.34 sec)
+
+extend:
+
+通过MySQL命令查看
+show index from tbname;
+
+MySQL通过SQL语句查看表的索引：
+1、查看数据库所有索引
+
+SELECT * FROM mysql.`innodb_index_stats` a WHERE a.`database_name` = '数据库名';
+
+2、查看某一表索引
+
+SELECT * FROM mysql.`innodb_index_stats` a WHERE a.`database_name` = '数据库名' and a.table_name like '%表名%';
+
+</code></pre>
+<ul>
+<li>导出指定数据库和其中的表信息</li>
+</ul>
+<pre><code class="language-shell">mysqldump -u root -p blog_service &gt; blog_service.sql
+</code></pre>
+<ul>
+<li>导入 xxx.sql 到数据库中</li>
+</ul>
+<pre><code class="language-shell">mysql -u blog_service &lt; blog_service.sql
+</code></pre>
+<p>当然，也可以用Navicat等图形化工具导入xxx.sql文件。但要注意Navicat导入数据库前要先创建一个同名空数据库，然后再运行sql文件。</p>
+<h2 id="redis">Redis</h2>
+<p>默认端口：<code>6379</code></p>
+<p>能系统安装就不要自己手动装了。</p>
+<h3 id="1-ubunturedis">1. Ubuntu安装redis</h3>
+<h4 id="apt">apt安装</h4>
+<pre><code>sudo apt-get install redis-server
+</code></pre>
+<h4 id="_4">手动安装 （不推荐）</h4>
+<p>(详见此文)[https://jingyan.baidu.com/article/00a07f38173cea82d028dc24.html]</p>
+<pre><code>下载：wget http://download.redis.io/releases/redis-3.0.6.tar.gz
+
+解压：tar -zxvf redis-3.0.6.tar.gz
+
+编译：cd redis-3.0.6 &amp;&amp; make MALLOC=libc
+
+安装：sudo make install
+</code></pre>
+<h3 id="2-redis-on-ubuntu">2. Redis常用命令 （on Ubuntu）</h3>
+<p>一般来说，会在redis安装目录下面，配置一个redis.conf的文件来定制化启动redis</p>
+<pre><code>检查Redis是否挂了
+ps -ef | grep redis
+
+test@xxx:/data/$ ps -ef | grep redis
+ubuntu    6673     1  0  8月19 ?      01:59:52 redis-server *:6379
+</code></pre>
+<pre><code>1.Redis server 6379挂了时，启动reids (带启动文件)
+
+进入redis安装目录
+
+执行下面命令的其中1条：
+sudo redis-server redis.conf
+sudo ./redis-server  ./redis.conf
+
+2.Redis server 没挂时，重启redis
+
+sudo service redis-server restart
+sudo /etc/init.d/redis-server restart
+
+or
+
+sudo systemctl restart redis-server   (apt或yum安装的redis)
+
+
+
+[sudo] password for ubuntu:
+Stopping redis-server: redis-server.
+Starting redis-server: redis-server.
+</code></pre>
+<p>如果是用apt-get或者yum install安装的redis，可以直接通过下面的命令停止/启动/重启redis.</p>
+<pre><code>/etc/init.d/redis-server stop
+/etc/init.d/redis-server start
+/etc/init.d/redis-server restart
+</code></pre>
+<h3 id="3redis">3.Redis问题解决</h3>
+<p><a href="http://vearne.cc/archives/158">REDIS 启动警告及处理 -- 推荐</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1044436">redis超时原因系统性排查</a></p>
+<pre><code>1. overcommit_memory
+2. THP (Transparent Huge Pages)
+3. TCP backlog
+</code></pre>
+<h4 id="1-overcommit_memory">1. overcommit_memory</h4>
+<p>错误日志：</p>
+<p>ResponseError: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands
+that may modify the data set are disabled. Please check Redis logs for details about the error.</p>
+<p><a href="http://www.redicecn.com/html/Linux/20131125/468.html">参考解决方案</a></p>
+<p><a href="http://blog.chinaunix.net/uid-30401178-id-5159439.html">解决实施参考</a></p>
+<p>很多人都是建议“config set stop-writes-on-bgsave-error no”。这样做其实是不好的，这仅仅是让程序忽略了这个异常，使得程序能够继续往下运行，但实际上数据还是会存储到硬盘失败。</p>
+<p>当操作系统收到内存分配请求时，它会依据overcommit_memory 设定的条件，考虑接受或者拒绝这个请求</p>
+<pre><code>0 — 默认设置 内核使用启发式算法，来估算可用的内存量，直接拒绝不合理的请求
+1 — 内核不考虑内存是否够用，直接同意请求，在这种设置下，潜在的内存过载风险增加了，但有利于内存密集型任务
+2 — 如果程序请求的内存分配大于等于 交换分区和物理内存的总和 * overcommit_ratio / 100 则拒绝这个请求 默认是 交换分区和物理内存总和的50%
+</code></pre>
+<p>默认设置是0，只要内存请求超过物理内存的剩余量，请求就会被拒绝。 设置1，不管实际物理内存使用量，直接同意请求。设置1是一种比较粗放式的对内存请求的管理方式，我认为更为优雅的方式是使用2，并且将overcommit_ratio
+的值设为60 ~ 80</p>
+<p>解决方法：</p>
+<p>细致式：</p>
+<pre><code>echo &quot;vm.overcommit_memory=2&quot; &gt;&gt; /etc/sysctl.conf
+echo &quot;vm.overcommit_ratio=70&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre>
+<p>sysctl -p 不用重启使配置生效</p>
+<p>粗旷式：</p>
+<pre><code>echo &quot;vm.overcommit_memory=1&quot; &gt;&gt; /etc/sysctl.conf
+</code></pre>
+<h4 id="2-thptransparent-huge-pages">2. THP（Transparent Huge Pages）透明大页</h4>
+<p>透明大页，默认是always，启用是为了可以管理更多的内存地址空间。可以使用never关闭，之后会使用系统软件的算法管理内存映射。</p>
+<pre><code>通常linux会将透明大页开启，在fork被调用后，redis产生的延迟被用来持久化到磁盘。内存大页会引起一下问题：
+ 1.fork被调用，共享内存大页的两个进程被创建
+ 2.在一个系统比较活跃的实例里，部分循环时间运行需要几千个内存页，期间引起的copy-on-write 会消耗几乎所有的内存
+ 3.这个将导致更大的延迟和使用更多的内存
+
+因此，redis官方建议需要确保禁掉内存大页：
+echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+</code></pre>
+<p>错误日志：</p>
+<p>WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage
+issues with Redis. To fix this issue run the command 'echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled' as root,
+and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is
+disabled.</p>
+<p>使用的是透明大页，可能导致redis延迟和内存使用问题。</p>
+<p>查看是否使用透明大页</p>
+<pre><code>➜  cat /sys/kernel/mm/transparent_hugepage/enabled
+always madvise [never]
+
+Linux默认设置使[always]
+</code></pre>
+<p>解决使用的是透明大页，可能导致redis延迟和内存使用问题。</p>
+<p>解决方法：</p>
+<pre><code>临时解决方法
+
+sudo su    #  先切换到root用户
+echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled     # root用户执行此命令
+
+➜ cat /sys/kernel/mm/transparent_hugepage/enabled
+always madvise [never]     # 选择的使never说明设置成功，默认是[always]
+
+
+
+永久解决方法：
+
+将其写入/etc/rc.local文件中：
+
+iftest -f /sys/kernel/mm/redhat_transparent_hugepage/enabled; then
+
+echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled
+
+fi
+</code></pre>
+<h4 id="3-tcp-backlog">3. TCP backlog</h4>
+<p>常见报错：</p>
+<pre><code># WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+
+# Server started, Redis version 3.2.6
+</code></pre>
+<p>对于linux 而言backlog 是指已经完成了3次握手，且等待 accept 的连接 如果被没有被accept, 连接会一直在队列中排队，队列的最大长度为 backlog 由此可知，
+在client非常多且创建和关闭连接非常频繁的场景下，这个参数会非常有用。</p>
+<p>解决方法：</p>
+<pre><code>echo &quot;net.core.somaxconn = 511&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre>
+<h3 id="redis_1">Redis主从复制</h3>
+<p><a href="https://www.iteye.com/blog/iluoxuan-1939870">redis的主从复制</a></p>
+<h2 id="mongodb_1">MongoDB</h2>
+<p>默认端口：<code>27017</code></p>
+<p>常用命令：</p>
+<pre><code>1.检查mongod启动没有
+pgrep mongo -l
+
+2.mongodb的后台启动，配置文件(mongodb.conf)自己写（能不用root就别用root），日志注意不要写到/var下
+mongod --config /etc/mongodb.conf   
+
+3.直接命令行带参数不用配置文件启动
+mongod --dbpath /data/mongodb/db/ --logpath /data/mongodb/log/mongod.log --fork --auth --bind_ip 127.0.0.1(要允许访问就设置为0.0.0.0)
+</code></pre>
+<h3 id="mongodb-crud">MongoDB CRUD</h3>
+<pre><code>show dbs;
+show tables;
+show collections;
+
+# del collections
+use test
+db.one.drop()
+
+# insert single data
+db.one.save({&quot;name&quot;:&quot;Alan&quot;,&quot;age&quot;:42})    # 5+
+db.one.insert({&quot;name&quot;:&quot;Bob&quot;,&quot;age&quot;:38})   # 4.4
+
+# insert many
+db.one.insertMany([{&quot;name&quot;:&quot;Claire&quot;,&quot;age&quot;:33},{&quot;name&quot;:&quot;David&quot;,&quot;age&quot;:29}, {&quot;name&quot;:&quot;Eric&quot;,&quot;age&quot;:26}])
+
+# loop insert
+for (var i=1; i&lt;=100; i++) db.two.insert({num:i, name:'a'});
+
+# find data
+db.two.find()
+# name no use add quotation mark
+db.one.find({name:&quot;Eric&quot;})
+
+# update data
+db.one.update({name:&quot;Alan&quot;},{$set:{name:&quot;Alice&quot;}})
+
+# delete data
+db.one.remove({name:&quot;Eric&quot;})
+db.two.remove()
+
+# condition operation
+# condition find
+db.one.find({age:{$gt: 30}})
+db.one.find({age:{$lt: 30}})
+
+
+db.one.find({$and:[{&quot;name&quot;: &quot;Bob&quot;},{&quot;age&quot;:38}]})
+
+db.one.find({$or:[{&quot;name&quot;: &quot;Bob&quot;},{&quot;age&quot;:33}]})
+</code></pre>
+<h3 id="mongodb-statistics">MongoDB statistics</h3>
+<pre><code># sort 1 升序， -1 降序
+db.one.find().sort({age:1})
+db.one.find({age:{$gt: 30}}).sort({age:1})
+
+# collection count
+db.one.count()
+db.one.find({age:{$gt: 30}}).count()
+
+# specific field sum
+
+db.three.insertMany([{name:&quot;zhao&quot;,class:1,score:89},{name:&quot;qian&quot;,class:1,score:92},{name:&quot;sun&quot;,class:2,score:94},{name:&quot;li&quot;,class:2,score:88}])
+
+# 分组求和  按class字段分组，sum_score为求和之后的字段，对score字段进行分组求和。
+db.three.aggregate([{'$group':{_id:'$class','sum_score':{'$sum':'$score'}}}])
+
+[ { _id: 2, sum_score: 182 }, { _id: 1, sum_score: 181 } ]
+
+aggregate() mongodb的聚合函数
+
+# 分组求平均值
+db.three.aggregate([{'$group':{_id:'$class','avg_score':{'$avg':'$score'}}}])
+
+# 分组最大值
+db.three.aggregate([{'$group':{_id:'$class','max_score':{'$max':'$score'}}}])
+# 分组最小值
+db.three.aggregate([{'$group':{_id:'$class','min_score':{'$min':'$score'}}}])
+</code></pre>
+<h3 id="mongodb-index">MongoDB Index</h3>
+<p>索引的作用：提高检索速度</p>
+<h4 id="mongodb_2">MongoDB批量插入测试数据</h4>
+<pre><code>for (var i=1; i &lt;= 10000; i++) db.four.insert({num:i,name:'a'})
+
+db.four.find().limit(10)
+</code></pre>
+<h4 id="_5">索引原理</h4>
+<ul>
+<li>B+树索引</li>
+<li>为什么索引能提高MongoDB的查询速度？</li>
+</ul>
+<pre><code>MongoDB中的索引能够提高查询速度的原因主要有以下几点：
+
+1.减少扫描数据的数量：MongoDB的查询操作需要扫描集合中的数据，如果没有索引，就需要扫描整个集合。而有了索引之后，MongoDB可以直接定位到符合查询条件的数据，从而减少扫描的数据量，提高查询效率。
+
+2.减少磁盘IO操作：MongoDB中的索引通常都是存储在内存中的，因此查询索引所需的IO操作比扫描整个集合所需的IO操作要少得多，这也是索引能够提高查询速度的一个重要原因。
+
+3.提高查询效率：MongoDB中的索引能够直接定位到符合查询条件的数据，从而避免了在集合中进行全文本搜索的开销，提高了查询效率。
+
+4.支持排序和聚合操作：MongoDB中的索引能够支持排序和聚合操作，这些操作通常需要对数据进行多次扫描，而有了索引之后，MongoDB可以直接使用索引来完成这些操作，从而提高查询效率。
+
+需要注意的是，索引的设计和使用需要根据实际业务需求和数据特点进行优化和调整，不当的索引设计和使用可能会降低查询效率，甚至造成性能问题。
+因此，在使用索引时，需要仔细考虑索引的类型、字段选择、索引覆盖等因素，并进行适当的优化和调整。
+</code></pre>
+<h4 id="_6">增加升序索引</h4>
+<p>1.添加单键索引</p>
+<pre><code>db.four.createIndex({&quot;num&quot;:1})
+
+# 设置降序索引，则是用-1
+</code></pre>
+<p>2.添加组合索引</p>
+<pre><code>db.four.createIndex({&quot;num&quot;:1,&quot;name&quot;:1})
+
+db.four.getIndexes()
+</code></pre>
+<p>3.添加多值索引</p>
+<pre><code>db.five.insert({&quot;name&quot;:&quot;martin&quot;,tag: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]})
+db.five.insert({&quot;name&quot;:&quot;jim&quot;,tag: [&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;]})
+
+db.five.createIndex({&quot;tag&quot;:1})
+
+db.five.find({tag:&quot;b&quot;})
+db.five.find({tag:&quot;c&quot;})
+</code></pre>
+<p>4.添加全文索引</p>
+<p>注意：一个集合最多创建一个全文索引。</p>
+<p>给集合five的name字段添加全文索引。</p>
+<pre><code>db.five.createIndex({&quot;name&quot;: &quot;text&quot;})
+
+db.five.getIndexes()
+</code></pre>
+<p>5.添加哈希索引</p>
+<p>不支持范围查询，不支持多键hash。</p>
+<pre><code>db.five.createIndex({&quot;name&quot;: &quot;hashed&quot;})
+
+db.five.getIndexes()
+</code></pre>
+<p>6.添加地理位置索引</p>
+<pre><code>db.six.insertMany([{loc:[9,9]},{loc:[11,11]},{loc:[100,100]}])
+
+db.six.createIndex({&quot;loc&quot;: &quot;2d&quot;})
+
+db.six.getIndexes()
+
+# loc查询,落在矩阵中的点会被查到
+db.six.find({loc:{$geoWithin: {$box:[[10,10],[12,12]]}}})
+</code></pre>
+<h4 id="_7">查询索引</h4>
+<pre><code>db.four.getIndexes()
+</code></pre>
+<h4 id="_8">删除索引</h4>
+<p>注意这里删除的是索引名字</p>
+<pre><code>db.four.dropIndex(&quot;num_1&quot;)
+</code></pre>
+<h4 id="mongodb_3">MongoDB索引类型</h4>
+<ul>
+<li>单键索引（默认B+树结构）：添加单字段索引</li>
+<li>组合索引（默认B+树结构）</li>
+<li>多值索引（默认B+树结构）：也称“数组索引”</li>
+<li>全文索引（默认B+树结构）：一个集合最多创建一个全文索引</li>
+<li>哈希索引（非默认，需手动创建）：使用哈希函数将索引键映射到一个固定大小的哈希值，并将哈希值存储在索引中。</li>
+<li>地理位置索引</li>
+</ul>
+<p>关于哈希索引的补充：</p>
+<pre><code>Hash索引适用于等值查询，即查询一个特定的键值是否存在。
+与B树索引不同，Hash索引没有排序的概念，因此在范围查询和排序操作中，Hash索引的效率会比较低。
+但是，对于等值查询，Hash索引通常比B树索引更快速和高效，因为它使用哈希函数可以直接定位到哈希值对应的存储位置，而不需要进行多次查找。
+</code></pre>
+<h3 id="mongodb_4">MongoDB查询计划</h3>
+<p>执行语句后面加.explain()</p>
+<pre><code>for (var i=1; i&lt;=10000; i++) db.four.insert({num:i, name:'a'});   
+
+db.four.find({num:99}).explain()
+
+
+建一张不加索引的表做对比
+for (var i=1; i&lt;=10000; i++) db.seven.insert({num:i, name:'a'});  
+
+db.seven.getIndexes()
+
+db.seven.find({num:99}).explain(true)
+</code></pre>
+<h4 id="explain">explain()的三种显示方法</h4>
+<pre><code>Method 1: 查询计划的详细信息
+db.four.find({num:99}).explain()
+or
+db.four.find({num:99}).explain(&quot;queryPlanner&quot;)
+
+
+Method 2: 详细分布查询计划
+db.four.find({num:99}).explain(&quot;executionStats&quot;)
+
+Method 3: 所有的执行计划(一般建议的方式)
+db.four.find({num:99}).explain(&quot;allPlansExecution&quot;)
+or
+db.four.find({num:99}).explain(true)
+</code></pre>
+<h4 id="_9">结果分析</h4>
+<pre><code>executionStats -&gt; nReturned   返回结果的行数
+executionStats -&gt; executionTimeMillis  返回结果的时间，单位毫秒
+executionStats -&gt; totalKeysExamined  返回结果扫描了多少索引项
+executionStats -&gt; totalDocsExamined  返回结果扫描了多少文档
+
+nReturned/totalDocsExamined 如果比值大，说明执行计划性能差
+
+executionStats -&gt; executionStages -&gt; stage  COLLSCAN表示全结合扫描，FETCH表示索引扫描
+</code></pre>
+<h3 id="mongodb_5">MongoDB慢查询</h3>
+<h4 id="_10">开启和关闭慢查询</h4>
+<pre><code># 查看慢查询是否开启
+db.getProfilingLevel()
+如果返回是0，表示没有开启慢查询。1表示已开启慢查询。
+
+# 开启慢查询
+db.setProfilingLevel(1,100)
+表示MongoDB开启慢查询，并将执行时间超过100ms的语句归为慢查询，并记录在系统中。
+
+# 关闭慢查询
+db.setProfilingLevel(0)
+</code></pre>
+<h4 id="_11">如何找到慢查询</h4>
+<pre><code>1.插入测试数据
+for (var i=1; i&lt;=300000; i++) db.eight.insert({num:i, name:'a'})
+
+db.eight.find().count()
+
+2.开启慢查询
+# 不加索引正常查询大约87ms    
+db.setProfilingLevel(1,50)
+
+3.进行查询语句，触发慢查询
+db.seven.find({&quot;num&quot;:9999})
+
+4.查询系统慢查询
+# 按时间查看最新1条慢查询，并格式化输出查询结果
+db.system.profile.find().sort({ts:-1}).limit(1).pretty()
+</code></pre>
+<h4 id="_12">慢查询分析</h4>
+<pre><code class="language-shell"># 重点参数说明
+command  # 表示执行的命令
+keysExamined  # 索引扫描数
+docsExamined  # 文档扫描数
+execStats -&gt; stage -&gt; COLLSCAN  # 表示全集合扫描
+client  # 显示客户信息，定位慢查询的来源
+
+{
+        &quot;op&quot; : &quot;query&quot;,
+        &quot;ns&quot; : &quot;test.eight&quot;,
+        &quot;command&quot; : {
+                &quot;find&quot; : &quot;eight&quot;,
+                &quot;filter&quot; : {
+                        &quot;num&quot; : 9999
+                },
+                &quot;lsid&quot; : {
+                        &quot;id&quot; : UUID(&quot;01513c75-839c-4d6a-8275-94f0779e732c&quot;)
+                },
+                &quot;$db&quot; : &quot;test&quot;
+        },
+        &quot;keysExamined&quot; : 0,
+        &quot;docsExamined&quot; : 300000,
+        &quot;cursorExhausted&quot; : true,
+        &quot;numYield&quot; : 300,
+        &quot;nreturned&quot; : 1,
+        &quot;queryHash&quot; : &quot;35269713&quot;,
+        &quot;planCacheKey&quot; : &quot;35269713&quot;,
+        &quot;locks&quot; : {
+                &quot;FeatureCompatibilityVersion&quot; : {
+                        &quot;acquireCount&quot; : {
+                                &quot;r&quot; : NumberLong(302)
+                        }
+                },
+                &quot;ReplicationStateTransition&quot; : {
+                        &quot;acquireCount&quot; : {
+                                &quot;w&quot; : NumberLong(302)
+                        }
+                },
+                &quot;Global&quot; : {
+                        &quot;acquireCount&quot; : {
+                                &quot;r&quot; : NumberLong(302)
+                        }
+                },
+                &quot;Database&quot; : {
+                        &quot;acquireCount&quot; : {
+                                &quot;r&quot; : NumberLong(301)
+                        }
+                },
+                &quot;Collection&quot; : {
+                        &quot;acquireCount&quot; : {
+                                &quot;r&quot; : NumberLong(301)
+                        }
+                },
+                &quot;Mutex&quot; : {
+                        &quot;acquireCount&quot; : {
+                                &quot;r&quot; : NumberLong(1)
+                        }
+                }
+        },
+        &quot;flowControl&quot; : {
+
+        },
+        &quot;storage&quot; : {
+
+        },
+        &quot;responseLength&quot; : 149,
+        &quot;protocol&quot; : &quot;op_msg&quot;,
+        &quot;millis&quot; : 87,
+        &quot;planSummary&quot; : &quot;COLLSCAN&quot;,
+        &quot;execStats&quot; : {
+                &quot;stage&quot; : &quot;COLLSCAN&quot;,
+                &quot;filter&quot; : {
+                        &quot;num&quot; : {
+                                &quot;$eq&quot; : 9999
+                        }
+                },
+                &quot;nReturned&quot; : 1,
+                &quot;executionTimeMillisEstimate&quot; : 7,
+                &quot;works&quot; : 300002,
+                &quot;advanced&quot; : 1,
+                &quot;needTime&quot; : 300000,
+                &quot;needYield&quot; : 0,
+                &quot;saveState&quot; : 300,
+                &quot;restoreState&quot; : 300,
+                &quot;isEOF&quot; : 1,
+                &quot;direction&quot; : &quot;forward&quot;,
+                &quot;docsExamined&quot; : 300000
+        },
+        &quot;ts&quot; : ISODate(&quot;2023-06-29T17:36:55.333Z&quot;),
+        &quot;client&quot; : &quot;127.0.0.1&quot;,
+        &quot;appName&quot; : &quot;MongoDB Shell&quot;,
+        &quot;allUsers&quot; : [
+                {
+                        &quot;user&quot; : &quot;root&quot;,
+                        &quot;db&quot; : &quot;admin&quot;
+                }
+        ],
+        &quot;user&quot; : &quot;root@admin&quot;
+}
+
+</code></pre>
+<h3 id="mongodb_6">MongoDB设置用户权限</h3>
+<pre><code>mongo
+&gt;use admin
+db.createUser({
+user:&quot;root&quot;,
+pwd:&quot;xxxxxx&quot;,
+roles: [{role:&quot;root&quot;, db:&quot;admin&quot;}]
+})
+提示Successfully added user表示添加成功
+</code></pre>
+<h4 id="mongodb_7">MongoDB用密码登录</h4>
+<pre><code>mongo -uroot -p
+</code></pre>
+<h4 id="mongodb_8">MongoDB用户管理</h4>
+<pre><code>添加管理员用户并赋权
+
+db.createUser({
+user:&quot;root&quot;,
+pwd:&quot;xxxxxx&quot;,
+roles: [{role:&quot;root&quot;, db:&quot;admin&quot;}]
+})
+
+添加普通用户并赋权
+db.createUser({
+user:&quot;guest&quot;,
+pwd:&quot;xxxxxx&quot;,
+roles: [{role:&quot;readWrite&quot;, db:&quot;guest&quot;}]
+})
+</code></pre>
+<pre><code>查看用户
+
+&gt; use guest
+&gt; show users
+
+&gt; use admin
+&gt; db.system.users.find()
+</code></pre>
+<pre><code>删除用户
+
+&gt; use guest
+&gt; db.dropUser(&quot;guest&quot;)
+</code></pre>
+<h4 id="mongodbmongo-shell">MongoDB不进入mongo shell设置用户权限的方式</h4>
+<p>在不进入Mongo Shell的情况下进行用户创建操作，可以使用Mongo Shell的<code>--eval</code>选项来执行一段指令，从而实现在脚本中创建用户的目的。</p>
+<p>以下是一个示例，展示如何在脚本中使用<code>--eval</code>选项创建用户：</p>
+<pre><code class="language-shell">mongo admin --eval 'db.createUser({ user: &quot;&lt;username&gt;&quot;, pwd: &quot;&lt;password&gt;&quot;, roles: [{ role: &quot;&lt;role_name&gt;&quot;, db: &quot;&lt;database_name&gt;&quot; }, { role: &quot;&lt;role_name&gt;&quot;, db: &quot;&lt;database_name&gt;&quot; }, ... ] })'
+</code></pre>
+<p>请将<username>、<password>、<role_name>和<database_name>替换为您所需的实际值。脚本会连接到admin数据库，并在其中执行用户创建操作。</p>
+<p>您可以将上述命令添加到您的安全启动脚本中，以便在启动时自动创建用户。请确保在脚本中使用适当的安全措施，例如保护脚本的访问权限和存储密码的安全性。</p>
+<p>除了使用--eval选项，还可以考虑使用MongoDB的其他管理工具（如mongo-shell-scripts、Node.js与MongoDB驱动程序、Python与PyMongo等）来编写更复杂的脚本，以实现更灵活的用户管理操作。</p>
+<p>e.g.</p>
+<pre><code class="language-shell">mongo admin --eval ''
+</code></pre>
+<h4 id="mongodb_9">MongoDB备份和恢复数据操作</h4>
+<p>未开用户认证</p>
+<pre><code>备份：
+mongodump --db=&lt;dump_db_name&gt; --out=&lt;path_to_backup_file&gt;
+
+恢复：
+如果备份数据文件是压缩文件（例如.tar.gz或.zip文件），则可以在命令中添加--gzip或--archive选项来指定文件格式，例如：
+mongorestore --db=mydb --gzip /data/backup/mydb.bson.gz
+</code></pre>
+<p>已开用户认证</p>
+<pre><code>备份
+mongodump -u&lt;db_user&gt; -p&lt;db_pwd&gt; --authenticationDatabase=&lt;auth_db&gt; --db=&lt;dump_db_name&gt; --out=&lt;path_to_backup_file&gt;
+
+e.g.
+mongodump -uroot -p123456 --authenticationDatabase=admin --db=atest --out=/tmp/mongobk/
+会在/tmp/mongobk/下导出一个名为 atest 的目录，里面是指定DB的所有数据。
+
+恢复数据，指定数据库
+mongorestore -u&lt;db_user&gt; -p&lt;db_pwd&gt; --authenticationDatabase=&lt;auth_db&gt; --db=&lt;dump_db_name&gt; &lt;path_to_backup_file&gt;
+e.g.
+mongorestore -uroot -p123456 --authenticationDatabase=admin --db=btest ./atest/
+</code></pre>
+<p>场景，将数据库root_node_v3中task集合，导出后再导入root_node_v2中的task集合。</p>
+<pre><code># 导出单个collection的命令
+mongodump -uroot -123456 --authenticationDatabase=admin --db=root_node_v3 --collection=task --out=/tmp/mongobk/task_col.json
+
+
+2023-08-25T23:31:26.893+0800    writing root_node_v3.task to /tmp/mongobk/task_col.json/root_node_v3/task.bson
+2023-08-25T23:31:26.894+0800    done dumping root_node_v3.task (9 documents)
+</code></pre>
+<pre><code># 导入单个collection的命令
+MongoDB 4.4
+
+mongodb shell指定导出某个collection的数据库
+
+mongorestore -u&lt;db_user&gt; -p&lt;db_pwd&gt; --authenticationDatabase=&lt;auth_db&gt; --db=&lt;dump_db_name&gt; --collection=&lt;collection_name&gt; &lt;path_to_backup_file&gt;
+e.g.
+mongorestore -uroot -p123456 --authenticationDatabase=admin --db=root_node_v2 --collection=task /tmp/mongobk/task_col.json/root_node_v3/task.bson
+</code></pre>
+<h4 id="mongobd">MongoBD删除数据库</h4>
+<pre><code>use xxx_test
+db.dropDatabase()
+</code></pre>
+<h4 id="mongodb_10">MongoDB常用内置角色</h4>
+<pre><code>root        超级管理员
+readWrite   对某个分系统库的读写权限
+read        对某个分系统库的只读权限
+readWriteAnyDatabase    对所有数据库的读写权限
+readAnyDatabase         对所有数据库的只读权限
+</code></pre>
+<h3 id="mongodbcompass">MongoDB官方可视化工具Compass</h3>
+<p>官方可<a href="https://www.mongodb.com/try/download/compass">下载</a>，支持各种平台。</p>
+<p>Compass本身自带MongoDB分析工具，可辅助分析。</p>
+<p>另外商业软件Navicat也已支持MongoDB。</p>
+<p>要使用mongodb命令需要安装下在 <a href="https://www.mongodb.com/try/download/shell">MongoDB Shell</a></p>
+<p>windows mongosh登录需要直接填连接字符串(可从Compass上复制)，如：</p>
+<pre><code>mongodb://root:yourpassword@192.168.3.10:27017/?authMechanism=DEFAULT&amp;authSource=admin
+</code></pre>
+<h2 id="postgresql">PostgreSQL</h2>
+<p>默认端口：<code>5432</code></p>
+<h2 id="_13">其他问题</h2>
+<h3 id="_14">关系型数据库数据搜索缺点</h3>
+<p>1.无法打分（无法对搜索出来的结果进行排序）</p>
+<p>2.无分布式</p>
+<p>3.无法解析搜索请求</p>
+<p>4.效率低（上亿）</p>
+<p>5.分词</p>
+<h3 id="_15">如何对数据库进行优化</h3>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../os/" class="btn btn-neutral float-left" title="OS 操作系统"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../performance_optimization/" class="btn btn-neutral float-right" title="性能优化">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright © 2022</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../os/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../performance_optimization/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

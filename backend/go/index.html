@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/backend/go/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Golang - Security Development Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Golang";
+        var mkdocs_page_input_path = "backend/go.md";
+        var mkdocs_page_url = "/backend/go/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/ruby.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Security Development Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">About the Notes 关于笔记</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Development 安全研发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/term/">相关术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/sec_dev_lifecycle/">SDL 安全开发流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/scanner/">Scanner 扫描器</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/firewall/">Firewall 防火墙</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/code_sec/">Code Security 代码安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/netflow_analysis/">Netflow Analysis 流量分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/log_audit/">Log Audit 日志审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cyber_range/">Cyber Range 网络靶场</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/zero_trust/">Zero Trust 零信任</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/open_source/">Opensource 开源项目推荐</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/skill_tree/">Skill Tree 技能树</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/dev_sec_ops/">DevSecOps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/enterprise_security/">Enterprise Security 企业安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/intelligent_risk_control/">Intelligent Risk Control 智能风控</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/pentest_automation/">渗透测试自动化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/fingerprints/">指纹识别</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/anti_bot/">反爬虫/Bot</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_sqlmap/">源码学习之SqlMap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_pocsuite/">源码学习之Pocsuite3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_snort/">源码学习之Snort3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_viper/">源码学习之Viper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/socket/">socket编程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/research_list/">导航列表</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/exploit/">漏洞挖掘</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/threat_intelligence/">威胁情报</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/apt/">APT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/att%26ck/">ATT&CK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/code_audit/">代码审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/fuzzing/">模糊测试</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/black_market/">黑产研究</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/botnet/">DDoS和Botnet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/binary_sec/">二进制安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/data_sec/">数据安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/device_sec/">路由设备安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ic_sec/">工控安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iot_sec/">物联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/5g_sec/">5g安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iov_sec/">车联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/cloud_sec/">云原生安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/block_chain_sec/">区块链安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/android_sec/">Android安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/browser_sec/">浏览器安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/protocol_sec/">协议安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/boofuzz/">Boofuzz</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/api_sec/">API安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/python_sec/">Python安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/js_sec/">JS安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/c/">C语言</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/cso/">CSO与安全负责人</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/enterprise_sec/">企业安全建设</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/classified_protection/">等级保护</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/sec_jd/">安全招聘</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Product Marketing 安全产品营销</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_operation/">安全运营</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/traceback/">溯源反制</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CVE</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cve/cve/">CVE相关参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pentest 渗透测试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/term/">Term 术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/kali_linux/">Kali Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/brute_force/">Brute Force 暴力破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/sql_injection/">SQL Injection SQL注入</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/ddos/">DDoS 分布式拒绝服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/xss/">XSS 跨站脚本攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/re/">Reverse Engineering 逆向工程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/backdoor/">Backdoor 后门</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/capture_package/">抓包</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/crack/">破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_lifecycle/">网络攻击生命周期</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/log_clear/">日志清理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/report/">报告和笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/nmap/">Nmap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/thinkphp5_rce/">ThinkPHP5 RCE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/ctf_skill/">CTF竞赛常用基本解题技巧</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/pwn/">PWN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/crypto/">Crypto</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/re/">RE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/hackthebox/">HackTheBox</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Algorithm 算法</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/leetcode/">Leetcode</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture 架构</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/notes/">读书笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/design_pattern/">Design Pattern 设计模式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/ddd/">DDD 领域驱动设计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/micro_services/">Micro Services 微服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/scrum/">Scrum</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../computer_networking/">计算机网络</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../os/">OS 操作系统</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../database/">Database 数据库</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../performance_optimization/">性能优化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rpc/">RPC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../search_engine/">搜索引擎</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../high_concurrency/">高并发</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Golang</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#go">Go语言开发环境配置</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_1">安装</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#go-proxy">go proxy设置</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#go_1">Go开发基础知识</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#goroutine">goroutine(协程)基本模型和调度设计策略</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">高频常用命令</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#gotips">go静态编译tips</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#go-mod">go mod</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">需要注意的环境变量</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#go111module">GO111MODULE</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">入门推荐</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">进阶推荐</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">论坛社区</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">代码规范</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">实体书推荐</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#blog">Blog推荐</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gvm">多版本管理工具GVM</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">常用命令</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gvm_1">gvm 目录结构</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#a-tour-of-gogopath">A tour of go的踩坑，和GOPATH设置相关</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">好用的插件</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_11">其它参考</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_12">基本知识</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1">1.接收器该定义为值还是指针？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2go">2.Go使用两种声明方式的区别</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#go-mysql-crud">Go MySQL CRUD</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#go-mongodb-crud">Go MongoDB CRUD</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#go-gomongodborgmongo-driverbson">在Go语言的 go.mongodb.org/mongo-driver/bson 包中，常用的类型有哪些？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#bsondbsonm">bson.D和bson.M有什么区别</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#21gcentos76goroutine">2核1G的CentOS7.6服务器，如何评估其最多能开多少个goroutine，请给出具体计算示例。</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gogoroutine">如何评估一个独立go程序运行goroutine的内存占用</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#go_2">Go远程调试方法</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../c/">C</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rust/">Rust</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../perl/">Perl</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../proxy/">Proxy 代理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rabbitmq/">RabbitMQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../kafka/">Kafka</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jwt/">JWT认证</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../big_data/">Big Data 大数据</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../regex/">Regex 正则表达式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../git/">Git</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../git_flow/">Git Flow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../vim/">Vim</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/machine_learning/">机器学习</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/nlp/">自然语言处理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/llms/">大语言模型LLMs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/statistical_learning/">统计学习方法笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Front-end Development 前端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/html5/">HTML5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/css/">CSS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/js/">JavaScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/typescript/">TypeScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/vue/">Vue.js</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/react/">React</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/npm/">NPM</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MOOC Notes 幕课笔记</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/pku_datastructure/">数据结构与算法Python版</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/CS_basic/">编程必备基础知识</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Test Development 测试开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/test_management/">测试管理流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/performance/">性能测试</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">软考</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/ruankao/">考试相关信息</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_analyst/">高级系统分析师复习笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_architect/">高级系统架构设计师复习笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">爬虫开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../crawler/cookie_pool/">Cookie池设计</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DevOps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/docker/">Docker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/k8s/">Kubernetes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/vm/">VM 虚拟机</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/linux/">Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/windows/">Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/sre/">SRE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/shell/">Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/syslog/">syslog</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">SEO 搜索引擎优化</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/knowledge/">基本知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/whitehat_seo/">白帽SEO</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/blackhat_seo/">黑帽SEO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview 面试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/navigation/">Navigation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/security/">Security Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/backend/">Backend Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/ai/">AI Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/qa/">QA Interview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Academic 学术</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../academic/academic/">Information 相关信息</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Math 数学</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../math/learn_guide/">学习参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Others</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/introduce/">简介</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/bookmark/">Bookmark</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/learning_view/">Learning View 学习观</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/law/">Law 法律</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hugo/">Hugo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hexo/">Hexo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/english_grammar/">英语语法框架</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../todo_list/">Todo List</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Security Development Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Back-end Development 后端开发</li>
+      <li class="breadcrumb-item active">Golang</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="gogolang">Go(Golang)</h1>
+<h2 id="go">Go语言开发环境配置</h2>
+<h3 id="_1">安装</h3>
+<pre><code class="language-bash">先下载go的安装包
+cd /tmp
+wget https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+
+go.dev现在没被墙
+wget https://dl.google.com/go/go1.17.5.linux-amd64.tar.gz
+
+
+上面的连接可能因为网络问题无法访问,可以用下面的镜像
+wget https://studygolang.com/dl/golang/go1.16.4.linux-amd64.tar.gz
+wget https://studygolang.com/dl/golang/go1.16.6.linux-amd64.tar.gz
+
+wget https://studygolang.com/dl/golang/go1.17.linux-amd64.tar.gz
+
+
+
+已安装过go的:
+sudo rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
+
+go1.16.6是当前最新版,以后会变化
+
+未安装过go的:
+sudo tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
+
+而配置环境变量
+vim ~/.zshrc
+export PATH=$PATH:/usr/local/go/bin
+export GO111MODULE=on   # 可选,默认不设置为auto
+保存退出并用 source ~/.zshrc 激活
+
+验证安装
+go version
+</code></pre>
+<h3 id="go-proxy">go proxy设置</h3>
+<p>不设置的话因为众所周知的网络原因，go get Github上的第三方库可能失败。</p>
+<pre><code class="language-shell">go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+</code></pre>
+<h2 id="go_1">Go开发基础知识</h2>
+<h3 id="goroutine">goroutine(协程)基本模型和调度设计策略</h3>
+<p><a href="https://www.bilibili.com/video/BV1gf4y1r79E?p=26">参考视频</a></p>
+<h2 id="_2">高频常用命令</h2>
+<h3 id="gotips">go静态编译tips</h3>
+<p>交叉编译的参数信息参考官网：https://go.dev/doc/install/source#environment</p>
+<pre><code>// go cross compiling
+GOOS=&quot;linux&quot; GOARCH=&quot;amd64&quot; go build simple_http_server.go
+
+// 默认go build包含debug信息和符号表，减少生成二进制文件大小约30%的方法
+go build -ldflags &quot;-w -s&quot; xxx.go
+
+// 交叉编译+减少文件大小
+GOOS=&quot;linux&quot; GOARCH=&quot;amd64&quot; go build -o shs -ldflags &quot;-w -s&quot; simple_http_server_v2.go
+</code></pre>
+<h3 id="go-mod">go mod</h3>
+<pre><code>go mod init        // 生产go.mod文件
+go mod download    // 下载go.mod文件中指明的所有依赖
+go mod tidy        // 整理现有的依赖
+go mod graph       // 查看现有的依赖结构
+go mod edit        // 编辑go.mod文件
+go mod vendor      // 导出项目所有的依赖到vendor目录
+go mod verify      // 校验一个模块是否被篡改过
+go mod why         // 查看为什么需要依赖某模块
+</code></pre>
+<p><img alt="go_mod" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed3/20220106123308.png" /></p>
+<p><strong>关于go mod vendor的使用注意：</strong></p>
+<pre><code>1.执行go mod vendor将删除项目中已存在的vendor目录；
+2.永远不要对vendor中的依赖库进行二次修改、更改;
+3.go命令不检查vendor中的依赖库是否被修改；
+</code></pre>
+<h2 id="_3">需要注意的环境变量</h2>
+<p>通过<code>go env</code>命令来进行查看</p>
+<h3 id="go111module">GO111MODULE</h3>
+<p><img alt="GO111MODULE" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed3/20220106123453.png" /></p>
+<p>设置命令：<code>$ go env -w GO111MODULE=on</code></p>
+<h2 id="_4">入门推荐</h2>
+<ul>
+<li><a href="https://tour.golang.org/">A Tour of Go</a> -- 英文官网不能访问的，可以考虑本地搭建。 <a href="https://tour.go-zh.org/">中文版点击这里，翻译有些问题，建议看英文版</a></li>
+<li><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN">the way to go</a></li>
+<li><a href="https://github.com/astaxie/build-web-application-with-golang">Build Web Application with Golang</a>  这本书就不错，Beego的作者写的</li>
+<li><a href="https://github.com/Alikhll/golang-developer-roadmap">golang developer roadmap</a>   RoadMap系列，可参考</li>
+<li><a href="https://github.com/avelino/awesome-go">awesome go</a></li>
+<li><a href="https://gfw.go101.org/article/101.html">Go语言101</a></li>
+<li><a href="https://pegasuswang.github.io/LetsGo/">Let's Go!</a></li>
+<li><a href="https://books.studygolang.com/gopl-zh/ch1/ch1-02.html">Go语言圣经中文版</a></li>
+</ul>
+<h2 id="_5">进阶推荐</h2>
+<ul>
+<li><a href="https://golang.org/doc/">Go官方文档--必读</a></li>
+<li><a href="https://space.bilibili.com/326749661">Go夜读视频</a></li>
+<li><a href="https://github.com/developer-learning/night-reading-go">Go夜读Github</a></li>
+<li><a href="https://draveness.me/golang/docs/part1-prerequisite/ch02-compile/golang-compile-intro/">Go语言设计与实现</a></li>
+</ul>
+<h2 id="_6">论坛社区</h2>
+<p>因为学习资料的时间都不太够，其实去逛论坛的时间真的不多，但是还是需要适当与大家交流学习的。</p>
+<ul>
+<li><a href="https://talkgo.org/">TalkGo</a></li>
+</ul>
+<h2 id="_7">代码规范</h2>
+<ul>
+<li><a href="https://github.com/uber-go/guide">Uber Go Style Guide</a></li>
+<li><a href="https://github.com/xxjwxc/uber_go_guide_cn">Uber Go 语言编码规范中文版</a></li>
+<li><a href="https://github.com/golang-standards/project-layout">Go工程结构参考</a></li>
+</ul>
+<h2 id="_8">实体书推荐</h2>
+<p>最简单的入门方法，找一本好教程，对着例子敲一遍练手。</p>
+<ul>
+<li><code>Go语言实战</code> -- Go in Action, 快速过一下基础。</li>
+<li><code>Go程序设计语言 The Go Programming Language</code> -- 没错，就是那本Go语言圣经。（如果是有经验的开发者，其实建议学这个的同时开始做实际项目）</li>
+<li><code>Golang高级编程</code> -- 如果看完上面的，可以看这本扩充下，电子版是开源的。</li>
+</ul>
+<h2 id="blog">Blog推荐</h2>
+<ul>
+<li><a href="https://draveness.me/">面向信仰编程</a></li>
+<li><a href="http://xiaorui.cc/">峰云就她了</a></li>
+<li><a href="https://python-web-guide.readthedocs.io/zh/latest/go-note/index.html">Golang 快速入门 Go For Pythonisa</a></li>
+</ul>
+<h2 id="gvm">多版本管理工具GVM</h2>
+<p>什么是 gvm</p>
+<p>gvm，即 Go Version Manager，Go 版本管理器，它可以非常轻量的切换 Go 版本。对比其他语言，通常也有类似的工具，如 NodeJS 的 NVM，Python 的 virtualenv 等。</p>
+<p>用GVM最好是安装go 1.5+的版本，1.5以下版本看官方解释。</p>
+<p>PS：注意设置gvm后可能引发系统GOPATH自定义配置失效的问题。</p>
+<p><a href="https://github.com/moovweb/gvm">GVM官方仓库</a>
+<a href="https://zhuanlan.zhihu.com/p/83375992">如何灵活地进行 Go 版本管理</a></p>
+<pre><code class="language-shell">Installing
+To install:
+
+bash &lt; &lt;(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
+Or if you are using zsh just change bash with zsh:
+
+zsh &lt; &lt;(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
+Installed GVM v1.0.22
+
+Please restart your terminal session or to get started right away run
+ `source /Users/xxxx/.gvm/scripts/gvm`
+</code></pre>
+<pre><code class="language-shell">Uninstalling
+To completely remove gvm and all installed Go versions and packages:
+
+gvm implode
+</code></pre>
+<h3 id="_9">常用命令</h3>
+<pre><code>gvm list                       查看本地系统已go版本
+gvm listall                    查看可安装的go版本
+gvm install go1.13.5           安装指定go版本，这里是1.13.5
+gvm use go1.13.5 [--default]   选择启用指定版本，果想默认一个版本，加上 --default 设置即可
+</code></pre>
+<h3 id="gvm_1">gvm 目录结构</h3>
+<p>gvm 是 shell 编写，默认是安装在 $HOME/.gvm/ 目录下。查看下它的目录结构会有助我们了解它的实现。</p>
+<pre><code>archive             # go 源码
+bin                 # gvm 可执行文件
+environments        # 不同环境的环境变量配置
+scripts             # gvm 的子命令脚本
+logs                # 日志信息
+pkgsets             # 每个独立环境 gopath 所在路径
+</code></pre>
+<h4 id="a-tour-of-gogopath">A tour of go的踩坑，和GOPATH设置相关</h4>
+<p><a href="https://learnku.com/golang/wikis/38166">本地安装 Go Tour（包含中文版本）</a></p>
+<h3 id="_10">好用的插件</h3>
+<p>pip install when-changed</p>
+<pre><code>when-changed -r -v -1 . go run hello.go
+</code></pre>
+<p>只要hello.go变动，就会重新编译执行</p>
+<h2 id="_11">其它参考</h2>
+<ul>
+<li><a href="https://blog.csdn.net/e421083458/article/details/89762113">10分钟学会go module</a></li>
+<li><a href="https://www.bilibili.com/video/BV1Qe41157Kg">为什么有 go.mod 还要引入 go.sum</a></li>
+</ul>
+<h2 id="_12">基本知识</h2>
+<h3 id="1">1.接收器该定义为值还是指针？</h3>
+<ul>
+<li>1.如果方法需要修改接收器，则接收器使用指针；</li>
+<li>2.从性能考量：<ul>
+<li>a. 如果结构体很大，应该使用指针接收器，会减少内存拷贝</li>
+<li>b. 对于基本类型、切片和小结构等类型，使用值接收器是非常廉价的</li>
+</ul>
+</li>
+<li>3.方法集中的接收器应该保持一致，要么全为值，要么全为指针</li>
+</ul>
+<h3 id="2go">2.Go使用两种声明方式的区别</h3>
+<p>使用标准声明（var开头）：</p>
+<ul>
+<li>1.定义全局变量</li>
+<li>2.暂时不确定变量值</li>
+<li>3.巧用"零值"</li>
+</ul>
+<p>其他情况和定义局部变量时应使用短声明（:=）</p>
+<h2 id="go-mysql-crud">Go MySQL CRUD</h2>
+<h2 id="go-mongodb-crud">Go MongoDB CRUD</h2>
+<p>推荐，直接用官方驱动：go.mongodb.org/mongo-driver/</p>
+<h3 id="go-gomongodborgmongo-driverbson">在Go语言的 go.mongodb.org/mongo-driver/bson 包中，常用的类型有哪些？</h3>
+<pre><code>1. bson.M：代表一个无序的 BSON 文档（document），其中每个元素都由一个键名和一个值组成。该类型通常用于构造 MongoDB 操作的参数，例如插入、更新、查询等操作。
+
+2. bson.D：代表一个有序的 BSON 文档（document），其中每个元素都由一个键名和一个值组成，以键名的字典序排序。该类型通常用于需要按照特定顺序处理键值对的场景，例如在进行范围查询时需要对字段进行排序。
+
+3. bson.A：代表一个 BSON 数组，其中的元素可以是任意类型的值。该类型通常用于处理多个值的场景，例如在进行聚合操作时需要处理多个文档。
+
+3. bson.Raw：代表原始的 BSON 数据，可以用于序列化和反序列化 BSON 数据。该类型通常用于与其他 BSON 库交互或进行自定义的 BSON 编码/解码时使用。
+
+4. bson.Element：代表一个 BSON 元素，其中包含一个键名和一个值。该类型通常用于对 BSON 数据进行底层处理，例如在进行自定义的 BSON 编码/解码时需要处理每个元素。
+
+5. bson.RawValue：代表一个原始的 BSON 值，可以用于序列化和反序列化 BSON 数据。与 bson.Raw 类型不同的是，bson.RawValue 只包含一个值，而不包含键名和类型信息。该类型通常用于处理 BSON 数据中的特定值。
+
+需要注意的是，以上类型中的 bson.D、bson.A 和 bson.M 都可以用作 MongoDB 操作的参数和结果，具有相似的用法和功能。在使用时，应根据实际需求选择合适的类型，以便更方便地进行 BSON 数据的处理和操作。
+</code></pre>
+<h3 id="bsondbsonm">bson.D和bson.M有什么区别</h3>
+<pre><code>在 Go 语言的 go.mongodb.org/mongo-driver/bson 包中，bson.D 和 bson.M 都代表了一个 BSON 文档（document），但它们之间有以下几个区别：
+
+1.顺序：bson.M 是一个无序的文档，其中的元素没有固定的顺序；而 bson.D 是一个有序的文档，其中的元素按照键名的字典序排序。
+
+2.类型：bson.M 的值是一个 map[string]interface{} 类型，其中键名为字符串类型，值可以是任意类型；而 bson.D 的值是一个 []primitive.E{} 类型，其中每个元素都是由一个键名和一个值组成的 primitive.E 类型。
+
+3.用途：bson.M 适用于构造 MongoDB 操作的参数，例如插入、更新、查询等操作；而 bson.D 适用于需要按照特定顺序处理键值对时的场景，例如在进行范围查询时需要对字段进行排序。
+
+需要注意的是，对于大多数 MongoDB 操作而言，bson.M 和 bson.D 都可以使用。
+但是，在需要处理有序文档或需要对键值对进行排序的场景下，应该使用 bson.D 类型以确保正确的顺序。
+
+例如，在进行范围查询时，需要对字段按照字典序排序，可以使用以下方式构造查询条件：
+e.g.
+filter := bson.D{
+    {&quot;name&quot;, bson.D{{&quot;$gte&quot;, &quot;A&quot;}, {&quot;$lt&quot;, &quot;B&quot;}}},
+}
+在上述代码中，bson.D 表示一个有序的文档，其中包含一个名为 name 的字段，值为一个由两个键值对组成的 bson.D 类型，分别表示大于等于字符串 &quot;A&quot; 且小于字符串 &quot;B&quot;。
+</code></pre>
+<h3 id="21gcentos76goroutine">2核1G的CentOS7.6服务器，如何评估其最多能开多少个goroutine，请给出具体计算示例。</h3>
+<p>主要考虑服务器的<code>内存</code>和<code>CPU</code>资源。请注意，Goroutine的数量取决于应用程序的特性和服务器上运行的其他进程。</p>
+<pre><code>
+简单的估算方法：
+
+内存消耗：首先，确定您的应用程序中每个 Goroutine 预计会消耗多少内存。Goroutine 的内存消耗相对较低，但具体取决于应用程序的逻辑和数据结构。如果每个 Goroutine 预计消耗 X MB 内存，那么您可以估算可用内存除以 X MB 以确定最多可以运行多少个 Goroutine。
+
+CPU 核心：2核CPU 意味着可以同时执行2个 Goroutine。Goroutine 是并发执行的，但在给定时刻只有一个 Goroutine 在每个核心上执行。所以，最多可以运行的 Goroutine 数等于CPU核心数乘以每核心上运行的 Goroutine 数。
+
+请注意，这只是一个基本的估算。实际上，您可能不能以这种方式利用所有可用资源，因为系统上还有其他进程运行，还需要一些内存来支持操作系统和其他系统任务。因此，您的应用程序可能需要保持适度的保守，以避免资源竞争和过多的 Goroutine 导致性能下降。
+
+以下是一个示例计算：
+
+假设每个 Goroutine 预计会消耗 2MB 内存(这里是假定，实际需要自己测量后再评估)，服务器上有1GB内存，2核CPU。
+
+每核心最多运行的 Goroutine 数 = 内存总量 / 单个 Goroutine 内存消耗 = 1GB / 2MB = 512。
+
+总共最多可以运行的 Goroutine 数 = 每核心最多运行的 Goroutine 数 * CPU核心数 = 512 * 2 = 1024。
+
+在这个估算中，最多可以运行1024个 Goroutine。
+
+但请注意，这只是一个理论上的估算，实际情况可能受到其他因素的影响，如系统负载和性能。您需要在实际部署中进行性能测试以确定最佳的 Goroutine 数量。
+</code></pre>
+<h2 id="gogoroutine">如何评估一个独立go程序运行goroutine的内存占用</h2>
+<p>要评估一个独立的 Go 程序中运行 Goroutine 的内存占用，您可以使用 Go 语言的标准库 runtime 包来获取有关程序的内存使用情况的信息。具体来说，您可以使用 runtime.ReadMemStats 函数来获取内存统计信息，并从中提取有关 Goroutine 内存占用的数据。</p>
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;runtime&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    // 创建一个 Goroutine
+    go func() {
+        for {
+            // 做一些工作
+        }
+    }()
+
+    // 让程序运行一段时间以便 Goroutine 执行
+    time.Sleep(10 * time.Second)
+
+    // 获取内存统计信息
+    var memStats runtime.MemStats
+    runtime.ReadMemStats(&amp;memStats)
+
+    // 获取 Goroutine 数量和内存占用信息
+    goroutineCount := runtime.NumGoroutine()
+    memoryUsage := memStats.Alloc / 1024 / 1024 // 内存占用转换为MB
+
+    // 打印结果
+    fmt.Printf(&quot;Goroutines: %d\n&quot;, goroutineCount)
+    fmt.Printf(&quot;Memory Usage: %d MB\n&quot;, memoryUsage)
+}
+</code></pre>
+<p>在此示例中，我们创建了一个简单的 Goroutine，让它运行一段时间，然后使用 runtime.ReadMemStats 获取内存统计信息。我们获取了 Goroutine 数量和内存占用，并将其打印到控制台。</p>
+<p>请注意，这只是一个基本的示例，用于演示如何获取 Goroutine 内存占用的信息。在实际应用中，您可以将类似的内存统计代码嵌入到您的应用程序中，以便在运行时监视内存使用情况。此外，您可能需要在不同的应用程序状态下多次运行内存统计，以了解不同操作对内存的影响。</p>
+<h3 id="go_2">Go远程调试方法</h3>
+<ul>
+<li><a href="https://blog.csdn.net/zhangxm_qz/article/details/122154006">把手教你goland远程调试</a></li>
+<li><a href="https://juejin.cn/post/7035910722382987271">Go Lang远程调试 with Goland</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../python/" class="btn btn-neutral float-left" title="Python"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../c/" class="btn btn-neutral float-right" title="C">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright © 2022</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../python/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../c/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

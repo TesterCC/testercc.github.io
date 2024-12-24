@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/sec_research/ic_sec/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>工控安全 - Security Development Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u5de5\u63a7\u5b89\u5168";
+        var mkdocs_page_input_path = "sec_research/ic_sec.md";
+        var mkdocs_page_url = "/sec_research/ic_sec/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/ruby.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Security Development Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">About the Notes 关于笔记</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Development 安全研发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/term/">相关术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/sec_dev_lifecycle/">SDL 安全开发流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/scanner/">Scanner 扫描器</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/firewall/">Firewall 防火墙</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/code_sec/">Code Security 代码安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/netflow_analysis/">Netflow Analysis 流量分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/log_audit/">Log Audit 日志审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cyber_range/">Cyber Range 网络靶场</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/zero_trust/">Zero Trust 零信任</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/open_source/">Opensource 开源项目推荐</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/skill_tree/">Skill Tree 技能树</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/dev_sec_ops/">DevSecOps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/enterprise_security/">Enterprise Security 企业安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/intelligent_risk_control/">Intelligent Risk Control 智能风控</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/pentest_automation/">渗透测试自动化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/fingerprints/">指纹识别</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/anti_bot/">反爬虫/Bot</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_sqlmap/">源码学习之SqlMap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_pocsuite/">源码学习之Pocsuite3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_snort/">源码学习之Snort3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/cl_viper/">源码学习之Viper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/socket/">socket编程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../research_list/">导航列表</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exploit/">漏洞挖掘</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ai_sec/">人工智能安全(AISec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../gpt_sec/">GPT安全(GPTSec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sample_analysis/">样本分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../threat_intelligence/">威胁情报</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../apt/">APT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../att%26ck/">ATT&CK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code_audit/">代码审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../fuzzing/">模糊测试</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../black_market/">黑产研究</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../botnet/">DDoS和Botnet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../binary_sec/">二进制安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../data_sec/">数据安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../device_sec/">路由设备安全</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">工控安全</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">一、专业术语</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">二、协议和术语科普</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">工业控制网络的协议分类</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#1modbus">1.Modbus通讯协议</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#modbus">Modbus协议</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#modbus-tcp">Modbus TCP</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#modbus-0x5a">Modbus 0x5a</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#ref">REF</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2siemens-s7">2.Siemens S7协议</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#21-s7comm">2.1 S7comm协议</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3tpkt">3.TPKT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4cotp">4.COTP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">其他工控协议</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">三、威胁建模</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">安全故障分析模型（物理侧）</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#fat">故障树分析法（FAT）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#eta">事件树分析法（ETA）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#stamp">STAMP</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">网络安全威胁模型（信息侧）</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1kill-chain">1.Kill Chain工控模型</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2attck">2.ATT&amp;CK工控模型</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">四、威胁模式分析</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_10">五、安全防御</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_11">六、风险评估</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_12">七、工控安全漏洞案例分析</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_13">八、调查取证</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_14">九、攻击分析</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_15">十、工控安全分析</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_16">工控安全研究方向</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_17">固件分析思路</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_18">固件分析工具</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_19">机构工控安全事件分析报告</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_20">工控攻防演示设计</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ref_1">REF</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../iot_sec/">物联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../5g_sec/">5g安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../iov_sec/">车联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cloud_sec/">云原生安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../block_chain_sec/">区块链安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../android_sec/">Android安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../browser_sec/">浏览器安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../protocol_sec/">协议安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../boofuzz/">Boofuzz</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../api_sec/">API安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../python_sec/">Python安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../js_sec/">JS安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../c/">C语言</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/cso/">CSO与安全负责人</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/enterprise_sec/">企业安全建设</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/classified_protection/">等级保护</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/sec_jd/">安全招聘</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Product Marketing 安全产品营销</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_operation/">安全运营</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/traceback/">溯源反制</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CVE</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cve/cve/">CVE相关参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pentest 渗透测试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/term/">Term 术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/kali_linux/">Kali Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/brute_force/">Brute Force 暴力破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/sql_injection/">SQL Injection SQL注入</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/ddos/">DDoS 分布式拒绝服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/xss/">XSS 跨站脚本攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/re/">Reverse Engineering 逆向工程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/backdoor/">Backdoor 后门</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/capture_package/">抓包</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/crack/">破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_lifecycle/">网络攻击生命周期</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/log_clear/">日志清理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/report/">报告和笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/nmap/">Nmap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/thinkphp5_rce/">ThinkPHP5 RCE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/ctf_skill/">CTF竞赛常用基本解题技巧</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/pwn/">PWN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/crypto/">Crypto</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/re/">RE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/hackthebox/">HackTheBox</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Algorithm 算法</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/leetcode/">Leetcode</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture 架构</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/notes/">读书笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/design_pattern/">Design Pattern 设计模式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/ddd/">DDD 领域驱动设计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/micro_services/">Micro Services 微服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/scrum/">Scrum</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/computer_networking/">计算机网络</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/os/">OS 操作系统</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/database/">Database 数据库</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/performance_optimization/">性能优化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rpc/">RPC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/search_engine/">搜索引擎</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/high_concurrency/">高并发</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/python/">Python</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/go/">Golang</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/c/">C</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/java/">Java</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rust/">Rust</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/perl/">Perl</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/proxy/">Proxy 代理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rabbitmq/">RabbitMQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/kafka/">Kafka</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/jwt/">JWT认证</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/big_data/">Big Data 大数据</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/regex/">Regex 正则表达式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git/">Git</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git_flow/">Git Flow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/vim/">Vim</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/machine_learning/">机器学习</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/nlp/">自然语言处理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/llms/">大语言模型LLMs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/statistical_learning/">统计学习方法笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Front-end Development 前端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/html5/">HTML5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/css/">CSS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/js/">JavaScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/typescript/">TypeScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/vue/">Vue.js</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/react/">React</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/npm/">NPM</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MOOC Notes 幕课笔记</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/pku_datastructure/">数据结构与算法Python版</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/CS_basic/">编程必备基础知识</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Test Development 测试开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/test_management/">测试管理流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/performance/">性能测试</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">软考</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/ruankao/">考试相关信息</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_analyst/">高级系统分析师复习笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_architect/">高级系统架构设计师复习笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">爬虫开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../crawler/cookie_pool/">Cookie池设计</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DevOps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/docker/">Docker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/k8s/">Kubernetes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/vm/">VM 虚拟机</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/linux/">Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/windows/">Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/sre/">SRE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/shell/">Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/syslog/">syslog</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">SEO 搜索引擎优化</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/knowledge/">基本知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/whitehat_seo/">白帽SEO</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/blackhat_seo/">黑帽SEO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview 面试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/navigation/">Navigation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/security/">Security Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/backend/">Backend Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/ai/">AI Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/qa/">QA Interview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Academic 学术</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../academic/academic/">Information 相关信息</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Math 数学</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../math/learn_guide/">学习参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Others</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/introduce/">简介</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/bookmark/">Bookmark</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/learning_view/">Learning View 学习观</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/law/">Law 法律</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hugo/">Hugo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hexo/">Hexo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/english_grammar/">英语语法框架</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../todo_list/">Todo List</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Security Development Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Security Research 安全研究</li>
+      <li class="breadcrumb-item active">工控安全</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">工控安全</h1>
+<h2 id="_2">一、专业术语</h2>
+<p>SCADA:Supervisory Control And Data Acquisition，即数据采集与监视控制系统，涉及到组态软件、数据传输链路（如：数传电台、GPRS等）。SCADA系统是以计算机为基础的DCS与电力自动化监控系统；它应用领域很广，可以应用于电力、冶金、石油、化工、燃气、铁路等领域的数据采集与监视控制以及过程控制等诸多领域。 在电力系统中，SCADA系统应用最为广泛，技术发展也最为成熟。它在远动系统中占重要地位,可以对现场的运行设备进行监视和控制，以实现数据采集、设备控制、测量、参数调节以及各类信号报警等各项功能,即我们所知的"四遥"功能.RTU(远程终端单元),FTU(馈线终端单元)是它的重要组成部分．在现今的变电站综合自动化建设中起了相当重要的作用。
+ICS:工业控制系统
+DCS:分布式控制系统/集散控制系统，是以微处理器为基础，采用控制功能分散、显示操作集中、兼顾分而自治和综合协调的设计原则的新一代仪表控制系统。 它采用控制分散、操作和管理集中的基本设计思想，采用多层分级、合作自治的结构形式。其主要特征是它的集中管理和分散控制。目前DCS在电力、冶金、石化等各行各业都获得了极其广泛的应用。
+PCS:过程控制系统ESD:应急停车系统
+PLC:Programmable Logic Controller，可编程序控制器。可编程逻辑控制器是种专门为在工业环境下应用而设计的数字运算操作电子系统。它采用一种可编程的存储器，在其内部存储执行逻辑运算、顺序控制、定时、计数和算术运算等操作的指令，通过数字式或模拟式的输入输出来控制各种类型的机械设备或生产过程。
+RTU:远程终端控制系统
+IED:智能监测单元HMI:人机界面(Human Machine Interface)
+MIS:管理信息系统(Management Information System)
+SIS:生产过程自动化监控和管理系统(Supervisory Information System)
+MES:制造执行管理系统
+HMI:人机界面
+上位机：可以直接发出操控命令的计算机，一般是PC/host computer/master computer/upper computer，屏幕上显示各种信号变化（液压，水位，温度等）。
+下位机：可以直接控制设备获取设备状况的计算机，一般是PLC/单片机single chip microcomputer/slave computer/lower computer之类的。
+IT：Information Technology，信息技术，用于检索或传输信息的硬件和软件。
+OT：Operation Technology，操作技术，是工厂内的自动化控制系统操作专员为自动化控制系统提供支持，确保生产正常进行的专业技术。</p>
+<h2 id="_3">二、协议和术语科普</h2>
+<h3 id="_4">工业控制网络的协议分类</h3>
+<ul>
+<li>传统控制网络：CCS（Coordinated Control System ，协调控制系统）、DCS（Distributed Control System，分布式控制系统）等。</li>
+<li>现场总线：CAN、DeviceNet、CCL-Link、Profibus-DP等。</li>
+<li>工业以太网：EtherNet/IP、EtherCAT、HSE、Pfofinet、EPA、PowerLink、Modbus、Tenet、Wnet等。</li>
+<li>工业无线网：IEEE 802.11(a/b/g/n)、Rfieldbus、ZigBee等。</li>
+</ul>
+<p>基于控制精度划分为：实时网络协议、非实时网络协议。</p>
+<h3 id="1modbus">1.Modbus通讯协议</h3>
+<p>Modbus(Modicon's BUS的简称)是一种串行通信协议，是Modicon公司（现在的施耐德电气Schneider Electric）于1979年为使用可编程逻辑控制器（PLC）通信而发表。是全球第一个真正用于工业现场的总线协议。Modbus已经成为工业领域通信协议的业界标准（De facto），并且现在是工业电子设备之间常用的连接方式。
+Modbus是一种应用层消息传输协议，位于OSI模型的第7层。通过此协议，控制器之间、控制器经由网络（如以太网）和其他设备之间可以通信。</p>
+<p>使用系统保留端口502访问Modbus，这也是TCP/IP协议唯一为工控系统协议保留的端口。</p>
+<p>Modbus比其他通信协议使用的更广泛的主要原因有：</p>
+<ul>
+<li>公开发表并且无版权要求</li>
+<li>易于部署和维护</li>
+<li>对供应商来说，修改移动本地的比特或字节没有很多限制</li>
+</ul>
+<p>Modbus允许多个 (大约240个) 设备连接在同一个网络上进行通信，举个例子，一个由测量温度和湿度的装置，并且将结果发送给计算机。在数据采集与监视控制系统（SCADA）中，Modbus通常用来连接监控计算机和远程终端控制系统（RTU）。</p>
+<h4 id="modbus">Modbus协议</h4>
+<p>Modbus的协议栈仅仅是在传统ISO/OSI模型的基础上对<code>数据链路层</code>和<code>应用层</code>做了定义。</p>
+<p>modbus是一种主从协议，主设备的一方向从设备的一方下达指令，从设备的一方根据指令做出反应并回复主设备，主设备可以有多个从设备。</p>
+<p>具体来说，工作人员的计算机可认为是master，而PLC之类的具体设备就是slave了。</p>
+<p>每个设备有自己的“代号”，主设备通过“代号”来找到某一个对应的设备，当然也可以使用广播的方式，代号0即为广播。</p>
+<p>modbus定义了自己的数据单元，功能码与具体的数据组成了PDU（协议数据单元 Protocol Data Unit），所谓的功能码也就是代表了主向从下达的指令是什么，这是很重要的一个知识，后面我们会具体讲功能码代指的功能，数据也就是这次指令要用到的“参数”。</p>
+<p>只有PDU并不够，我们还需要知道从设备的“代号”才能知道数据往哪发，还要想办法保证数据的完整性、一致性和可靠性。所以在PDU的基础上我们还需要添加一个地址，和一个差错校验，这就构成了ADU（Application Data Unit）。</p>
+<p>但要注意，由于三种Modbus在传输中存在差异，所以ADU，特别是校验部分会有不同。</p>
+<p><img alt="ADU和PDU" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed3/20220406115415.png" /></p>
+<p>功能码有效范围在1~255之间。其中大部分都是保留的，如128-255为异常响应保留。</p>
+<h4 id="modbus-tcp">Modbus TCP</h4>
+<p>1997年施耐德推出了基于TCP/IP的Modbus TCP。</p>
+<p>可以通过wireshark对Modbus的流量包进行抓取进而观察Modbus TCP的数据格式</p>
+<pre><code>Transaction identifier ： 事务标识符
+Protocol identifier ： 默认为0
+Length : 数据的长度
+Unit identifier ： 从机地址，因为使用了TCP/IP所以用ip地址来标识从机，所以该位可忽视，或者做进一步分发
+Function code ： modbus的功能码
+Data ：具体的数据
+</code></pre>
+<h4 id="modbus-0x5a">Modbus 0x5a</h4>
+<p>DEF CON 25 - Ics Village - Arnaud Soullié - Fun With Modbus 0x5a Nothing New Still Relevant? 
+展示过的fun with 0x5a，这个0x5a的功能码是由施耐德自己实现的非标准的功能码，该功能码实现了Modbus标准未允许的功能。在defcon中大佬为我们展示了以下几项：
+- 获取项目和PLC信息
+- 开启、停止PLC
+- 下载程序
+- 更改程序</p>
+<p><a href="https://github.com/wavestone-cdt/fun-with-modbus-0x5a">fun-with-modbus-0x5a</a>
+<a href="https://www.youtube.com/watch?v=A_B69Rifu1g">video</a>
+<a href="https://www.riskinsight-wavestone.com/2018/02/fun-with-modbus-0x5a/">Fun with Modbus 0x5A</a></p>
+<h4 id="ref">REF</h4>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/185513">工控安全入门（一）—— Modbus协议</a></li>
+<li><a href="https://www.cnblogs.com/Db2k/p/12373388.html">ModbusTCP协议解析 —— 利用Wireshark对报文逐字节进行解析详细解析Modbus所含功能码以及模拟器</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=Mzg3ODY4Nzg3OQ==&amp;mid=2247483711&amp;idx=1&amp;sn=eef542bb5fd00a659161858f2e38849e&amp;chksm=cf0ea2d7f8792bc1c92a606266a17875f08de4cdaca11508ae690c3cbd0919a9e7c70d7cc63f&amp;scene=178&amp;cur_album_id=2112949864471855104#rd">Modbus协议及其攻防</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=Mzg3ODY4Nzg3OQ==&amp;mid=2247483817&amp;idx=1&amp;sn=3e36a7409b965669510ea260216da6a6&amp;chksm=cf0ea241f8792b5740c4401ed658f5f6af94f9fb04e55389342be533c3d3493ad949688bddc7&amp;scene=178&amp;cur_album_id=2175115088809033733#rd">使用Python攻击Modbus协议</a></li>
+</ul>
+<h3 id="2siemens-s7">2.Siemens S7协议</h3>
+<p>属于第7层（应用层）的协议,用于西门子设备之间进行交换数据,通过TSAP,可加载MPI,DP,以太网等不同物理结构总线或网络上,PLC一般可以通过封装好的通讯功能块实现。</p>
+<p>S7以太网协议本身也是TCP/IP协议簇的一员，S7协议在OSI中的位置相当于将物理层和数据链路层之上的协议进行了定义，S7comm的协议栈修改程度更高，在应用层组织的数据经过COTP协议、TPKT协议的进一步处理后，最终通过TCP进行传输</p>
+<p>更多关于S7协议详细介绍见这里 <a href="https://blog.csdn.net/weixin_43158056/article/details/104298156">工控协议——S7通讯协议</a></p>
+<h3 id="21-s7comm">2.1 S7comm协议</h3>
+<p>S7comm的结构主要分为三部分：</p>
+<ul>
+<li>Header：主要是数据的描述性信息，包含长度信息，PDU参考和消息类型常量，最重要的是要表明PDU的类型</li>
+<li>Parameter：参数，随着不同类型的PDU会有不同的参数</li>
+<li>Data：数据，该数据是一个可选字段来携带数据，例如存储器值，块代码，固件数据等。</li>
+</ul>
+<p><img alt="S7comm抓包" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed3/20220321165710.png" /></p>
+<h3 id="3tpkt">3.TPKT</h3>
+<p>Transport Service ontop of the TCP，简写：TPKT，通过TCP的传输服务。介于TCP和COTP之间。属于传输服务类的协议，它为上层的COTP和下层TCP进行了过渡。功能为在COTP和TCP之间建立桥梁，其内容包含了上层协议数据包的长度。一般与COTP一起发送，当作Header段。我们常用的RDP协议（remote desktop protocol，windows的远程桌面协议）也是基于TPKT的，TPKT的默认TCP端口为102（RDP为3389）</p>
+<h3 id="4cotp">4.COTP</h3>
+<p>Connection-Oriented Transport Protocol，即面向连接的传输协议，它的传输必然是依赖于连接的，所以在传输数据前必然有类似TCP握手建立链接的操作。</p>
+<h3 id="_5">其他工控协议</h3>
+<p>IEC 60870-5-104、EtherNet/IP、Tridium Niagara Fox、Crimson V3、OMRON FINS、PCWorx、ProConOs、MELSEC-Q。按需求自行查阅资料。</p>
+<h2 id="_6">三、威胁建模</h2>
+<h3 id="_7">安全故障分析模型（物理侧）</h3>
+<p>现有的分析评价方法主要包括：故障树分析法、事件树分析法、可靠性框图法、马尔可夫分析法、GO-FLOW法、多层流模型、贝叶斯网络等。</p>
+<h4 id="fat">故障树分析法（FAT）</h4>
+<p>Fault Tree Analysis</p>
+<h4 id="eta">事件树分析法（ETA）</h4>
+<p>Event Tree Analysis</p>
+<h4 id="stamp">STAMP</h4>
+<p>System-Theoretic Accident Model and Process，系统理论模型和流程分析法</p>
+<h3 id="_8">网络安全威胁模型（信息侧）</h3>
+<p>常见的威胁建模方法：</p>
+<p>工控领域主流威胁模型：Kill Chain工控模型、ATT&amp;CK工控模型。</p>
+<h4 id="1kill-chain">1.Kill Chain工控模型</h4>
+<h4 id="2attck">2.ATT&amp;CK工控模型</h4>
+<h2 id="_9">四、威胁模式分析</h2>
+<p>主要分析要素：威胁目标对象、威胁向量、威胁影响。</p>
+<h2 id="_10">五、安全防御</h2>
+<p><img alt="工业互联网安全实施框架" src="https://cdn.jsdelivr.net/gh/TesterCC/pic_bed3/20220222142647.png" /></p>
+<h2 id="_11">六、风险评估</h2>
+<h2 id="_12">七、工控安全漏洞案例分析</h2>
+<ul>
+<li>震网攻击：通过改变PLC控制器运行命令，控制离心机异常运行，同时伪造离心机的运行数据，导致SCADA系统的故障诊断功能无法正常运行，最终损坏离心机。</li>
+<li>BlackEnergy3：在通过控制断路器切断输电线路的同时，使用DoS攻击电力服务系统。</li>
+</ul>
+<h2 id="_13">八、调查取证</h2>
+<h2 id="_14">九、攻击分析</h2>
+<p>因为工控圈信息相对封闭，所以目前公开信息最全的就是西门子（SIEMENS）公司的 PLC s7 - 300/400 启动攻击漏洞，自己实践学习这个工控协议漏洞算是相对容易的。</p>
+<p>参考复现资料：
+- <a href="https://github.com/ffffffff0x/1earn/blob/master/1earn/Security/ICS/%E5%AE%9E%E9%AA%8C/S7-300%E5%90%AF%E5%81%9C%E5%AE%9E%E9%AA%8C.md">S7-300 启停实验</a>
+- <a href="https://www.freebuf.com/articles/ics-articles/212283.html">西门子S7通信过程及重放攻击分析</a>
+- <a href="https://www.cnblogs.com/Db2k/p/12376610.html">西门子S7comm协议解析 —— 利用Wireshark对报文逐字节进行解析详细解析S7comm所含功能码以及UserData功能（path1）</a>
+- <a href="https://www.cnblogs.com/Db2k/p/12389116.html">西门子S7comm协议解析 —— 利用Wireshark对报文逐字节进行解析详细解析S7comm所含功能码以及UserData功能（path2）</a>
+- <a href="https://www.cnblogs.com/Db2k/p/12391974.html">西门子S7comm协议解析 —— 利用Wireshark对报文逐字节进行解析详细解析S7comm所含功能码以及UserData功能（path3）</a>
+- <a href="https://blog.csdn.net/weixin_43158056/article/details/104298156">工控协议——S7通讯协议</a>
+- <a href="https://github.com/dark-lbp/isf.git">Industrial Exploitation Framework</a></p>
+<h2 id="_15">十、工控安全分析</h2>
+<h3 id="_16">工控安全研究方向</h3>
+<ul>
+<li>协议分析：工控私有协议分析，挖掘通信过程中的协议安全漏洞；</li>
+<li>固件分析：分析工控设备固件系统安全，挖掘设备系统的安全漏洞；</li>
+<li>应用分析：分析具体工控设备应用程序，包括各种语言的代码审计、二进制逆向、VxWorks固件逆向等；</li>
+</ul>
+<h4 id="_17">固件分析思路</h4>
+<p>1、解压固件，获取文件系统；</p>
+<p>2、查看系统中相关组件、服务配置及敏感文件（/etc/passwd、/usr/bin、/usr/sbin等）；</p>
+<p>3、逆向分析固件文件，查看是否存在版本漏洞；</p>
+<p>4、查找固件应用目录；</p>
+<p>5、分析固件应用服务等默认配置安全问题；</p>
+<p>6、对固件应用进行反编译或者解密；</p>
+<p>7、逆向分析固件应用安全问题；</p>
+<p>8、结合实际设备进行综合性安全测试；</p>
+<p>REF: 
+- <a href="https://mp.weixin.qq.com/s?__biz=MzAwMDQwNTE5MA==&amp;mid=2650246376&amp;idx=2&amp;sn=dea2b707571fbb86078f25d4893bb13f&amp;chksm=82ea5741b59dde573117ef762296532db8a9340d59e2f0e98bec453c084855a18802bc7f2688&amp;scene=126&amp;sessionid=1664555900">【工控安全】从固件逆向看工控安全</a> - 以施耐德NOE 771固件为例进行固件逆向分析讲解
+- <a href="https://mp.weixin.qq.com/s/OS4ESfOACW9lhjxzt7B9xw">工控漏洞挖掘方法之固件逆向分析</a> - https://paper.seebug.org/613/</p>
+<h4 id="_18">固件分析工具</h4>
+<ul>
+<li>binwalk</li>
+<li>Ghrida</li>
+<li>ubi_reader</li>
+<li>yaffshiv</li>
+<li>jefferson</li>
+<li>Ida_pro</li>
+<li>jd-gui</li>
+<li>LuacGUI</li>
+</ul>
+<h2 id="_19">机构工控安全事件分析报告</h2>
+<h2 id="_20">工控攻防演示设计</h2>
+<p>实际上目前公开的西门子PLC漏洞，最好用的还是s7-300的启停攻击。</p>
+<p>Modbus的启动攻击/拒绝服务器也比较好复现。</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/248647">工控攻防演示——从外网到内网控制系统设备的入侵</a></li>
+</ul>
+<h2 id="ref_1">REF</h2>
+<ul>
+<li>工业互联网安全：架构与防御</li>
+<li>工业控制网络安全技术与实践</li>
+<li>工业控制系统网络安全实战</li>
+<li>工业互联网安全百问百答（科普向）</li>
+<li><a href="https://game.fengtaisec.com/">纵横网络靶场社区</a></li>
+<li><a href="https://plcscan.org/">灯塔实验室</a></li>
+<li><a href="https://www.yuque.com/tidesec/ics/readme">工控安全Wiki - Tide安全团队</a></li>
+<li><a href="https://www.anquanke.com/member/141205">工控安全入门系列 1-10</a></li>
+<li>公众号：湘雪尘奕（视频挺多的，入门友好，也有后续深入的内容）</li>
+<li>公众号SupCERT，工控协议标签</li>
+<li><a href="https://www.zhihu.com/question/353268896">如何入门工控安全</a></li>
+<li><a href="http://blog.nsfocus.net/ics-safety-monitoring-system/">基于智能学习与业务感知的工控安全监测体系建设</a></li>
+<li><a href="https://blog.csdn.net/qq_40229814/article/details/119762675">一种针对工控系统攻击的远程检测方案（工控系统安全）</a></li>
+<li><a href="https://blog.csdn.net/liweiminlining/article/details/86624692">工控蜜罐Conpot部署和入门指南</a></li>
+<li>Industrial Cybersecurity Efficiently monitor the cybersecurity posture of your ICS environment,2nd Edition</li>
+<li>Pentesting Industrial Control Systems：An ethical hackers guide to analyzing, compromising, mitigating and securing</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../device_sec/" class="btn btn-neutral float-left" title="路由设备安全"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../iot_sec/" class="btn btn-neutral float-right" title="物联网安全">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright © 2022</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../device_sec/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../iot_sec/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

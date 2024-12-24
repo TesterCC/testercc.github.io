@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/secdev/open_source/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Opensource 开源项目推荐 - Security Development Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Opensource \u5f00\u6e90\u9879\u76ee\u63a8\u8350";
+        var mkdocs_page_input_path = "secdev/open_source.md";
+        var mkdocs_page_url = "/secdev/open_source/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/ruby.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Security Development Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">About the Notes 关于笔记</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Development 安全研发</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../term/">相关术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sec_dev_lifecycle/">SDL 安全开发流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../scanner/">Scanner 扫描器</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../firewall/">Firewall 防火墙</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code_sec/">Code Security 代码安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../netflow_analysis/">Netflow Analysis 流量分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../log_audit/">Log Audit 日志审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cyber_range/">Cyber Range 网络靶场</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../zero_trust/">Zero Trust 零信任</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Opensource 开源项目推荐</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#github-repo">Github Repo</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#src">SRC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">业务安全</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">应急响应</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">渗透经验</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">安全工具(排名不分先后)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exppoc">EXP&amp;POC集合</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">自建靶场</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">其它工具</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#git-git-repo-wiki">Git知识库系列 Git Repo Wiki</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#blog">Blog推荐</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../skill_tree/">Skill Tree 技能树</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dev_sec_ops/">DevSecOps</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enterprise_security/">Enterprise Security 企业安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../intelligent_risk_control/">Intelligent Risk Control 智能风控</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../pentest_automation/">渗透测试自动化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../fingerprints/">指纹识别</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../anti_bot/">反爬虫/Bot</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cl_sqlmap/">源码学习之SqlMap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cl_pocsuite/">源码学习之Pocsuite3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cl_snort/">源码学习之Snort3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../cl_viper/">源码学习之Viper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../socket/">socket编程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../memory_trojan/">内存马</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/research_list/">导航列表</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/exploit/">漏洞挖掘</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/threat_intelligence/">威胁情报</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/apt/">APT</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/att%26ck/">ATT&CK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/code_audit/">代码审计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/fuzzing/">模糊测试</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/black_market/">黑产研究</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/botnet/">DDoS和Botnet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/binary_sec/">二进制安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/data_sec/">数据安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/device_sec/">路由设备安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ic_sec/">工控安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iot_sec/">物联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/5g_sec/">5g安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iov_sec/">车联网安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/cloud_sec/">云原生安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/block_chain_sec/">区块链安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/android_sec/">Android安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/browser_sec/">浏览器安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/protocol_sec/">协议安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/boofuzz/">Boofuzz</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/api_sec/">API安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/python_sec/">Python安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/js_sec/">JS安全</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/c/">C语言</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/cso/">CSO与安全负责人</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/enterprise_sec/">企业安全建设</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/classified_protection/">等级保护</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_management/sec_jd/">安全招聘</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Security Product Marketing 安全产品营销</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_operation/">安全运营</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../incident_response/traceback/">溯源反制</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CVE</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cve/cve/">CVE相关参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Pentest 渗透测试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/learn_guide/">学习参考</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/term/">Term 术语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/kali_linux/">Kali Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/brute_force/">Brute Force 暴力破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/sql_injection/">SQL Injection SQL注入</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/ddos/">DDoS 分布式拒绝服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/xss/">XSS 跨站脚本攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/re/">Reverse Engineering 逆向工程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/backdoor/">Backdoor 后门</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/capture_package/">抓包</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/crack/">破解</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_lifecycle/">网络攻击生命周期</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/log_clear/">日志清理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/report/">报告和笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/nmap/">Nmap</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/thinkphp5_rce/">ThinkPHP5 RCE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/ctf_skill/">CTF竞赛常用基本解题技巧</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/pwn/">PWN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/crypto/">Crypto</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/re/">RE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/hackthebox/">HackTheBox</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Algorithm 算法</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../algorithm/leetcode/">Leetcode</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture 架构</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/notes/">读书笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/design_pattern/">Design Pattern 设计模式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/ddd/">DDD 领域驱动设计</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/micro_services/">Micro Services 微服务</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architecture/scrum/">Scrum</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/computer_networking/">计算机网络</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/os/">OS 操作系统</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/database/">Database 数据库</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/performance_optimization/">性能优化</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rpc/">RPC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/search_engine/">搜索引擎</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/high_concurrency/">高并发</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/python/">Python</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/go/">Golang</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/c/">C</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/java/">Java</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rust/">Rust</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/perl/">Perl</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/proxy/">Proxy 代理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rabbitmq/">RabbitMQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/kafka/">Kafka</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/jwt/">JWT认证</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/big_data/">Big Data 大数据</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/regex/">Regex 正则表达式</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git/">Git</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git_flow/">Git Flow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/vim/">Vim</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/machine_learning/">机器学习</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/nlp/">自然语言处理</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/llms/">大语言模型LLMs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../machine_learning/statistical_learning/">统计学习方法笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Front-end Development 前端开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/html5/">HTML5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/css/">CSS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/js/">JavaScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/typescript/">TypeScript</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/vue/">Vue.js</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/react/">React</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/npm/">NPM</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MOOC Notes 幕课笔记</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/pku_datastructure/">数据结构与算法Python版</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mooc_notes/CS_basic/">编程必备基础知识</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Test Development 测试开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/test_management/">测试管理流程</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../testdev/performance/">性能测试</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">软考</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/ruankao/">考试相关信息</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_analyst/">高级系统分析师复习笔记</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ruankao/system_architect/">高级系统架构设计师复习笔记</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">爬虫开发</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../crawler/cookie_pool/">Cookie池设计</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DevOps</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/learn_guide/">学习指南</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/docker/">Docker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/k8s/">Kubernetes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/vm/">VM 虚拟机</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/linux/">Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/windows/">Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/sre/">SRE</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/shell/">Shell</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../devops/syslog/">syslog</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">SEO 搜索引擎优化</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/knowledge/">基本知识</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/whitehat_seo/">白帽SEO</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../seo/blackhat_seo/">黑帽SEO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview 面试</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/navigation/">Navigation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/security/">Security Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/backend/">Backend Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/ai/">AI Interview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview/qa/">QA Interview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Academic 学术</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../academic/academic/">Information 相关信息</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Math 数学</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../math/learn_guide/">学习参考</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Others</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/introduce/">简介</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/bookmark/">Bookmark</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/learning_view/">Learning View 学习观</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/law/">Law 法律</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hugo/">Hugo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/hexo/">Hexo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/english_grammar/">英语语法框架</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../todo_list/">Todo List</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Security Development Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Security Development 安全研发</li>
+      <li class="breadcrumb-item active">Opensource 开源项目推荐</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">优秀安全开源项目</h1>
+<p>基本上每天都会去Github上看看有没有新的安全类开源项目，发现的话会加入列表。</p>
+<h2 id="github-repo">Github Repo</h2>
+<ul>
+<li>
+<p><a href="https://github.com/alphaSeclab/awesome-cyber-security">awesome-cyber-security</a></p>
+</li>
+<li>
+<p><a href="https://github.com/alphaSeclab/awesome-reverse-engineering">awesome-reverse-engineering</a></p>
+</li>
+<li>
+<p><a href="https://github.com/yeyintminthuhtut/Awesome-Red-Teaming">Awesome-Red-Teaming</a></p>
+</li>
+<li>
+<p><a href="https://github.com/0xInfection/Awesome-WAF">Awesome-WAF</a></p>
+</li>
+<li>
+<p><a href="https://github.com/scusec/Data-Mining-for-Cybersecurity">Data-Mining-for-Cybersecurity</a></p>
+</li>
+</ul>
+<h2 id="src">SRC</h2>
+<p>有空我专门列一个表格，其实安全客这个SRC导航已经足够多了。</p>
+<p><a href="https://www.anquanke.com/src">SRC导航</a></p>
+<h2 id="_2">业务安全</h2>
+<p><a href="https://github.com/WalterInSH/risk-management-note">风险控制笔记</a>
+<a href="https://sec.zto.com/blog">中通SRC博客</a></p>
+<h2 id="_3">应急响应</h2>
+<p><a href="https://github.com/Bypass007/Emergency-Response-Notes">应急响应实战笔记</a></p>
+<h2 id="_4">渗透经验</h2>
+<p><a href="https://github.com/Micropoor/Micro8">Micro8_专注APT攻击与防御(可在线阅读)</a></p>
+<h2 id="_5">安全工具(排名不分先后)</h2>
+<p>个别提到的工具不开源，只提供编译后版本，即为可免费使用但非源码开源。</p>
+<p>因为最近Github上可以直接Follow组织了，以后遇到某些优质开源团队组织的开源项目会直接推荐组织。</p>
+<table>
+<thead>
+<tr>
+<th>开源地址</th>
+<th>备注</th>
+<th>开发语言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/QData/TextAttack/tree/master">TextAttack</a></td>
+<td>TextAttack 是一个用于 NLP 中对抗性攻击、数据增强和模型训练的 Python 框架</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/projectdiscovery/mapcidr">mapcidr</a></td>
+<td>简化大规模扫描操作的负载分，可作为库导入也可作为cli工具</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/projectdiscovery/nuclei">nuclei</a></td>
+<td>基于YAML语法模板的定制化快速漏洞扫描器</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/projectdiscovery/httpx">httpx</a></td>
+<td>一个快速且多用途的 HTTP 工具包</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/projectdiscovery/subfinder">subfinder</a></td>
+<td>subfinder是一个子域发现工具，它使用被动在线资源返回网站的有效子域</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/projectdiscovery/naabu">Naabu</a></td>
+<td>用Go编写的端口扫描工具，快速可靠地枚举主机的有效端口</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/splunk/attack_range">Splunk Attack Range</a></td>
+<td>由Splunk Threat Research Team维护的测试工具，建仪表化的云和本地环境、模拟攻击并将数据转发到 Splunk 实例。 然后可以使用该环境来开发和测试检测的有效性。</td>
+<td>Python etc.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/EdgeSecurityTeam/EHole">EHole</a></td>
+<td>EHole(棱洞)3.0 红队重点攻击系统指纹探测工具，命令行工具</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/seccome/Ehoney">Ehoney</a></td>
+<td>Ehoney欺骗防御系统，该系统是基于云原生的欺骗防御系统，也是业界唯一开源的对标商业系统的产品。</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://hfish.io/">HFish</a></td>
+<td>扩展企业安全测试主动诱导型开源蜜罐框架系统。未开源，只是免费可用</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://opensource.hacking8.com/">boyhack的安全开源项目</a></td>
+<td>boyhack(wNay)</td>
+<td>安全研发大佬，放这里是因为这个是开源项目集合的导航</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ehids/ecapture">eCapture 旁观者</a></td>
+<td>无需CA证书抓https网络明文通讯，支持Linux/Android内核</td>
+<td>C（97%） and Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/yogeshojha/rengine">rengine</a></td>
+<td>An automated recon framework for web applications</td>
+<td>Python JavaScript</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TophantTechnology/ARL">ARL</a></td>
+<td>ARL(Asset Reconnaissance Lighthouse)资产侦察灯塔系统, 快速侦察与目标关联的互联网资产，构建基础资产信息库。 协助甲方安全团队或者渗透测试人员有效侦察和检索资产，发现存在的薄弱点和攻击面。</td>
+<td>Python JS</td>
+</tr>
+<tr>
+<td><a href="https://github.com/knownsec/404StarLink/">404星链计划</a></td>
+<td>“404星链计划”是知道创宇404实验室于2020年8月开始的计划，旨在通过开源或者开放的方式，长期维护并推进涉及安全研究各个领域不同环节的工具化，就像星链一样，将立足于不同安全领域、不同安全环节的研究人员链接起来。</td>
+<td>wiki类</td>
+</tr>
+<tr>
+<td><a href="https://github.com/FunnyWolf/Viper">Viper</a></td>
+<td>全代码开源，Viper(炫彩蛇)是一款图形化内网渗透工具,将内网渗透过程中常用的战术及技术进行模块化及武器化</td>
+<td>Python JS C Ruby</td>
+</tr>
+<tr>
+<td><a href="https://github.com/momosecurity/bombus">bombus</a></td>
+<td>安全合规审计平台，陌陌开源的，有docker部署方案</td>
+<td>Python + Vue</td>
+</tr>
+<tr>
+<td><a href="https://github.com/momosecurity/Mloger">Mloger</a></td>
+<td>基于mitmproxy开发的安全测试平台，为陌陌安全内部mloger的开源简化版本，用于各业务线安全测试工作</td>
+<td>Python + Vue</td>
+</tr>
+<tr>
+<td><a href="https://github.com/w5teams/w5">W5 SOAR</a></td>
+<td>一款基于 Python 开发的安全编排与自动化响应平台，无需编写代码即可实现自动化响应流程。前后端都已完全开源，更多信息见<a href="https://w5.io/help/">官方文档</a></td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/shadow1ng/fscan">fscan</a></td>
+<td>一款内网综合扫描工具，方便一键自动化、全方位漏扫扫描。</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/rtcatc/Packer-Fuzzer">Packer-Fuzzer</a></td>
+<td>一款针对Webpack等前端打包工具所构造的网站进行快速、高效安全检测的扫描工具</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/knownsec/pocsuite3/">pocsuite3</a></td>
+<td>开源远端漏洞测试和PoC开发框架，知道创宇404 Team研发和维护</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/RustScan/RustScan">RustScan</a></td>
+<td>一个据说比Nmap扫描高效很多倍的扫描器</td>
+<td>Rust</td>
+</tr>
+<tr>
+<td><a href="https://github.com/joinsec/BadDNS">BadDNS</a></td>
+<td>使用公共 DNS 服务器进行多层子域名探测的极速工具</td>
+<td>Rust</td>
+</tr>
+<tr>
+<td><a href="https://github.com/lanyi1998/DNSlog-GO">DNSlog-GO</a></td>
+<td>DNSLog-GO 是一款golang编写的监控 DNS 解析记录的工具，自带WEB界面</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/BugScanTeam/DNSLog">DNSLog</a></td>
+<td>DNSLog 是四叶草安全旗下 BugscanTeam 打造的一款监控 DNS 解析记录和 HTTP 访问记录的工具</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/LoRexxar/Kunlun-M">Kunlun-M</a></td>
+<td>原名Cobra-W，源代码安全审计工具</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/EnableSecurity/wafw00f">wafw00f</a></td>
+<td>WAF指纹检测工具</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="http://www.github.com/ztosec/hunter">Hunter</a></td>
+<td>中通DevSecOps闭环方案中的一环。</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/netxfly/x-crack">x-crack</a></td>
+<td>一款弱口令扫描器</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/MiSecurity/x-patrol">x-patrol</a></td>
+<td>github泄露扫描系统</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/0Kee-Team/crawlergo">crawlergo</a></td>
+<td>动态爬虫漏扫</td>
+<td>crawlergo是360天相的子模块，未开源</td>
+</tr>
+<tr>
+<td><a href="https://github.com/chaitin/xray">xray</a></td>
+<td>安全评估工具</td>
+<td>Go，不开源</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ysrc/yulong-hids">驭龙 yulong-hids</a></td>
+<td>一款由YSRC开源的主机入侵检测系统。</td>
+<td>Go + C</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ysrc/xunfeng">巡风 xunfeng</a></td>
+<td>一款适用于企业内网的漏洞快速应急，巡航扫描系统。</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ysrc/Liudao">六道 liudao</a></td>
+<td>“六道”实时业务风控系统。</td>
+<td>Java</td>
+</tr>
+<tr>
+<td><a href="https://github.com/momosecurity/aswan">aswan</a></td>
+<td>陌陌风控系统静态规则引擎，零基础简易便捷的配置多种复杂规则，实时高效管控用户异常行为。</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/CTF-MissFeng/bayonet">bayonet</a></td>
+<td>一款src资产管理系统</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/jeffzh3ng/fuxi">Fuxi</a></td>
+<td>渗透测试平台</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/LubyRuffy/fofa">fofa</a></td>
+<td>针对全球范围的最全的网站数据信息库，推荐直接用在线的https://fofa.so/</td>
+<td>Ruby</td>
+</tr>
+<tr>
+<td><a href="https://github.com/w-digital-scanner/w13scan">w13scan</a></td>
+<td>Passive Security Scanner (被动式安全扫描器)</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/w-digital-scanner/w12scan">w12scan</a></td>
+<td>一款网络资产发现引擎，通过WEB接口下发任务，w12scan会自动将相关的资产聚合在一起方便分析使用。（w8ay的毕业设计）</td>
+<td>Python + JS</td>
+</tr>
+<tr>
+<td><a href="https://github.com/w-digital-scanner/w11scan">w11sacn</a></td>
+<td>一款分布式的WEB指纹识别系统（包括CMS识别、js框架、组件容器、代码语言、WAF等等），管理员可以在WEB端新增/修改指纹，建立批量的扫描任务，并且支持多种搜索语法。</td>
+<td>Python + JS</td>
+</tr>
+<tr>
+<td><a href="https://github.com/sqlmapproject/sqlmap">SQLMap</a></td>
+<td>SQL注入神器，算家喻户晓了</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/lijiejie/subDomainsBrute">subDomainsBrute</a></td>
+<td>子域名扫描利器</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/grayddq/GScan">GScan</a></td>
+<td>为安全应急响应人员对Linux主机排查时提供便利，实现主机侧Checklist的自动全面化检测，根据检测结果自动数据聚合，进行黑客攻击路径溯源。</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TideSec/Mars">Mars</a></td>
+<td>TideSec团队开发，挖SRC的平台</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TideSec/FuzzScanner">FuzzScanner</a></td>
+<td>TideSec团队开发，用于信息搜集的工具集</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TideSec/TideFinger">TideFinger</a></td>
+<td>TideSec团队开发，开源的指纹识别小工具</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TideSec/GoBypassAV">GoBypassAV</a></td>
+<td>TideSec团队开发，基于Go的16种API免杀测试、8种加密测试、反沙盒测试、编译混淆、加壳、资源修改等免杀技术，并搜集汇总了一些资料和工具。</td>
+<td>Go</td>
+</tr>
+<tr>
+<td><a href="https://github.com/sundowndev/phoneinfoga">phoneinfoga</a></td>
+<td>根据手机号收集情报</td>
+<td>Go</td>
+</tr>
+</tbody>
+</table>
+<p>备注：推荐安全研发小伙伴们按需认真阅读代码学习。</p>
+<h2 id="exppoc">EXP&amp;POC集合</h2>
+<p>估计2021年9月之后可能就鲜有开源持续更新的exp了吧，且收且珍惜</p>
+<table>
+<thead>
+<tr>
+<th>开源地址</th>
+<th>备注</th>
+<th>开发语言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/zhzyker/exphub">exphub</a></td>
+<td>Exphub漏洞利用脚本库</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><a href="https://github.com/r0eXpeR/redteam_vul">redteam_vul</a></td>
+<td>红队中易被攻击的一些重点系统漏洞整理</td>
+<td>只收集的url，没有直接放代码</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ybdt/exp-hub">exp-hub</a></td>
+<td>专注于漏洞复现，不含漏洞分析</td>
+<td>wiki集合，poc为主</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">自建靶场</h2>
+<table>
+<thead>
+<tr>
+<th>开源地址</th>
+<th>备注</th>
+<th>开发语言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/cfalta/adsec">Active Directory Security - 101</a></td>
+<td>一个AD安全靶场，学习域渗透环境</td>
+<td>PowerShell</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vulhub/vulhub">Vulhub</a></td>
+<td>通过 docker-compose 来构建，更新稳定</td>
+<td>Dockerfile and so on</td>
+</tr>
+<tr>
+<td><a href="https://github.com/fofapro/vulfocus">vulfocus</a></td>
+<td>Vulfocus 是一个漏洞集成平台，将漏洞环境 docker 镜像，放入即可使用，开箱即用。</td>
+<td>Python Django</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">其它工具</h2>
+<p>非安全向但有意思的开源项目记录于此。</p>
+<table>
+<thead>
+<tr>
+<th>开源地址</th>
+<th>备注</th>
+<th>开发语言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/openitsystem/anonymousmail">anonymousmail</a></td>
+<td>一个临时邮箱解决方案，它基于 postfix 和 django实现</td>
+<td>Python</td>
+</tr>
+</tbody>
+</table>
+<h2 id="git-git-repo-wiki">Git知识库系列 Git Repo Wiki</h2>
+<table>
+<thead>
+<tr>
+<th>开源地址</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/AV1080p/Hacking-With-Golang">Hacking-With-Golang</a></td>
+<td>Golang安全资源合集</td>
+</tr>
+<tr>
+<td><a href="https://github.com/alphaSeclab/awesome-reverse-engineering">alphaSeclab/awesome-reverse-engineering</a></td>
+<td>逆向学习资源</td>
+</tr>
+<tr>
+<td><a href="https://github.com/wtsxDev/reverse-engineering">wtsxDev/reverse-engineering</a></td>
+<td>英文逆向学习资源</td>
+</tr>
+</tbody>
+</table>
+<h2 id="blog">Blog推荐</h2>
+<ul>
+<li><a href="https://blog.projectdiscovery.io/">ProjectDiscovery官方blog</a></li>
+<li><a href="http://sec.lu/">netxfly的随笔</a> -- 貌似没维护了</li>
+<li><a href="https://www.leavesongs.com/">Phith0n</a> -- Web</li>
+<li><a href="https://lorexxar.cn/">lorexxar</a></li>
+<li><a href="https://cq674350529.github.io/">cq674350529's blog</a>  -- 二进制和IoT</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../zero_trust/" class="btn btn-neutral float-left" title="Zero Trust 零信任"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../skill_tree/" class="btn btn-neutral float-right" title="Skill Tree 技能树">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright © 2022</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../zero_trust/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../skill_tree/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

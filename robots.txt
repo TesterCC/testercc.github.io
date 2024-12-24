@@ -1,0 +1,25 @@
+User-agent: * 
+Allow: *
+Sitemap: https://testercc.github.io/sitemap.xml
+
+
+User-agent: wget
+Disallow:/
+
+User-agent: MJ12bot
+Disallow:/
+
+User-agent: YiSouSpider
+Disallow:/
+
+User-agent: YYSpider
+Disallow:/
+
+User-agent: YRSpider
+Disallow:/
+
+User-agent: Aboundexbot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
