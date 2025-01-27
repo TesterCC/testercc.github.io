@@ -100,6 +100,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/rootkit/">rootkit</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/bootkit/">bootkit</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
               <ul>
@@ -216,7 +220,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/dns_attack/">DNS攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilege_escalation/">Privilege Escalation 提权</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
                   </li>
@@ -330,6 +336,16 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#cargo">Cargo</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crate">crate概念</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#package">package概念</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#module">Module 模块概念</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#create-project">Create Project</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cargo_1">cargo常用命令</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#_4">推荐阅读</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#cargorust">使用Cargo的Rust项目结构</a>
@@ -488,6 +504,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_producing/">视频制作</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
@@ -565,7 +583,7 @@ info: The currently active `rustc` version is `rustc 1.52.1 (9bc8c42bb 2021-05-0
 <li>方便在线运行Rust代码</li>
 </ul>
 <h2 id="_2">书籍推荐</h2>
-<h4 id="1the-rust-programming-language">1.首推荐官方的<a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a></h4>
+<h4 id="1the-rust-programming-language">1.首推荐官方的<a href="https://doc.rust-lang.org/stable/book">The Rust Programming Language</a></h4>
 <p>如果本地已安装好rust,可以使用这个命令在本地查看官方文档：</p>
 <pre><code class="language-shell">rustup docs --book
 </code></pre>
@@ -590,6 +608,39 @@ info: The currently active `rustc` version is `rustc 1.52.1 (9bc8c42bb 2021-05-0
 编译 你的源码 和 包装箱crate。
 </code></pre>
 <p>检查Cargo是否正常安装可以用这句'cargo --version'</p>
+<h3 id="crate">crate概念</h3>
+<p>crate是组织和共享代码的基本构件块。</p>
+<ul>
+<li>binary crate：可执行的，需有main函数</li>
+<li>library crate：没有main函数，无法执行。定义一些功能，可共享使用。</li>
+</ul>
+<p>crate入口点
+- binary crate：src/main.rs
+- library crate：src/lib.rs</p>
+<h3 id="package">package概念</h3>
+<p>package是由1个或多个crates组成，包含Cargo.toml文件（描述如何构建这些crates）</p>
+<ul>
+<li>可有多个binary crates</li>
+<li>最多只能有1个library crate</li>
+<li>至少得有1个crate</li>
+</ul>
+<h3 id="module">Module 模块概念</h3>
+<p>将代码组织成更小、更易管理的单元的方法</p>
+<ul>
+<li>使用mod声明</li>
+<li>可有子模块</li>
+<li>路径 path</li>
+<li>public vs private</li>
+<li>引用 use</li>
+</ul>
+<h3 id="create-project">Create Project</h3>
+<pre><code class="language-shell">cargo new project1
+
+cargo new project_lib --lib
+</code></pre>
+<h3 id="cargo_1">cargo常用命令</h3>
+<pre><code class="language-shell">cargo doc --open  # 查看项目文档
+</code></pre>
 <h3 id="_4">推荐阅读</h3>
 <ul>
 <li><a href="https://blog.csdn.net/mint_ying/article/details/79112042">rust cargo使用</a></li>
@@ -606,21 +657,33 @@ info: The currently active `rustc` version is `rustc 1.52.1 (9bc8c42bb 2021-05-0
 <h2 id="_5">社区</h2>
 <ul>
 <li><a href="https://rustcc.cn/">Rust语言中文社区</a> -- 虽然设计十分简约，还是挺活跃的</li>
-<li><a href="https://rustcc.cn/section?id=fed6b7de-0a74-48eb-8988-1978858c9b35">Rust 招聘</a> -- 大概，目前（2020年）全国能找的大部分Rust岗位需求都在这里了吧～～～</li>
+<li><a href="https://rustcc.cn/section?id=fed6b7de-0a74-48eb-8988-1978858c9b35">Rust 招聘</a> -- 大概，目前全国能找的大部分Rust岗位需求都在这里了吧</li>
 </ul>
 <h2 id="_6">计划的学习路线</h2>
 <ol>
-<li>入门</li>
+<li>
+<p>入门</p>
+</li>
+<li>
+<p><a href="https://www.bilibili.com/video/BV1PiUSYVEB9/">Rust 编程语言教程 with RustRover</a> -- 2025，根据官方文档更新，零基础入门推荐。https://doc.rust-lang.org/stable/book/</p>
+</li>
 </ol>
-<p>《The Rust Programming Language》，中文出版物是《Rust权威指南》。
-强烈推荐配合 <a href="https://www.bilibili.com/video/BV1xJ411B79h">B站 令狐一冲</a> 的讲解视频。（从入门到进阶到网络编程到异步， 而且也参考Rust死灵书做了视频）</p>
+<p>-《The Rust Programming Language》，中文出版物是《Rust权威指南》。</p>
+<ul>
+<li>
+<p><a href="https://opencamp.ai/Rust/camp/S01">Rust Beginners Learning Camp (Data Structures and Algorithms)</a> -- 新开课程，前期打基础，后面会讲数据结构和算法。</p>
+</li>
+<li>
+<p>推荐配合 <a href="https://www.bilibili.com/video/BV1xJ411B79h">B站 令狐一冲</a> 的讲解视频。（从入门到进阶到网络编程到异步， 而且也参考Rust死灵书做了视频）</p>
+</li>
+</ul>
 <p>或者找点其他教程，主要是熟悉语法。</p>
 <ol>
 <li>
 <p>进阶</p>
 </li>
 <li>
-<p><a href="https://www.zero2prod.com/index.html">Zero To Production In Rust An introduction to backend development</a> - 内容不错，推荐看看</p>
+<p><a href="https://www.zero2prod.com/index.html">Zero To Production In Rust An introduction to backend development</a> - 内容不错，推荐看看，已有中文版《从零构建Rust生产级服务》。</p>
 </li>
 <li>该书源码<a href="https://github.com/lukemathwalker/zero-to-production">zero-to-production</a></li>
 </ol>

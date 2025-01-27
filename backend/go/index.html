@@ -100,6 +100,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/rootkit/">rootkit</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/bootkit/">bootkit</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
               <ul>
@@ -216,7 +220,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/dns_attack/">DNS攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilege_escalation/">Privilege Escalation 提权</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
                   </li>
@@ -305,6 +311,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#go">Go语言开发环境配置</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#_1">安装</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gorootgopath">GOROOT和GOPATH</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#go-proxy">go proxy设置</a>
     </li>
@@ -536,6 +544,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_producing/">视频制作</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
@@ -595,7 +605,6 @@ wget https://studygolang.com/dl/golang/go1.16.6.linux-amd64.tar.gz
 wget https://studygolang.com/dl/golang/go1.17.linux-amd64.tar.gz
 
 
-
 已安装过go的:
 sudo rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
 
@@ -606,17 +615,32 @@ sudo tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
 
 而配置环境变量
 vim ~/.zshrc
-export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/go/bin   # $PATH 表示把之前已有的PATH都引用，在此基础上增加一条路径
 export GO111MODULE=on   # 可选,默认不设置为auto
 保存退出并用 source ~/.zshrc 激活
 
 验证安装
 go version
 </code></pre>
+<h3 id="gorootgopath">GOROOT和GOPATH</h3>
+<p>两者互相对立。</p>
+<ul>
+<li>GOROOT：Go安装目录</li>
+<li>GOPATH：第三方库默认安装目录</li>
+</ul>
+<p>查看方式：</p>
+<pre><code class="language-shell">go env GOROOT
+go env GOPATH
+</code></pre>
 <h3 id="go-proxy">go proxy设置</h3>
 <p>不设置的话因为众所周知的网络原因，go get Github上的第三方库可能失败。</p>
-<pre><code class="language-shell">go env -w GO111MODULE=on
+<p>https://goproxy.io,direct   # 这个也可以
+https://goproxy.cn,direct</p>
+<pre><code class="language-shell">go env -w GO111MODULE=on     # -w 表示写入 
 go env -w GOPROXY=https://goproxy.cn,direct
+
+# 查看
+go env GOPROXY
 </code></pre>
 <h2 id="go_1">Go开发基础知识</h2>
 <h3 id="goroutine">goroutine(协程)基本模型和调度设计策略</h3>

@@ -100,6 +100,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/rootkit/">rootkit</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/bootkit/">bootkit</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
               <ul>
@@ -216,7 +220,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/dns_attack/">DNS攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilege_escalation/">Privilege Escalation 提权</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
                   </li>
@@ -354,6 +360,8 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#environment">Environment</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tips">Tips</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#ref">REF</a>
     </li>
     </ul>
@@ -458,6 +466,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_producing/">视频制作</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
@@ -512,12 +522,24 @@ npm list -g --depth 0 //查看全局安装过的包
 tsc -v   // 检查typescript的安装 
 Version 5.7.2
 </code></pre>
+<p>3.优化typescript调试方法</p>
+<pre><code>npm install ts-node -g --registry https://registry.npmmirror.com
+
+打开项目目录，通过npm init -y生成项目json
+安装声明文件：npm i @types/node -D --registry https://registry.npmmirror.com
+安装完成后，系统可以使用`ts-node`命令
+优化后的调试方法: ts-node index.ts  // 运行后就能看到输出
+</code></pre>
+<h2 id="tips">Tips</h2>
+<pre><code>unknown类型比any类型安全
+
+</code></pre>
 <h2 id="ref">REF</h2>
 <ul>
 <li><a href="https://www.typescriptlang.org/docs/">TypeScript Documentation</a></li>
 <li><a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html">为 JavaScript 程序员准备的 TypeScript</a></li>
 <li><a href="https://www.typescriptlang.org/zh/docs/handbook/typescript-from-scratch.html">面向编程初学者的 TypeScript</a></li>
-<li><a href="https://www.bilibili.com/video/BV1wR4y1377K/">小满TypeScript基础教程全集（完结）</a></li>
+<li><a href="https://www.bilibili.com/video/BV1wR4y1377K/">小满TypeScript基础教程全集（完结）</a> -- 学习TS语法可参考</li>
 <li><a href="https://blog.csdn.net/qq1195566313/article/details/122167155">学习TypeScrip1（基础类型）</a></li>
 </ul>
               

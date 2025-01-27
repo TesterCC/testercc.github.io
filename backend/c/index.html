@@ -100,6 +100,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/rootkit/">rootkit</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/bootkit/">bootkit</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
               <ul>
@@ -216,7 +220,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/dns_attack/">DNS攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilege_escalation/">Privilege Escalation 提权</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
                   </li>
@@ -304,15 +310,23 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">C</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">学习推荐</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#book">book</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#video">video</a>
+    </li>
+        </ul>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#ide">IDE</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#visual-studio">Visual Studio</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#_1">最新版本</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_2">最新版本</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_2">利用最新版本在线安装包下载离线完整安装包</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">利用最新版本在线安装包下载离线完整安装包</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_3">历史版本</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">历史版本</a>
     </li>
         </ul>
     </li>
@@ -470,6 +484,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_producing/">视频制作</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
@@ -512,19 +528,33 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="c-notes">C Notes</h1>
+<p>不是底层和嵌入式开发，是C不是必学的，但是这是二进制逆向的基本功之一，绕不卡要学的。</p>
+<h2 id="_1">学习推荐</h2>
+<h3 id="book">book</h3>
+<ol>
+<li>Learn C the Hard Way 笨办法学C</li>
+<li>The C Programming Language C语言程序设计第2版 K&amp;R 另有一本解答版也有中文版</li>
+</ol>
+<h3 id="video">video</h3>
+<ol>
+<li><a href="https://www.bilibili.com/video/BV1KW411o7QF?p=13">learn c the hard way - 中文字幕配套视频</a> -- 0基础入门，MacOS C</li>
+<li><a href="https://www.bilibili.com/video/BV1zh4y1H7JA">实用C 语言教程</a> -- Linux C，也是根据1做的，如果看完1课略过。需要一定编程基础的快速入门</li>
+<li><a href="https://www.bilibili.com/video/BV1ZPbcecEug/">【极安御信】二进制安全 | PC逆向 C++基础系列课程 163集</a> -- Windows C, 二进制基础，对新手比较友好</li>
+<li><a href="https://www.bilibili.com/video/BV1Zv411A7oz">极安御信C&amp;汇编训练营（第零期直播）</a> -- 和3对比下，内容可能有重复，优先学3</li>
+</ol>
 <h2 id="ide">IDE</h2>
 <h3 id="visual-studio">Visual Studio</h3>
-<p>除非有key，不然默认选择community版</p>
-<h4 id="_1">最新版本</h4>
+<p>除非有key，不然默认选择community版，Windows C开发首选</p>
+<h4 id="_2">最新版本</h4>
 <p>默认下载的是联网安装包</p>
 <pre><code>https://visualstudio.microsoft.com/zh-hans/vs/
 </code></pre>
-<h4 id="_2">利用最新版本在线安装包下载离线完整安装包</h4>
+<h4 id="_3">利用最新版本在线安装包下载离线完整安装包</h4>
 <pre><code>打开CMD，进入在线安装VisualStudioSetup.exe所在目录E:\win10software\visualstudio，新建目录complete。
 执行如下命令：
 E:\win10software\visualstudio&gt; VisualStudioSetup.exe --layout E:\win10software\visualstudio\complete --all --includeRecommended --includeOptional --lang zh-CN
 </code></pre>
-<h4 id="_3">历史版本</h4>
+<h4 id="_4">历史版本</h4>
 <p>PS:会被强制跳转页面</p>
 <pre><code>https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/
 </code></pre>

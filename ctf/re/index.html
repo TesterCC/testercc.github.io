@@ -100,6 +100,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/rootkit/">rootkit</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/bootkit/">bootkit</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
               <ul>
@@ -216,7 +220,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/dns_attack/">DNS攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilege_escalation/">Privilege Escalation 提权</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
                   </li>
@@ -262,6 +268,26 @@
     <li class="toctree-l3"><a class="reference internal" href="#ollydbg">OllyDbg快捷键</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hellochello">hello.c到可执行文件的hello的过程</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">简单操作</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cs">通过.c输出.s</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">常用工具</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#objdump">objdump</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#elf-analysis-tool">ELF Analysis Tool</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gdb">GDB</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ref">REF</a>
     </li>
     </ul>
                   </li>
@@ -462,6 +488,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_producing/">视频制作</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
@@ -518,6 +546,160 @@
 - F2下断点
 - F9运行程序
 - Ctrl+F2重新运行</p>
+<h2 id="hellochello">hello.c到可执行文件的hello的过程</h2>
+<pre><code>hello.c -&gt; 预处理 hello.i -&gt; 编译 hello.s -&gt; 汇编 hello.o -&gt; 链接 -&gt; hello(binary excutable file)
+</code></pre>
+<p>要详细了解看CSAPP</p>
+<p>如下图所示：
+<img alt="c2elf" src="../../img/ctf/c2elf.png" /></p>
+<h2 id="_2">简单操作</h2>
+<p>lunc.c</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+  int p = 5;
+
+  printf(&quot;%p\n&quot;, &amp;p);
+  return 0;
+}
+</code></pre>
+<h3 id="cs">通过.c输出.s</h3>
+<p>1.看编译后的汇编代码:</p>
+<p><code>gcc -S -o luna.s luna.c</code>
+<code>cat luna.s</code></p>
+<p>输出：</p>
+<pre><code>    .section    __TEXT,__text,regular,pure_instructions
+    .build_version macos, 15, 0 sdk_version 15, 2
+    .globl  _main                           ; -- Begin function main
+    .p2align    2
+_main:                                  ; @main
+    .cfi_startproc
+; %bb.0:
+    sub sp, sp, #48
+    stp x29, x30, [sp, #32]             ; 16-byte Folded Spill
+    add x29, sp, #32
+    .cfi_def_cfa w29, 16
+    .cfi_offset w30, -8
+    .cfi_offset w29, -16
+    mov w8, #0                          ; =0x0
+    stur    w8, [x29, #-12]                 ; 4-byte Folded Spill
+    stur    wzr, [x29, #-4]
+    sub x8, x29, #8
+    mov w9, #5                          ; =0x5
+    stur    w9, [x29, #-8]
+    mov x9, sp
+    str x8, [x9]
+    adrp    x0, l_.str@PAGE
+    add x0, x0, l_.str@PAGEOFF
+    bl  _printf
+    ldur    w0, [x29, #-12]                 ; 4-byte Folded Reload
+    ldp x29, x30, [sp, #32]             ; 16-byte Folded Reload
+    add sp, sp, #48
+    ret
+    .cfi_endproc
+                                        ; -- End function
+    .section    __TEXT,__cstring,cstring_literals
+l_.str:                                 ; @.str
+    .asciz  &quot;%p\n&quot;
+
+.subsections_via_symbols
+</code></pre>
+<p>2.看汇编后的文件</p>
+<pre><code>gcc -c -o luna.o luna.c
+
+objdump -s luna.o
+</code></pre>
+<p>输出：.o文件中是机器码（全是0和1）</p>
+<pre><code>luna.o: file format mach-o arm64
+Contents of section __TEXT,__text:
+ 0000 ffc300d1 fd7b02a9 fd830091 08008052  .....{.........R
+ 0010 a8431fb8 bfc31fb8 a82300d1 a9008052  .C.......#.....R
+ 0020 a9831fb8 e9030091 280100f9 00000090  ........(.......
+ 0030 00000091 00000094 a0435fb8 fd7b42a9  .........C_..{B.
+ 0040 ffc30091 c0035fd6                    ......_.
+Contents of section __TEXT,__cstring:
+ 0048 25700a00                             %p..
+Contents of section __LD,__compact_unwind:
+ 0050 00000000 00000000 48000000 00000004  ........H.......
+ 0060 00000000 00000000 00000000 00000000  ................
+</code></pre>
+<p>3.链接</p>
+<pre><code>gcc -o luna luna.o -lm
+./luna
+</code></pre>
+<h2 id="_3">常用工具</h2>
+<h3 id="objdump">objdump</h3>
+<pre><code>使用说明
+objdump --help
+</code></pre>
+<pre><code>打印基本信息
+objdump -f ./luna
+./luna: file format mach-o arm64
+</code></pre>
+<pre><code>打印可执行文件的基本汇编
+
+objdump -d luna2 &gt; luna2.o
+
+cat luna2.o
+
+luna2:  file format mach-o arm64
+
+Disassembly of section __TEXT,__text:
+
+0000000100003f50 &lt;_main&gt;:
+100003f50: d100c3ff     sub sp, sp, #0x30
+100003f54: a9027bfd     stp x29, x30, [sp, #0x20]
+...
+Disassembly of section __TEXT,__stubs:
+
+0000000100003f98 &lt;__stubs&gt;:
+100003f98: b0000010     adrp    x16, 0x100004000 &lt;_printf+0x100004000&gt;
+100003f9c: f9400210     ldr x16, [x16]
+100003fa0: d61f0200     br  x16
+</code></pre>
+<pre><code>打印可执行文件的汇编代码
+luna为可执行文件名称
+
+objdump -h luna
+
+-h 表示显示文件的段头信息。段头信息包括文件中的各个段（section）的名称、大小、起始地址等。
+
+luna:   file format mach-o arm64
+
+Sections:
+Idx Name          Size     VMA              Type
+  0 __text        00000048 0000000100003f50 TEXT
+  1 __stubs       0000000c 0000000100003f98 TEXT
+  2 __cstring     00000004 0000000100003fa4 DATA
+  3 __unwind_info 00000058 0000000100003fa8 DATA
+  4 __got         00000008 0000000100004000 DATA
+</code></pre>
+<h3 id="elf-analysis-tool">ELF Analysis Tool</h3>
+<ul>
+<li>checksec: https://github.com/slimm609/checksec</li>
+<li>readelf</li>
+<li>strings</li>
+<li>objdump</li>
+</ul>
+<h3 id="gdb">GDB</h3>
+<p>linux下一把是gdb，但macos下一般是用lldb。</p>
+<pre><code>b main    # break main,到main函数下断点
+r         # 运行程序
+i r       # 打印所有寄存器（register） lldb没有
+disas     # disassemble
+</code></pre>
+<p>gdb现实优化可以用 gef （github.com搜）</p>
+<p>其他工具：
+- IDA Pro:强大但是收费
+- Ghidra：可以免费用</p>
+<h2 id="ref">REF</h2>
+<ul>
+<li><a href="https://www.bilibili.com/video/BV1EJ4m1h7dh/">逆向工程快速入门</a> -- 还不错，内容不算太深也不算太浅。5:46正片开始</li>
+<li>CMU的CSAPP课程</li>
+<li>https://0xinfection.github.io/reversing/</li>
+<li>https://ctf-wiki.org/en/</li>
+<li>逆向入门推荐：Rootkit Arsenal: Escape and Evasion in the Dark Corners of the System这本书，国内译名是rootkit:系统灰色地带的隐匿者，自己就说因为这本书跌入了windows内核还有驱动开发的大坑里</li>
+</ul>
               
             </div>
           </div><footer>

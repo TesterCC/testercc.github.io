@@ -100,6 +100,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../secdev/memory_trojan/">内存马</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/rootkit/">rootkit</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../secdev/bootkit/">bootkit</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
               <ul>
@@ -216,7 +220,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/csrf/">CSRF 跨站请求伪造</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilge_escalation/">Privilge Escalation 提权</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/dns_attack/">DNS攻击</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/privilege_escalation/">Privilege Escalation 提权</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/reverse_shell/">Reverse Shell 反弹Shell</a>
                   </li>
@@ -293,8 +299,18 @@
     <li class="toctree-l2"><a class="reference internal" href="#_2">数据库安装</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#redis-install">Redis Install</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#docker">Docker</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#macos">MacOS</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#centos">CentOS</a>
     </li>
         </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#redis">Redis管理工具</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#_3">差异问题</a>
         <ul>
@@ -307,14 +323,26 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#mysql">Mysql</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">安装</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">本地安装</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#redis">Redis</a>
+    <li class="toctree-l4"><a class="reference internal" href="#docker_1">Docker安装</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">常用命令</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#redis_1">Redis</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#1-ubunturedis">1. Ubuntu安装redis</a>
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#apt">apt安装</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_4">手动安装 （不推荐）</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">手动安装 （不推荐）</a>
     </li>
         </ul>
     </li>
@@ -330,63 +358,75 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#redis_1">Redis主从复制</a>
+    <li class="toctree-l3"><a class="reference internal" href="#redis_2">Redis主从复制</a>
     </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#mongodb_1">MongoDB</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install">Install</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">本地安装</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#docker_2">Docker安装</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#dockermongodb">Docker安装MongoDB后设置用户名和密码</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_2">MongoDB常用命令</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#mongodb-crud">MongoDB CRUD</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#mongodb-statistics">MongoDB statistics</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#mongodb-index">MongoDB Index</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#mongodb_2">MongoDB批量插入测试数据</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_3">MongoDB批量插入测试数据</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_5">索引原理</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">索引原理</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_6">增加升序索引</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">增加升序索引</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_7">查询索引</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">查询索引</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_8">删除索引</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_12">删除索引</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#mongodb_3">MongoDB索引类型</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_4">MongoDB索引类型</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#mongodb_4">MongoDB查询计划</a>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_5">MongoDB查询计划</a>
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#explain">explain()的三种显示方法</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_9">结果分析</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_13">结果分析</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#mongodb_5">MongoDB慢查询</a>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_6">MongoDB慢查询</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#_10">开启和关闭慢查询</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_14">开启和关闭慢查询</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_11">如何找到慢查询</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_15">如何找到慢查询</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_12">慢查询分析</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_16">慢查询分析</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#mongodb_6">MongoDB设置用户权限</a>
+    <li class="toctree-l3"><a class="reference internal" href="#mongodb_7">MongoDB设置用户权限</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#mongodb_7">MongoDB用密码登录</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_8">MongoDB用密码登录</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#mongodb_8">MongoDB用户管理</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_9">MongoDB用户管理</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#mongodbmongo-shell">MongoDB不进入mongo shell设置用户权限的方式</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#mongodb_9">MongoDB备份和恢复数据操作</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_10">MongoDB备份和恢复数据操作</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#mongobd">MongoBD删除数据库</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#mongodb_10">MongoDB常用内置角色</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mongodb_11">MongoDB常用内置角色</a>
     </li>
         </ul>
     </li>
@@ -396,11 +436,11 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#postgresql">PostgreSQL</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_13">其他问题</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_17">其他问题</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#_14">关系型数据库数据搜索缺点</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_18">关系型数据库数据搜索缺点</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_15">如何对数据库进行优化</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_19">如何对数据库进行优化</a>
     </li>
         </ul>
     </li>
@@ -568,6 +608,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/video_download/">Video Download 视频下载</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../others/video_producing/">视频制作</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/reading_radar/">Reading Radar 读书雷达</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../others/foreign_language/">Foreign Language 外语</a>
@@ -613,6 +655,63 @@
 <h2 id="_2">数据库安装</h2>
 <p>不同的数据库在不同系统中安装部署方式可能会不同，这里简单做下记录。</p>
 <h3 id="redis-install">Redis Install</h3>
+<h4 id="docker">Docker</h4>
+<p>redis docker使用参考：https://hub.docker.com/_/redis</p>
+<pre><code class="language-shell">docker pull redis:7.4.1
+
+docker images
+
+REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
+mysql                    8.4.3     27efc117602e   2 months ago   601MB
+redis                    7.4.1     c8ac0a9bed1d   3 months ago   140MB
+</code></pre>
+<p>如果想自定义redis.conf启动容器
+Create your own Dockerfile that adds a redis.conf from the context into /data/, like so.</p>
+<p>方法1:</p>
+<pre><code class="language-dockerfile">FROM redis
+COPY redis.conf /usr/local/etc/redis/redis.conf
+CMD [ &quot;redis-server&quot;, &quot;/usr/local/etc/redis/redis.conf&quot; ]
+</code></pre>
+<p>方法2:</p>
+<pre><code class="language-shell">docker run -v /myredis/conf:/usr/local/etc/redis --name myredis redis redis-server /usr/local/etc/redis/redis.conf
+</code></pre>
+<p>方法3:设置临时的系统环境变量
+export REDIS_PASSWORD='abc123'     # 仅在当前终端生效</p>
+<pre><code class="language-shell">docker run -d \
+  --name redis741auth \
+  -p 6379:6379 \
+  -e REDIS_PASS=$REDIS_PASSWORD \
+  redis:7.4.1 \
+  redis-server --requirepass $REDIS_PASSWORD --port 6379
+</code></pre>
+<p>用该命令进入容器 <code>docker exec -it redis741auth bash</code>
+这里注意上面-e设置REDIS_PASS是在容器内生效，在容器内执行语句<code>root@d4acfcd3d3f5:/data# echo $REDIS_PASS</code>，可证明这个结论。</p>
+<p>$REDIS_PASSWORD则是在终端中临时生效的存储密码的环境变量。</p>
+<h4 id="macos">MacOS</h4>
+<p>参考官方建议使用brew安装：https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/</p>
+<pre><code class="language-shell">brew --version
+brew install redis
+
+可能的输出：
+==&gt; Caveats
+To start redis now and restart at login:
+  brew services start redis
+Or, if you don't want/need a background service you can just run:
+  /opt/homebrew/opt/redis/bin/redis-server /opt/homebrew/etc/redis.conf
+==&gt; Summary
+/opt/homebrew/Cellar/redis/7.2.6: 15 files, 2.4MB
+
+检查版本号： 
+/opt/homebrew/opt/redis/bin/redis-server -v
+Redis server v=7.2.6
+
+默认配置文件位置：cat /opt/homebrew/etc/redis.conf
+
+可以看出 /opt/homebrew/opt/redis/bin/ 就是相关工具路径，可以添加
+export PATH=&quot;$PATH:/opt/homebrew/opt/redis/bin
+到～/.zshrc
+</code></pre>
+<h4 id="centos">CentOS</h4>
 <ul>
 <li>official docs: https://redis.io/docs/data-types/</li>
 <li>official download: http://download.redis.io/releases/</li>
@@ -684,6 +783,8 @@ autorestart=true
 startsecs=5
 startretries=500
 </code></pre>
+<h2 id="redis">Redis管理工具</h2>
+<p>以前是用redis-cli，现在推荐官方免费的图形化工具<code>Redis Insight</code></p>
 <h2 id="_3">差异问题</h2>
 <p>面试中涉及的一些数据库问题。</p>
 <h3 id="mongodbbb">MongoDB是B树还是B+树</h3>
@@ -702,6 +803,45 @@ startretries=500
 <p>因为 B+ 树只有叶节点会存储数据，将树中的每一个叶节点通过指针连接起来就能实现顺序遍历，而遍历数据在关系型数据库中非常常见，它经常需要处理各个表之间的关系并通过范围查询一些数据，所以这么选择是完全没有问题的。</p>
 <p>ref: <a href="https://draveness.me/whys-the-design-mysql-b-plus-tree/">为什么 MySQL 使用 B+ 树</a></p>
 <h2 id="mysql">Mysql</h2>
+<h3 id="_4">安装</h3>
+<h4 id="_5">本地安装</h4>
+<p>macos和windows都可以直接去官网下载安装包</p>
+<pre><code>macos安装流程参见这个视频：https://www.bilibili.com/video/BV1Ki421a7xL
+</code></pre>
+<h4 id="docker_1">Docker安装</h4>
+<p>启动参数设置参考：https://hub.docker.com/_/mysql</p>
+<pre><code>docker pull mysql:8.4.3
+
+docker run --name mysql843 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=PenTest123 -d mysql:8.4.3
+
+export TMP_PASSWORD=&quot;abc123&quot;
+
+docker run --name mysql843 \
+  -e MYSQL_ROOT_PASSWORD=$TMP_PASSWORD \
+  -v /Users/seccodecat/Development/docker_data/mysql/data:/var/lib/mysql \
+  -v /Users/seccodecat/Development/docker_data/mysql/my.cnf:/etc/mysql/my.cnf \
+  -v /Users/seccodecat/Development/docker_data/mysql/log:/var/log/mysql \
+  -p 3306:3306 \
+  -d mysql:8.4.3
+</code></pre>
+<p>如果docker不能通过远程访问，则需要检查内部配置：</p>
+<pre><code>docker exec -it mysql843 bash
+进入容器内，mysql -uroot -p abc123
+
+然后执行命令：
+修改user表中的Host:
+update user set host='%' where user='root'; 　　
+说明： % 代表任意的客户端,可替换成具体IP地址。
+
+修改 root 用户密码: 修改密码为 root 不用修改密码的话可略过这一步操作
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+
+最后刷新：
+flush privileges;
+
+然后就可以使用 其他客户端口连接mysql-server
+</code></pre>
+<h3 id="_6">常用命令</h3>
 <p>简单记录各中数据库常用crud命令。</p>
 <p>默认端口：<code>3306</code></p>
 <ul>
@@ -777,14 +917,14 @@ SELECT * FROM mysql.`innodb_index_stats` a WHERE a.`database_name` = '数据库�
 <pre><code class="language-shell">mysql -u blog_service &lt; blog_service.sql
 </code></pre>
 <p>当然，也可以用Navicat等图形化工具导入xxx.sql文件。但要注意Navicat导入数据库前要先创建一个同名空数据库，然后再运行sql文件。</p>
-<h2 id="redis">Redis</h2>
+<h2 id="redis_1">Redis</h2>
 <p>默认端口：<code>6379</code></p>
 <p>能系统安装就不要自己手动装了。</p>
 <h3 id="1-ubunturedis">1. Ubuntu安装redis</h3>
 <h4 id="apt">apt安装</h4>
 <pre><code>sudo apt-get install redis-server
 </code></pre>
-<h4 id="_4">手动安装 （不推荐）</h4>
+<h4 id="_7">手动安装 （不推荐）</h4>
 <p>(详见此文)[https://jingyan.baidu.com/article/00a07f38173cea82d028dc24.html]</p>
 <pre><code>下载：wget http://download.redis.io/releases/redis-3.0.6.tar.gz
 
@@ -917,9 +1057,82 @@ fi
 <pre><code>echo &quot;net.core.somaxconn = 511&quot; &gt;&gt; /etc/sysctl.conf
 sysctl -p
 </code></pre>
-<h3 id="redis_1">Redis主从复制</h3>
+<h3 id="redis_2">Redis主从复制</h3>
 <p><a href="https://www.iteye.com/blog/iluoxuan-1939870">redis的主从复制</a></p>
 <h2 id="mongodb_1">MongoDB</h2>
+<h3 id="install">Install</h3>
+<h4 id="_8">本地安装</h4>
+<p>MacOS/Linux，从官网下载对应版本的tgz包。解压，配置环境变量后可用。参考：https://www.cnblogs.com/x-kq/p/17945902</p>
+<p>MacOS还可以用brew安装，可参考：https://www.mongodb.com/zh-cn/docs/manual/tutorial/install-mongodb-on-os-x/</p>
+<p>因为mongodump和mongo等工具默认不在高版本mongodb-community-server的安装包中，需要另外下载一个包。</p>
+<p>https://www.mongodb.com/try/download/database-tools  MongoDB Command Line Database Tools Download 和 MongoDB Shell Download</p>
+<p>这些工具的路径也需要加入环境变量，以便在命令行终端使用。配置方式参考：https://www.cnblogs.com/x-kq/p/17945902</p>
+<p>配置好后的检查：</p>
+<pre><code class="language-shell">mongod --version
+db version v8.0.4
+</code></pre>
+<p>前台启动运行命令（方便快速测试）：</p>
+<pre><code class="language-shell">mongod --dbpath /opt/mongodb/data --logpath /opt/mongodb/log/mongod.log --logappend
+</code></pre>
+<p>后台启动运行命令：</p>
+<pre><code class="language-shell">mongod --dbpath /opt/mongodb/data --logpath /opt/mongodb/log/mongod.log --logappend --fork
+</code></pre>
+<h4 id="docker_2">Docker安装</h4>
+<p>参考：https://www.mongodb.com/zh-cn/docs/manual/tutorial/install-mongodb-community-with-docker/</p>
+<pre><code class="language-shell">1 拉取 MongoDB Docker 映像
+docker pull mongodb/mongodb-community-server:latest
+
+2 将映像作为 container 运行
+docker run --name mongodb -p 27017:27017 -d mongodb/mongodb-community-server:latest
+
+此命令中的 -p 27017:27017 会将容器端口映射到主机端口。这样即可使用一个 localhost:27017 连接字符串连接到 MongoDB。
+
+要安装特定版本的 MongoDB，请在 Docker run 命令中的 : 后面指定版本。Docker 会拉取并运行指定的版本。
+
+例如，要运行 MongoDB 5.0，请执行以下操作：
+
+docker run --name mongodb -p 27017:27017 -d mongodb/mongodb-community-server:5.0-ubuntu2004
+
+这个应该是做副本集的操作
+
+以 mongod --replSet Docker 命令行选项为例：
+
+docker run -p 27017:27017 -d mongodb/mongodb-community-server:latest --name mongodb --replSet myReplicaSet
+
+</code></pre>
+<h4 id="dockermongodb">Docker安装MongoDB后设置用户名和密码</h4>
+<pre><code>0.拉取镜像：
+docker pull mongodb/mongodb-community-server:7.0.7-ubuntu2204
+
+1.构建容器：docker run --name mongodb707 -p 27017:27017 -d mongodb/mongodb-community-server:7.0.7-ubuntu2204 --auth
+
+优化：为了方便调试，这里其实更推荐把重要目录映射到本地
+准备映射目录:
+数据文件：/Users/seccodecat/Development/docker_data/mongodb/data
+日志文件：/Users/seccodecat/Development/docker_data/mongodb/log
+
+部署命令：
+docker run --name mongodb707auth -p 27017:27017 -v /Users/seccodecat/Development/docker_data/mongodb/data:/data/db -v /Users/seccodecat/Development/docker_data/mongodb/log:/data/log -d mongodb/mongodb-community-server:7.0.7-ubuntu2204 --auth
+
+
+2.进入容器内设置：
+docker exec -it mongodb707auth mongosh admin
+
+# 这个是进入容器内的admin collection；
+
+3.创建一个用户名为 admin，密码为 abc123 的用户。
+&gt;  db.createUser({ user:'admin',pwd:'abc123',roles:[ { role:'userAdminAnyDatabase', db: 'admin'},&quot;readWriteAnyDatabase&quot;]});
+
+命令执行成功会回显：{ ok: 1 }
+
+4.尝试使用上面创建的用户信息进行连接。
+&gt; db.auth('admin', 'abc123')            
+&gt; show dbs;
+&gt; exit;
+
+5.可以用mongosh、MongoDBCompass等工具来测试验证
+</code></pre>
+<h3 id="mongodb_2">MongoDB常用命令</h3>
 <p>默认端口：<code>27017</code></p>
 <p>常用命令：</p>
 <pre><code>1.检查mongod启动没有
@@ -941,8 +1154,9 @@ use test
 db.one.drop()
 
 # insert single data
-db.one.save({&quot;name&quot;:&quot;Alan&quot;,&quot;age&quot;:42})    # 5+
+db.one.save({&quot;name&quot;:&quot;Alan&quot;,&quot;age&quot;:42})    # 5.0+
 db.one.insert({&quot;name&quot;:&quot;Bob&quot;,&quot;age&quot;:38})   # 4.4
+db.one.insertOne({&quot;name&quot;:&quot;Alan&quot;,&quot;age&quot;:42}) # 7.0+
 
 # insert many
 db.one.insertMany([{&quot;name&quot;:&quot;Claire&quot;,&quot;age&quot;:33},{&quot;name&quot;:&quot;David&quot;,&quot;age&quot;:29}, {&quot;name&quot;:&quot;Eric&quot;,&quot;age&quot;:26}])
@@ -1002,12 +1216,12 @@ db.three.aggregate([{'$group':{_id:'$class','min_score':{'$min':'$score'}}}])
 </code></pre>
 <h3 id="mongodb-index">MongoDB Index</h3>
 <p>索引的作用：提高检索速度</p>
-<h4 id="mongodb_2">MongoDB批量插入测试数据</h4>
+<h4 id="mongodb_3">MongoDB批量插入测试数据</h4>
 <pre><code>for (var i=1; i &lt;= 10000; i++) db.four.insert({num:i,name:'a'})
 
 db.four.find().limit(10)
 </code></pre>
-<h4 id="_5">索引原理</h4>
+<h4 id="_9">索引原理</h4>
 <ul>
 <li>B+树索引</li>
 <li>为什么索引能提高MongoDB的查询速度？</li>
@@ -1025,7 +1239,7 @@ db.four.find().limit(10)
 需要注意的是，索引的设计和使用需要根据实际业务需求和数据特点进行优化和调整，不当的索引设计和使用可能会降低查询效率，甚至造成性能问题。
 因此，在使用索引时，需要仔细考虑索引的类型、字段选择、索引覆盖等因素，并进行适当的优化和调整。
 </code></pre>
-<h4 id="_6">增加升序索引</h4>
+<h4 id="_10">增加升序索引</h4>
 <p>1.添加单键索引</p>
 <pre><code>db.four.createIndex({&quot;num&quot;:1})
 
@@ -1068,14 +1282,14 @@ db.six.getIndexes()
 # loc查询,落在矩阵中的点会被查到
 db.six.find({loc:{$geoWithin: {$box:[[10,10],[12,12]]}}})
 </code></pre>
-<h4 id="_7">查询索引</h4>
+<h4 id="_11">查询索引</h4>
 <pre><code>db.four.getIndexes()
 </code></pre>
-<h4 id="_8">删除索引</h4>
+<h4 id="_12">删除索引</h4>
 <p>注意这里删除的是索引名字</p>
 <pre><code>db.four.dropIndex(&quot;num_1&quot;)
 </code></pre>
-<h4 id="mongodb_3">MongoDB索引类型</h4>
+<h4 id="mongodb_4">MongoDB索引类型</h4>
 <ul>
 <li>单键索引（默认B+树结构）：添加单字段索引</li>
 <li>组合索引（默认B+树结构）</li>
@@ -1089,7 +1303,7 @@ db.six.find({loc:{$geoWithin: {$box:[[10,10],[12,12]]}}})
 与B树索引不同，Hash索引没有排序的概念，因此在范围查询和排序操作中，Hash索引的效率会比较低。
 但是，对于等值查询，Hash索引通常比B树索引更快速和高效，因为它使用哈希函数可以直接定位到哈希值对应的存储位置，而不需要进行多次查找。
 </code></pre>
-<h3 id="mongodb_4">MongoDB查询计划</h3>
+<h3 id="mongodb_5">MongoDB查询计划</h3>
 <p>执行语句后面加.explain()</p>
 <pre><code>for (var i=1; i&lt;=10000; i++) db.four.insert({num:i, name:'a'});   
 
@@ -1118,7 +1332,7 @@ db.four.find({num:99}).explain(&quot;allPlansExecution&quot;)
 or
 db.four.find({num:99}).explain(true)
 </code></pre>
-<h4 id="_9">结果分析</h4>
+<h4 id="_13">结果分析</h4>
 <pre><code>executionStats -&gt; nReturned   返回结果的行数
 executionStats -&gt; executionTimeMillis  返回结果的时间，单位毫秒
 executionStats -&gt; totalKeysExamined  返回结果扫描了多少索引项
@@ -1128,8 +1342,8 @@ nReturned/totalDocsExamined 如果比值大，说明执行计划性能差
 
 executionStats -&gt; executionStages -&gt; stage  COLLSCAN表示全结合扫描，FETCH表示索引扫描
 </code></pre>
-<h3 id="mongodb_5">MongoDB慢查询</h3>
-<h4 id="_10">开启和关闭慢查询</h4>
+<h3 id="mongodb_6">MongoDB慢查询</h3>
+<h4 id="_14">开启和关闭慢查询</h4>
 <pre><code># 查看慢查询是否开启
 db.getProfilingLevel()
 如果返回是0，表示没有开启慢查询。1表示已开启慢查询。
@@ -1141,7 +1355,7 @@ db.setProfilingLevel(1,100)
 # 关闭慢查询
 db.setProfilingLevel(0)
 </code></pre>
-<h4 id="_11">如何找到慢查询</h4>
+<h4 id="_15">如何找到慢查询</h4>
 <pre><code>1.插入测试数据
 for (var i=1; i&lt;=300000; i++) db.eight.insert({num:i, name:'a'})
 
@@ -1158,7 +1372,7 @@ db.seven.find({&quot;num&quot;:9999})
 # 按时间查看最新1条慢查询，并格式化输出查询结果
 db.system.profile.find().sort({ts:-1}).limit(1).pretty()
 </code></pre>
-<h4 id="_12">慢查询分析</h4>
+<h4 id="_16">慢查询分析</h4>
 <pre><code class="language-shell"># 重点参数说明
 command  # 表示执行的命令
 keysExamined  # 索引扫描数
@@ -1260,7 +1474,7 @@ client  # 显示客户信息，定位慢查询的来源
 }
 
 </code></pre>
-<h3 id="mongodb_6">MongoDB设置用户权限</h3>
+<h3 id="mongodb_7">MongoDB设置用户权限</h3>
 <pre><code>mongo
 &gt;use admin
 db.createUser({
@@ -1270,10 +1484,10 @@ roles: [{role:&quot;root&quot;, db:&quot;admin&quot;}]
 })
 提示Successfully added user表示添加成功
 </code></pre>
-<h4 id="mongodb_7">MongoDB用密码登录</h4>
+<h4 id="mongodb_8">MongoDB用密码登录</h4>
 <pre><code>mongo -uroot -p
 </code></pre>
-<h4 id="mongodb_8">MongoDB用户管理</h4>
+<h4 id="mongodb_9">MongoDB用户管理</h4>
 <pre><code>添加管理员用户并赋权
 
 db.createUser({
@@ -1313,7 +1527,7 @@ roles: [{role:&quot;readWrite&quot;, db:&quot;guest&quot;}]
 <p>e.g.</p>
 <pre><code class="language-shell">mongo admin --eval ''
 </code></pre>
-<h4 id="mongodb_9">MongoDB备份和恢复数据操作</h4>
+<h4 id="mongodb_10">MongoDB备份和恢复数据操作</h4>
 <p>未开用户认证</p>
 <pre><code>备份：
 mongodump --db=&lt;dump_db_name&gt; --out=&lt;path_to_backup_file&gt;
@@ -1356,7 +1570,7 @@ mongorestore -uroot -p123456 --authenticationDatabase=admin --db=root_node_v2 --
 <pre><code>use xxx_test
 db.dropDatabase()
 </code></pre>
-<h4 id="mongodb_10">MongoDB常用内置角色</h4>
+<h4 id="mongodb_11">MongoDB常用内置角色</h4>
 <pre><code>root        超级管理员
 readWrite   对某个分系统库的读写权限
 read        对某个分系统库的只读权限
@@ -1373,14 +1587,14 @@ readAnyDatabase         对所有数据库的只读权限
 </code></pre>
 <h2 id="postgresql">PostgreSQL</h2>
 <p>默认端口：<code>5432</code></p>
-<h2 id="_13">其他问题</h2>
-<h3 id="_14">关系型数据库数据搜索缺点</h3>
+<h2 id="_17">其他问题</h2>
+<h3 id="_18">关系型数据库数据搜索缺点</h3>
 <p>1.无法打分（无法对搜索出来的结果进行排序）</p>
 <p>2.无分布式</p>
 <p>3.无法解析搜索请求</p>
 <p>4.效率低（上亿）</p>
 <p>5.分词</p>
-<h3 id="_15">如何对数据库进行优化</h3>
+<h3 id="_19">如何对数据库进行优化</h3>
               
             </div>
           </div><footer>
