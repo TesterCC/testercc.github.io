@@ -113,6 +113,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/llm_sec/">大语言模型安全(LLM security)</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
@@ -345,6 +347,24 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api">云服务器API部署</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#llms">本地运行LLMs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_1">本地客户端</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">部署方式</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">模型下载</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hugging-cli">hugging-cli用法</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">投喂数据</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#terms">Terms术语</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#ref">REF</a>
     </li>
     </ul>
@@ -516,9 +536,87 @@
 - 广泛的应用：由于它们的语言理解能力，它们在翻译、文本生成、摘要、问答和其他多种任务上表现出色。
 - 强大的泛化能力：它们能在很多未见过的语言任务上表现出色，即使是在没有额外训练的情况下。</p>
 <p>这些大型语言模型已成为人工智能进行自然语言处理的核心部分，能够在诸如聊天机器人、辅助写作、信息检索等领域中发挥作用。</p>
+<h2 id="api">云服务器API部署</h2>
+<p>使用云服务器（可弹性扩展服务器配置和显卡），不过一般都会收费。比如：用siliconflow的deepseek R1模型，通过token来调用服务（根据token数扣费）</p>
+<h2 id="llms">本地运行LLMs</h2>
+<p>目前阶段大语言模型成井喷式增长。因为在线的大语言模型一般都对一些问题有所限制，所以，有条件的可以选择本地运行大语言模型，使用限制更少更自由。</p>
+<p>如果考虑数据安全问题，想在内网离线环境部署，且本地服务器CPU和显卡和硬盘资源充足都情况下，即使是非蒸馏的原模型，也可以实现部署，且本地可免费使用，定向训练。</p>
+<h2 id="_1">本地客户端</h2>
+<p>使用API和token来访问大模型服务，一般使用Cherry Studio 或 Chatbox，配置方法基本都一致，只是app操作有差异。</p>
+<h3 id="_2">部署方式</h3>
+<p>目前最常用的2种方案：<strong>Ollama</strong>和<strong>LM Studio</strong></p>
+<p>因为找到的资料多用的是LM Studio且界面更美观，所以就先用这个。</p>
+<p>设备硬件配置参考：https://lmstudio.ai/docs/system-requirements</p>
+<p>Windows和Linux主机最好还是有N卡，运行会更快一点。</p>
+<h3 id="_3">模型下载</h3>
+<p>LM Studio内置了下载模型的模块，但是因为众所周知的原因，国内可能无法正常访问，这时可以从<a href="https://hf-mirror.com/">模型镜像网站</a>上下载模型。</p>
+<p>注意：由于LM Studio默认不开启代理，会导致网络下载模型总失败，解决方法：</p>
+<p>1.打开LM Studio右下角⚙️图标（即应用程序设置）
+2.在常规中勾选，Use LM Studio's Hugging Face Proxy
+3.然后再切换到发现模型弹框，就可以正常通过LM Studio下载模型了</p>
+<p>比用huggingface-cli或者改js之类的解决方案要简单很多。</p>
+<h3 id="hugging-cli">hugging-cli用法</h3>
+<p>万一LM Studio Hugging Face Proxy出问题，还是可以通过hugging-cli来下载模型文件。</p>
+<p>模型镜像网站：https://hf-mirror.com</p>
+<pre><code class="language-shell"># 在mac上用venv构建虚拟机环境安装
+cd ~/Development/ws_llms
+python3 -m venv .venv_llms
+source .venv_llms/bin/activate
+
+# 安装第三方工具
+pip3 install huggingface_hub
+
+# 退出当前虚拟环境后，可以在终端使用huggingface-cli，这个是mac特有的小坑点。
+
+# 配置环境变量，因为默认登录的是 huggingface.co ，而这里我们实际想访问的是模型镜像站点 https://hf-mirror.com
+vim ~/.zshrc
+# add huggingface mirror to env
+export HF_ENDPOINT=https://hf-mirror.com
+
+# :wq! 即 save and exit    
+
+# 用huggingface-cli完成登录鉴权（如果不做这一步，download时就需要显示指定download token）
+huggingface-cli login
+
+# 复制粘贴huggingface.co生成的token，如果没有会提示你自己去申请一个
+To log in, `huggingface_hub` requires a token generated from https://huggingface.co/settings/tokens .
+
+复制粘贴类型的key
+hf_KVVA**************ABCD
+
+# 如果通过鉴权，就可以通过镜像网站开始下载指定模型到本地
+cd ~/Development/ws_llms/lmstudio_models  # 这是我在LM Studio设置的模型下载根路径
+huggingface-cli download --resume-download deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B --local-dir ./DeepSeek-R1-Distill-Qwen-1.5B
+# 这里注意下载的模型要是 dir1/dir2/xxx.gguf 这种目录, e.g.:
+mstudio-community/DeepSeek-R1-Distill-Llama-8B-GGUF/DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf
+</code></pre>
+<h2 id="_4">投喂数据</h2>
+<p>如果有本地投喂数据的需求，可以用 LM Studio（或ollama）本地加载模型，开启API，然后通过 AnythingLLM 来投喂 md docx等文档（注意纯文字内容成功率更高）。</p>
+<h2 id="terms">Terms术语</h2>
+<ul>
+<li>RAG（Retrieval-Augmented Generation）：也称“检索增强生成”，是一种结合检索和生成的人工智能技术，主要用于提升模型在生成回答时的准确性和相关性。</li>
+</ul>
+<p>简单来说：</p>
+<pre><code>  - 检索（Retrieval）：从大规模文档库中获取相关的段落或句子。
+  - 生成（Generation）：基于上述检索结果和输入信息，生成最终的回答或文本。
+</code></pre>
+<p>RAG 的主要优势在于它能够结合外部知识，使生成模型不仅依赖于训练数据，还能利用已有的知识库来提供更有针对性的输出。
+这种方法在问答系统、对话机器人等场景中非常有用。</p>
+<ul>
+<li>数据向量化（Data Vectorization）：是一种将不同类型的数据（如文本、图像、音频等）转换为数值形式的过程，主要目的是为了让这些数据能够被机器学习模型所处理和分析。 通过向量化，将原始数据提取并表示为特征向量，从而使得模型能够基于这些特征进行训练和预测。</li>
+</ul>
+<pre><code>                       数据向量化
+                          |
+投喂数据 -&gt; 嵌入式模型 -&gt; 向量数据库 &lt;-&gt; AI大模型
+</code></pre>
 <h2 id="ref">REF</h2>
 <ul>
+<li><a href="https://lmstudio.ai/">LM Studio官网</a></li>
+<li><a href="https://www.bilibili.com/video/BV1XDPQeeEF7/">上手代码复现DeepSeek-R1强化学习训练演示</a> -- 这个需要一定基础</li>
 <li><a href="https://mp.weixin.qq.com/s/hJ3CliDpLKNwGfhk_1Wuaw">如何借助 LLM 设计和实现任务型对话 Agent</a></li>
+<li><a href="https://www.bilibili.com/video/BV1DsNueLE72/">可能是最简单的DeepSeek R1本地运行教程</a> -- 只是想体验下直接看这个</li>
+<li><a href="https://www.bilibili.com/video/BV1ioFyekEWj/">使用 DeepSeek-R1 与 AnythingLLM 搭建本地知识库</a> -- 了解如何投喂数据</li>
+<li><a href="https://www.bilibili.com/video/BV1NGf2YtE8r/">DeepSeek R1 推理模型 完全本地部署</a> -- 介绍了LM Studio模型简单的参数调优，还不错</li>
 </ul>
               
             </div>

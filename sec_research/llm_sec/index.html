@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/backend/regex/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="TesterCC" /><link rel="canonical" href="https://testercc.github.io/sec_research/llm_sec/" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Regex 正则表达式 - Security Development Notes</title>
+    <title>大语言模型安全(LLM security) - Security Development Notes</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Regex \u6b63\u5219\u8868\u8fbe\u5f0f";
-        var mkdocs_page_input_path = "backend/regex.md";
-        var mkdocs_page_url = "/backend/regex/";
+        var mkdocs_page_name = "\u5927\u8bed\u8a00\u6a21\u578b\u5b89\u5168(LLM security)";
+        var mkdocs_page_input_path = "sec_research/llm_sec.md";
+        var mkdocs_page_url = "/sec_research/llm_sec/";
       </script>
     
     <!--[if lt IE 9]>
@@ -106,66 +106,98 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Research 安全研究</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/research_list/">导航列表</a>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../research_list/">导航列表</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/exploit/">漏洞挖掘</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../exploit/">漏洞挖掘</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../ai_sec/">人工智能安全(AISec)</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/llm_sec/">大语言模型安全(LLM security)</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">大语言模型安全(LLM security)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">大语言模型攻击概览</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#owasp-top-10-for-large-language-model-applications">OWASP Top 10 for Large Language Model Applications</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#llm012025-prompt-injection">LLM01:2025 Prompt Injection 提示注入</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm022025-sensitive-information-disclosure">LLM02:2025 Sensitive Information Disclosure 敏感信息泄露</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm032025-supply-chain">LLM03:2025 Supply Chain 供应链(风险)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm042025-data-and-model-poisoning">LLM04:2025 Data and Model Poisoning 数据和模型中毒</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm052025-improper-output-handling">LLM05:2025 Improper Output Handling 不当输出处理</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm062025-excessive-agency">LLM06:2025 Excessive Agency 过度代理</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm072025-system-prompt-leakage">LLM07:2025 System Prompt Leakage 系统提示泄露</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm082025-vector-and-embedding-weaknesses">LLM08:2025 Vector and Embedding Weaknesses 向量和嵌入弱点</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm092025-misinformation">LLM09:2025 Misinformation 错误信息</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llm102025-unbounded-consumption">LLM10:2025 Unbounded Consumption 无界消耗</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#llm-security-matrix">LLM Security Matrix</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ref">REF</a>
+    </li>
+    </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../gpt_sec/">GPT安全(GPTSec)</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../sample_analysis/">样本分析</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/threat_intelligence/">威胁情报</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../threat_intelligence/">威胁情报</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/apt/">APT</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../apt/">APT</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/att%26ck/">ATT&CK</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../att%26ck/">ATT&CK</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/code_audit/">代码审计</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../code_audit/">代码审计</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/fuzzing/">模糊测试</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../fuzzing/">模糊测试</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/black_market/">黑产研究</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../black_market/">黑产研究</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/botnet/">DDoS和Botnet</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../botnet/">DDoS和Botnet</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/binary_sec/">二进制安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../binary_sec/">二进制安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/data_sec/">数据安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../data_sec/">数据安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/device_sec/">路由设备安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../device_sec/">路由设备安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ic_sec/">工控安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../ic_sec/">工控安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iot_sec/">物联网安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../iot_sec/">物联网安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/5g_sec/">5g安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../5g_sec/">5g安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/iov_sec/">车联网安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../iov_sec/">车联网安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/cloud_sec/">云原生安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../cloud_sec/">云原生安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/block_chain_sec/">区块链安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../block_chain_sec/">区块链安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/android_sec/">Android安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../android_sec/">Android安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/browser_sec/">浏览器安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../browser_sec/">浏览器安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/protocol_sec/">协议安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../protocol_sec/">协议安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/boofuzz/">Boofuzz</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../boofuzz/">Boofuzz</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/api_sec/">API安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../api_sec/">API安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/python_sec/">Python安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../python_sec/">Python安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/js_sec/">JS安全</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../js_sec/">JS安全</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/c/">C语言</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../c/">C语言</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Security Management 安全管理</span></p>
@@ -289,62 +321,52 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Back-end Development 后端开发</span></p>
-              <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../learn_guide/">学习指南</a>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/learn_guide/">学习指南</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../computer_networking/">计算机网络</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/computer_networking/">计算机网络</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../os/">OS 操作系统</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/os/">OS 操作系统</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../database/">Database 数据库</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/database/">Database 数据库</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../performance_optimization/">性能优化</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/performance_optimization/">性能优化</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../rpc/">RPC</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rpc/">RPC</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../search_engine/">搜索引擎</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/search_engine/">搜索引擎</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../high_concurrency/">高并发</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/high_concurrency/">高并发</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/python/">Python</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../go/">Golang</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/go/">Golang</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../c/">C</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/c/">C</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/java/">Java</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../rust/">Rust</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rust/">Rust</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../perl/">Perl</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/perl/">Perl</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../proxy/">Proxy 代理</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/proxy/">Proxy 代理</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../rabbitmq/">RabbitMQ</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/rabbitmq/">RabbitMQ</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../kafka/">Kafka</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/kafka/">Kafka</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../jwt/">JWT认证</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/jwt/">JWT认证</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../big_data/">Big Data 大数据</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/big_data/">Big Data 大数据</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Regex 正则表达式</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#_1">基本知识</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_2">常用正则表达式</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_3">辅助工具</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#ref">REF</a>
-    </li>
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/regex/">Regex 正则表达式</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../git/">Git</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git/">Git</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../git_flow/">Git Flow</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/git_flow/">Git Flow</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../vim/">Vim</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/vim/">Vim</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Machine Learning 机器学习</span></p>
@@ -503,8 +525,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Back-end Development 后端开发</li>
-      <li class="breadcrumb-item active">Regex 正则表达式</li>
+          <li class="breadcrumb-item">Security Research 安全研究</li>
+      <li class="breadcrumb-item active">大语言模型安全(LLM security)</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -513,76 +535,118 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="regex">正则表达式 Regex</h1>
-<p>Regular Expression, 通常使用它的缩写 regex 或者 regexp, 正则表达式可以被用来替换字符串中的文本、验证表单、基于模式匹配从一个字符串中提取字符串等等。</p>
-<p>正则表达式是一种被用于从文本中检索符合某些特定模式的文本。</p>
-<p>这个知识点说大不大，说小也不小。但是做业务的数据处理时经常用到，所以，务必要掌握一些常用的才行。</p>
-<p>推荐阅读的话，就那本很厚的《精通正则表达式》吧！</p>
-<h2 id="_1">基本知识</h2>
-<p>正则表达式中可以使用多个常见字符和特殊字符。</p>
+                <h1 id="large-language-models-security">大语言模型安全 Large Language Models Security</h1>
+<h2 id="_1">大语言模型攻击概览</h2>
+<h2 id="owasp-top-10-for-large-language-model-applications">OWASP Top 10 for Large Language Model Applications</h2>
+<p>version:2025</p>
+<table>
+<thead>
+<tr>
+<th>风险编号</th>
+<th>中文名称</th>
+<th>英文名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM01:2025</td>
+<td>提示注入</td>
+<td>Prompt Injection</td>
+<td>用户提示以意想不到的方式改变LLM的行为或输出。这种输入即使对人类不可见，只要能被模型解析，就可能影响模型，导致其违反准则、生成有害内容、造成未经授权的访问或影响关键决策</td>
+</tr>
+<tr>
+<td>LLM02:2025</td>
+<td>敏感信息泄露</td>
+<td>Sensitive Information Disclosure</td>
+<td>敏感信息会影响LLM及其应用场景，LLM在应用中可能会通过输出暴露敏感数据、专有算法或机密细节，进而导致未经授权的数据访问、隐私侵犯和知识产权泄露</td>
+</tr>
+<tr>
+<td>LLM03:2025</td>
+<td>供应链风险</td>
+<td>Supply Chain</td>
+<td>LLM供应链容易受到各种漏洞的影响，这些漏洞会对训练数据、模型和部署平台的完整性产生影响，可能导致有偏差的输出、安全漏洞或系统故障</td>
+</tr>
+<tr>
+<td>LLM04:2025</td>
+<td>数据和模型中毒</td>
+<td>Data and Model Poisoning</td>
+<td>在预训练、微调或嵌入数据过程中，数据被操纵，引入漏洞、后门或偏差，从而损害模型的安全性、性能或伦理行为，导致有害输出或功能受损</td>
+</tr>
+<tr>
+<td>LLM05:2025</td>
+<td>不当输出处理</td>
+<td>Improper Output Handling</td>
+<td>指在将LLM生成的输出传递给下游组件和系统之前，对其进行的验证、清理和处理不足。这可能导致跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、服务器端请求伪造（SSRF）、权限提升或远程代码执行等问题</td>
+</tr>
+<tr>
+<td>LLM06:2025</td>
+<td>过度代理</td>
+<td>Excessive Agency</td>
+<td>基于LLM的系统被赋予一定的执行能力，当系统对LLM意外、模糊或被操纵的输出做出响应时，可能会执行有害操作，根源通常是功能、权限或自主性过多</td>
+</tr>
+<tr>
+<td>LLM07:2025</td>
+<td>系统提示泄露</td>
+<td>System Prompt Leakage</td>
+<td>LLM的系统提示可能包含敏感信息，一旦泄露，这些信息可能被用于辅助其他攻击。系统提示泄露本身不是主要风险，关键在于其背后可能隐藏的敏感信息泄露、系统防护绕过和权限分离不当等问题</td>
+</tr>
+<tr>
+<td>LLM08:2025</td>
+<td>向量和嵌入弱点</td>
+<td>Vector and Embedding Weaknesses</td>
+<td>在使用检索增强生成（RAG）与LLM的系统中，向量和嵌入在生成、存储或检索过程中的弱点可能被恶意利用，导致注入有害内容、操纵模型输出或访问敏感信息等风险</td>
+</tr>
+<tr>
+<td>LLM09:2025</td>
+<td>错误信息</td>
+<td>Misinformation</td>
+<td>LLM产生的错误或误导性信息看似可信，会对依赖这些模型的应用构成核心漏洞，可能导致安全漏洞、声誉损害和法律责任</td>
+</tr>
+<tr>
+<td>LLM10:2025</td>
+<td>无界消耗</td>
+<td>Unbounded Consumption</td>
+<td>LLM应用允许用户进行过多且不受控制的推理，导致诸如拒绝服务（DoS）、经济损失、模型被盗和服务降级等风险，这是由于LLM的高计算需求使其易受资源利用和未经授权使用的影响</td>
+</tr>
+</tbody>
+</table>
+<h3 id="llm012025-prompt-injection">LLM01:2025 Prompt Injection 提示注入</h3>
+<h3 id="llm022025-sensitive-information-disclosure">LLM02:2025 Sensitive Information Disclosure 敏感信息泄露</h3>
+<p>实际比较常见的就是模型云部署暴露在公网后，API接口鉴权没设置好，导致可以通过API接口获取一些敏感信息，甚至可以窃取模型并下载。</p>
+<h3 id="llm032025-supply-chain">LLM03:2025 Supply Chain 供应链(风险)</h3>
+<h3 id="llm042025-data-and-model-poisoning">LLM04:2025 Data and Model Poisoning 数据和模型中毒</h3>
+<p>之前某大厂的AI实习生因不满团队资源分配，悄悄对团队在培养的模型进行投毒，导致该团队数月的模型培养工作白费，造成一定的时间和经济损失。</p>
+<h3 id="llm052025-improper-output-handling">LLM05:2025 Improper Output Handling 不当输出处理</h3>
+<h3 id="llm062025-excessive-agency">LLM06:2025 Excessive Agency 过度代理</h3>
+<h3 id="llm072025-system-prompt-leakage">LLM07:2025 System Prompt Leakage 系统提示泄露</h3>
+<h3 id="llm082025-vector-and-embedding-weaknesses">LLM08:2025 Vector and Embedding Weaknesses 向量和嵌入弱点</h3>
+<h3 id="llm092025-misinformation">LLM09:2025 Misinformation 错误信息</h3>
+<h3 id="llm102025-unbounded-consumption">LLM10:2025 Unbounded Consumption 无界消耗</h3>
+<h2 id="llm-security-matrix">LLM Security Matrix</h2>
+<p>ATLAS矩阵从左到右以列的形式显示了攻击中使用的策略的进展，下面每种策略都包含 ML 技术。</p>
+<p>红色 &amp;符号 表示改编自 ATT&amp;CK。单击蓝色链接可了解有关每项内容的更多信息，或使用顶部导航栏中的链接搜索和查看 ATLAS 策略和技术。</p>
+<p>在 ATLAS Navigator 上查看与 ATT&amp;CK Enterprise 技术一起突出显示的 ATLAS 矩阵。</p>
 <ul>
-<li>普通字符: 正则表达式中的普通字符与自身匹配。普通字符是描述为特殊字符之外的字符。</li>
-</ul>
-<pre><code>( ) [ ] ^ $ . * + ? | \
-</code></pre>
-<ul>
-<li>特殊字符
-特殊字符影响正则表达式的匹配行为（如下表所述）。匹配任意长度字符的序列的构造（例如 * + ?）始终匹配允许匹配项的左侧最长的字符串。</li>
-</ul>
-<pre><code>表: 特殊字符及其涵义
-字符     含义                                   示例
-^       匹配字符串的开头部分  &quot;^abc&quot; 与以 abc 开头的字符串匹配
-$       匹配字符串的结尾    &quot;abc$&quot; 与以 abc 结尾的字符串匹配
-.       匹配任何单个字符(除换行符外) &quot;a.c$&quot; 与包含 abc、axc 等的字符串匹配
-*       匹配零个或更多个紧挨的前项表达式    &quot;ab*c$&quot; 与包含 ac、abc、abbc 等的字符串匹配
-+       匹配一个或多个紧挨的前项表达式 &quot;a+c$&quot; 与包含 abc、abbc 或 aggc 的字符串匹配，但不与包含 ac 的字符串匹配
-?       匹配零个或一个紧挨的前项表达式 &quot;ab?c&quot; 与包含 ac 或 abc 的字符串匹配
-|       匹配前项表达式或后项表达式。  &quot;a|b|c&quot; 与包含 a、b 或 c 的字符串匹配
-[ ]     匹配方括号中列出的任何单个字符 &quot;[ab]c&quot; 与包含 ac 或 bc 的字符串匹配
-[^ ]    匹配方括号中未列出的任何单个字符    &quot;a[^b]c&quot; 与包含 axc（其中 x 替换为除 b 之外的任何字符）的字符串匹配
-\       转义后面紧挨的字符。要在字符串中嵌入反斜杠字符，字符串字面值必须包含两个连续的反斜杠。 &quot;a\.c$&quot; 与包含 a.c 的字符串匹配，&quot;a\\c$&quot; 与包含 a\c 的字符串匹配
-( )     划分子表达式界限    &quot;a(b|c)*d*&quot; 与包含 a 并且后跟任意数量的 b 或 c 再后跟 d 的字符串（如 &quot;ad&quot; 或 &quot;acbbccd&quot;）匹配
-
-{n,m}   花括号，匹配前面字符至少 n 次，但是不超过 m 次。
-(xyz)   字符组，按照确切的顺序匹配字符 xyz。
-</code></pre>
-<h2 id="_2">常用正则表达式</h2>
-<pre><code class="language-regexp">正整数：^\d+$
-负整数：^-\d+$
-电话号码：^+?[\d\s]{3,}$
-电话代码：^+?[\d\s]+(?[\d\s]{10,}$
-整数：^-?\d+$
-用户名：^[\w\d_.]{4,16}$
-字母数字字符：^[a-zA-Z0-9]*$
-带空格的字母数字字符：^[a-zA-Z0-9 ]*$
-密码：^(?=^.{6,}$)((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.*$
-电子邮件：^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$
-IPv4 地址：^((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))*$
-小写字母：^([a-z])*$
-大写字母：^([A-Z])*$
-网址：^(((http|https|ftp):\/\/)?([[a-zA-Z0-9]\-\.])+(\.)([[a-zA-Z0-9]]){2,4}([[a-zA-Z0-9]\/+=%&amp;_\.~?\-]*))*$
-VISA 信用卡号码：^(4[0-9]{12}(?:[0-9]{3})?)*$
-日期（MM/DD/YYYY）：^(0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2}$
-日期（YYYY/MM/DD）：^(19|20)?[0-9]{2}[- /.](0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])$
-万事达信用卡号码：^(5[1-5][0-9]{14})*$
-</code></pre>
-<p>实际使用过的正则表达式：</p>
-<pre><code class="language-regexp">
-</code></pre>
-<h2 id="_3">辅助工具</h2>
-<ul>
-<li><a href="https://regex101.com/">在线正则测试工具</a> -- 支持多语言正则在线调试，很好用。</li>
+<li><a href="https://atlas.mitre.org/matrices/ATLAS">ATLAS Matrix</a></li>
+<li><a href="https://mitre-atlas.github.io/atlas-navigator/">ATLAS Matrix Editor</a></li>
+<li><a href="https://www.cisco.com/site/us/en/learn/topics/artificial-intelligence/ai-safety-security-taxonomy.html">Cisco - AI security and safety taxonomy</a></li>
 </ul>
 <h2 id="ref">REF</h2>
 <ul>
-<li><a href="https://github.com/cdoco/learn-regex-zh">LEARN REGEX</a> - 翻文：学习正则表达式的简单方法</li>
+<li><a href="https://genaisecurityproject.com/resource/owasp-top-10-for-llm-applications-2025/">2025 OWASP Top 10 for Large Language Model Applications</a></li>
+<li><a href="https://www.freebuf.com/articles/397090.html">GPT-5将在6月发布前进行「红队进攻测试</a> </li>
+<li><a href="https://www.bilibili.com/video/BV1HjSCYRE6v">大语言模型攻击概览</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU2NDc2NDYwMA==&amp;action=getalbum&amp;album_id=3700050735476883457&amp;subscene=126&amp;scenenote=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU2NDc2NDYwMA%3D%3D%26mid%3D2247485866%26idx%3D1%26sn%3D9e862355523ee243dbaaaf8b7f0c39e8%26chksm%3Dfd5e4c1882e8011cdab1ab74502defaf3aa60aa880c0b21461bb3c5cd7ecabaccf232922911e%26sessionid%3D1740697885%26scene%3D126%26clicktime%3D1740885746%26enterid%3D1740885746%26subscene%3D10000%26ascene%3D3%26fasttmpl_type%3D0%26fasttmpl_fullversion%3D7622559-zh_CN-zip%26fasttmpl_flag%3D0%26realreporttime%3D1740885746169%26devicetype%3Dandroid-33%26version%3D2800385a%26nettype%3DWIFI%26lang%3Dzh_CN%26session_us%3Dgh_64e900a7da4c%26countrycode%3DBM%26exportkey%3Dn_ChQIAhIQUAhYXv%252FzmuLgeH898%252BwQOhLcAQIE97dBBAEAAAAAAOgGClT5Vw8AAAAOpnltbLcz9gKNyK89dVj0M%252BjgrydkbnItAHhnw4bnYjJXj9zAgju8QeGX2Sc8NbFnHp%252FszbvsAH0xv07QPoiBnCT2HoAOgW0PQSrKuQT7t3kVur6fkjMMlPbBhHJKfanTxQk6nzV9cTjdFA%252BhYVXFAjAcwa9%252Fk70XgQpuA4hbDYpuVQOpR0A9FV7m2drP%252BC9LnbryvcermWR2iLxgb906L4DkFq%252BhENx8rbcDPIiPQbonXe38VHoMmTINrnGaF8oezqFoS5k%253D%26pass_ticket%3Dxo7ndeIQMdmvDRpDfEw%252FbKvl7AcvhBxfKOM5%252BstudvtTmaBRHA3eg3m%252B0qi9pTCR%26wx_header%3D3">米斯特安全洺熙在公众号AI安全系列的文章都值得学习</a></li>
+<li><a href="https://www.cnblogs.com/LittleHann/p/17596696.html">OWASP-Top-10-for-LLMs-2023</a></li>
+<li><a href="https://llmsecurity.net/">LLM Security</a></li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../big_data/" class="btn btn-neutral float-left" title="Big Data 大数据"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../git/" class="btn btn-neutral float-right" title="Git">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../ai_sec/" class="btn btn-neutral float-left" title="人工智能安全(AISec)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../gpt_sec/" class="btn btn-neutral float-right" title="GPT安全(GPTSec)">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -606,10 +670,10 @@ VISA 信用卡号码：^(4[0-9]{12}(?:[0-9]{3})?)*$
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../big_data/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../ai_sec/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../git/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../gpt_sec/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

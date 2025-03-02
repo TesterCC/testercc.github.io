@@ -113,6 +113,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/llm_sec/">大语言模型安全(LLM security)</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
@@ -322,6 +324,8 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#goroutine">goroutine(协程)基本模型和调度设计策略</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#go_2">go指针的取址和取值</a>
+    </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#_2">高频常用命令</a>
@@ -388,7 +392,9 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#gogoroutine">如何评估一个独立go程序运行goroutine的内存占用</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#go_2">Go远程调试方法</a>
+    <li class="toctree-l3"><a class="reference internal" href="#go_3">Go远程调试方法</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#go_4">Go的新特性</a>
     </li>
         </ul>
     </li>
@@ -645,6 +651,10 @@ go env GOPROXY
 <h2 id="go_1">Go开发基础知识</h2>
 <h3 id="goroutine">goroutine(协程)基本模型和调度设计策略</h3>
 <p><a href="https://www.bilibili.com/video/BV1gf4y1r79E?p=26">参考视频</a></p>
+<h3 id="go_2">go指针的取址和取值</h3>
+<pre><code>&amp; 取址
+* 取值
+</code></pre>
 <h2 id="_2">高频常用命令</h2>
 <h3 id="gotips">go静态编译tips</h3>
 <p>交叉编译的参数信息参考官网：https://go.dev/doc/install/source#environment</p>
@@ -888,10 +898,15 @@ func main() {
 </code></pre>
 <p>在此示例中，我们创建了一个简单的 Goroutine，让它运行一段时间，然后使用 runtime.ReadMemStats 获取内存统计信息。我们获取了 Goroutine 数量和内存占用，并将其打印到控制台。</p>
 <p>请注意，这只是一个基本的示例，用于演示如何获取 Goroutine 内存占用的信息。在实际应用中，您可以将类似的内存统计代码嵌入到您的应用程序中，以便在运行时监视内存使用情况。此外，您可能需要在不同的应用程序状态下多次运行内存统计，以了解不同操作对内存的影响。</p>
-<h3 id="go_2">Go远程调试方法</h3>
+<h3 id="go_3">Go远程调试方法</h3>
 <ul>
 <li><a href="https://blog.csdn.net/zhangxm_qz/article/details/122154006">把手教你goland远程调试</a></li>
 <li><a href="https://juejin.cn/post/7035910722382987271">Go Lang远程调试 with Goland</a></li>
+</ul>
+<h3 id="go_4">Go的新特性</h3>
+<p>因为Go的版本迭代更新很快，还经常增加新语法，所以单独记录下。</p>
+<ul>
+<li><a href="https://www.bilibili.com/video/BV1PQKGeEEN2">基于go1.24的泛型实现Set</a></li>
 </ul>
               
             </div>

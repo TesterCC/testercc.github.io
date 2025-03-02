@@ -113,6 +113,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../ai_sec/">人工智能安全(AISec)</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../llm_sec/">大语言模型安全(LLM security)</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../gpt_sec/">GPT安全(GPTSec)</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../sample_analysis/">样本分析</a>
@@ -163,7 +165,23 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#_2">学习推荐</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tcpip">TCP/IP模型</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#_3">常见的协议介绍</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#tcp">TCP协议</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#tcp_1">关于TCP传输的校验和</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#tcp_2">TCP数据流解决粘包问题</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#udp">UDP协议</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tcpudp">TCP协议和UDP协议的主要区别</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#_4">不常见协议介绍</a>
         <ul>
@@ -220,6 +238,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#rarp">RARP</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">自定义协议</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#ref">REF</a>
     </li>
@@ -618,8 +638,83 @@ Title          3rd Generation Partnership Project;Technical Specification Group 
 <li><a href="https://space.bilibili.com/1565532100">科来网络在小破站发的视频公开课</a></li>
 <li><a href="https://www.3gpp.org/ftp/Specs/archive/29_series/">3gpp标准文档</a></li>
 </ul>
+<h2 id="tcpip">TCP/IP模型</h2>
+<pre><code>应用层    http,grpc
+  |
+传输层    tcp,udp
+  |
+网络层
+  |
+网络接口层  
+</code></pre>
 <h2 id="_3">常见的协议介绍</h2>
-<p>IP,ARP,DHCP,DNS等常见协议网上可查，也可参考相关书籍。</p>
+<p>IP,ARP,DHCP,DNS,TCP,UDP等常见协议网上可查，也可参考相关书籍。</p>
+<h3 id="tcp">TCP协议</h3>
+<p>TCP（传输控制协议），传输层协议，面向连接，能保证可靠性、顺序性、完整性。</p>
+<h4 id="tcp_1">关于TCP传输的校验和</h4>
+<p>发送方会对数据报文（datagram）做一次校验和，把校验和一同发送给接收方。</p>
+<p>接收方收到数据后也对报文（datagram）做一次校验和，然后和发送方的校验和进行对比，看两个校验和是否一致，以证明数据的正确性和完整性。</p>
+<h4 id="tcp_2">TCP数据流解决粘包问题</h4>
+<p>方法1:</p>
+<p>自定义分割符，由N个特定的字节来构成，比如自定义一个Magic，一般取素数，包含多字节。</p>
+<p>同时数据接收方要理清可能接受到的数据的各种情况，做好逻辑处理。</p>
+<p><img alt="TCP数据流自定义分隔符的情况" src="../../img/protocol/TCP%E6%95%B0%E6%8D%AE%E6%B5%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E9%9A%94%E7%AC%A6%E7%9A%84%E6%83%85%E5%86%B5.png" /></p>
+<p>方法2:</p>
+<p>在报文前面加上报文长度，比如用4个字节（4字节是32位，2^32-1）存储数据长度字段，这个字段应该要固定长度，不然读取解析会出问题。</p>
+<p>ref：
+- <a href="https://www.bilibili.com/video/BV1siNRevERL/">tcp、udp对比，TCP粘包问题解决</a></p>
+<h3 id="udp">UDP协议</h3>
+<p>UDP（用户数据报协议），传输层协议，无连接</p>
+<h3 id="tcpudp">TCP协议和UDP协议的主要区别</h3>
+<pre><code>TCP（传输控制协议）和UDP（用户数据报协议）是两种常用的传输层协议，主要区别如下：
+1. 连接方式
+
+    TCP：面向连接，通信前需通过三次握手建立连接，结束后通过四次挥手断开连接。
+
+    UDP：无连接，直接发送数据，无需建立和断开连接。
+
+2. 可靠性
+
+    TCP：提供可靠传输，通过确认、重传、校验等机制确保数据准确无误。
+
+    UDP：不保证可靠性，数据可能丢失或乱序。
+
+3. 数据顺序
+
+    TCP：保证数据按发送顺序到达。
+
+    UDP：不保证顺序，数据可能乱序到达。
+
+4. 速度
+
+    TCP：因建立连接和确保可靠性，速度较慢。
+
+    UDP：无连接且无可靠性保证，速度较快。
+
+5. 开销
+
+    TCP：协议复杂，头部较大（20字节），开销较高。
+
+    UDP：协议简单，头部较小（8字节），开销较低。
+
+6. 应用场景
+
+    TCP：适用于要求高可靠性的场景，如网页浏览、文件传输、电子邮件等。
+
+    UDP：适用于实时性要求高的场景，如视频流、在线游戏、VoIP等。
+
+7. 流量控制与拥塞控制
+
+    TCP：具备流量控制和拥塞控制机制，防止网络过载。
+
+    UDP：无流量控制和拥塞控制，可能引发网络拥塞。
+
+总结
+
+    TCP：可靠、有序，适合对数据准确性要求高的场景。
+
+    UDP：快速、高效，适合对实时性要求高的场景。
+</code></pre>
 <h2 id="_4">不常见协议介绍</h2>
 <h3 id="resp">RESP</h3>
 <p>全称 REdis Serialization Protocol （没错是大写E），是Redis的客户端和服务端之间采取了一种独立名的协议。</p>
@@ -789,6 +884,12 @@ LLDP的关键特性包括：</p>
 <p>ref: <a href="https://baike.baidu.com/item/ARP%E6%94%BB%E5%87%BB/11056224">APR攻击</a></p>
 <h3 id="rarp">RARP</h3>
 <p>RARP：Reverse Address Resolution Protocol，反向地址转换协议。允许局域网的物理机器从网关服务器的 ARP 表或者缓存上请求其 IP 地址。</p>
+<h2 id="_6">自定义协议</h2>
+<p>在安全研发领域，自定义协议的使用大多是为了通信安全，特别是隐匿通信内容。</p>
+<p>当然，一些IoT简单场景下，也有可能使用自定义协议，主要还是看实际需求。</p>
+<ul>
+<li><a href="https://blog.cxaqhq.cn/post/cobalt-strike-%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/">Cobalt Strike 通信协议分析</a></li>
+</ul>
 <h2 id="ref">REF</h2>
 <ul>
 <li><a href="https://blog.csdn.net/qdPython/article/details/125565020">Python3教程：struct模块的详细用法</a></li>

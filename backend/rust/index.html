@@ -113,6 +113,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/ai_sec/">人工智能安全(AISec)</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_research/llm_sec/">大语言模型安全(LLM security)</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/gpt_sec/">GPT安全(GPTSec)</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_research/sample_analysis/">样本分析</a>
@@ -341,6 +343,12 @@
     <li class="toctree-l3"><a class="reference internal" href="#package">package概念</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#module">Module 模块概念</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#path">Path 路径</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#use">use 引用路径</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#private-vs-public">可见性 Private vs Public</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#create-project">Create Project</a>
     </li>
@@ -633,6 +641,27 @@ info: The currently active `rustc` version is `rustc 1.52.1 (9bc8c42bb 2021-05-0
 <li>public vs private</li>
 <li>引用 use</li>
 </ul>
+<h3 id="path">Path 路径</h3>
+<ul>
+<li>绝对路径：从crate模块开始</li>
+<li>相对路径：从所在模块开始，使用super往上找，或使用self从当前位置向下找</li>
+</ul>
+<h3 id="use">use 引用路径</h3>
+<ul>
+<li>function：引用到父模块</li>
+<li>struct、enum...：引用完整路径</li>
+<li>但如果引用的项目同名：1.可以加上父级模块引用 2.使用as关键字给引用起个别名</li>
+</ul>
+<h3 id="private-vs-public">可见性 Private vs Public</h3>
+<ul>
+<li>所有function、method、modules、enums等默认对父模块是private私有的</li>
+<li>父模块中的项不能使用子模块中的私有项</li>
+<li>子模块中的项可以使用其祖先模块中的项</li>
+<li>使用pub关键字可以让其变为public公有的</li>
+<li>相对路径可使用super、self关键字</li>
+<li>struct需要struct本身和各字段单独设置pub</li>
+<li>enum只要本身是pub，那么所有变体都是pub的</li>
+</ul>
 <h3 id="create-project">Create Project</h3>
 <pre><code class="language-shell">cargo new project1
 
@@ -640,6 +669,10 @@ cargo new project_lib --lib
 </code></pre>
 <h3 id="cargo_1">cargo常用命令</h3>
 <pre><code class="language-shell">cargo doc --open  # 查看项目文档
+
+cargo add serde  # 新增第三方库，serde是第三方库的名称
+or
+# 在Cargo.toml文件的[dependencies]增加（rustrover会自动搜索补全）
 </code></pre>
 <h3 id="_4">推荐阅读</h3>
 <ul>
