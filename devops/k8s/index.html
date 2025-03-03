@@ -300,6 +300,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../backend/performance_optimization/">性能优化</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/ebpf/">eBPF</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../backend/graphql/">GraphQL</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../backend/rpc/">RPC</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../backend/search_engine/">搜索引擎</a>
@@ -418,6 +422,22 @@
     <li class="toctree-l2"><a class="reference internal" href="#oam-kubernetes">OAM Kubernetes</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#oam">什么是 OAM？</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kubernetes_1">Kubernetes的二次开发</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#client-go">什么是client-go?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kubernetes-api-group">Kubernetes API Group</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kubernetes-core-api">Kubernetes Core API</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kubernetes-named-api">Kubernetes Named API</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#verify-k8s-api-request">Verify K8s API Request</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gvkgvr">理解GVK和GVR</a>
     </li>
         </ul>
     </li>
@@ -557,6 +577,30 @@
 <h3 id="oam">什么是 OAM？</h3>
 <p>OAM 的全称为开放应用模型（Open Application Model），由阿里巴巴宣布联合微软共同推出。</p>
 <p><a href="https://www.cnblogs.com/ants/p/13300407.html">5分钟带你快速入门和了解 OAM Kubernetes</a></p>
+<h2 id="kubernetes_1">Kubernetes的二次开发</h2>
+<p>一般都是基于go语言开发，使用client-go。</p>
+<h3 id="client-go">什么是client-go?</h3>
+<p>client-go是Kubernetes官方提供的Go语言的客户端库（SDK），使用该库可以访问Kubernetes API Server，实现对Kubernetes资源（包括CRD）的增删改查操作。</p>
+<h3 id="kubernetes-api-group">Kubernetes API Group</h3>
+<p>K8s API分为 <strong>核心API</strong> 和 <strong>命名API</strong>，对资源的增删改查可以理解为是<strong>对K8s API的请求</strong>(REST请求)</p>
+<p>client-go封装了请求API所需的鉴权、请求参数以及将返回JSON转化为Go结构体（Unmarshaling）</p>
+<p><img alt="K8s API Groups Categories" src="../../img/k8s/k8s_api_group.png" /></p>
+<h3 id="kubernetes-core-api">Kubernetes Core API</h3>
+<p>包括 namespace、service、pods、nodes、configmap、secrets、pv等对象。</p>
+<p><img alt="Kubernetes Core API" src="../../img/k8s/k8s_core_api.png" /></p>
+<h3 id="kubernetes-named-api">Kubernetes Named API</h3>
+<p>包括 apps/v1/deployments、app/v1/replicasets 等对象。</p>
+<p><img alt="k8s_named_api.png" src="../../img/k8s/k8s_named_api.png" /></p>
+<h3 id="verify-k8s-api-request">Verify K8s API Request</h3>
+<p><img alt="verify_k8s_api.png" src="../../img/k8s/verify_k8s_api.png" /></p>
+<p>各参数功能说明</p>
+<pre><code>kubectl：Kubernetes 的命令行工具，用于与 Kubernetes 集群进行交互，可用于部署应用、检查和管理集群资源等各种操作。
+get：kubectl 的子命令，用于获取资源信息。在这个命令中，用于获取命名空间资源相关信息。
+ns：是 namespaces 的缩写，指定要获取的资源类型为命名空间。Kubernetes 集群可以划分多个命名空间，以实现多租户或不同业务模块的资源隔离等功能。通过这个参数，kubectl 知道要获取的是命名空间相关的信息。
+-v6：这是设置日志详细程度的参数。v 代表 verbose（详细），数字 6 表示详细程度级别。Kubernetes 日志详细程度级别从 0 到 9 ，数字越大，输出的日志信息越详细。级别 6 会输出包括请求 URL 等详细信息，有助于调试和深入了解命令执行过程中的各种细节。
+</code></pre>
+<h3 id="gvkgvr">理解GVK和GVR</h3>
+<p><img alt="GVK和GVR举例" src="../../img/k8s/gvk%26gvr.png" /></p>
               
             </div>
           </div><footer>
