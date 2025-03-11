@@ -208,6 +208,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_vs_blue/">红蓝对抗</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../pentest/attack_and_defence/">实战攻防演练</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/red_team/">RedTeam 红队</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../pentest/blue_team/">BlueTeam 蓝队</a>
@@ -250,8 +252,6 @@
               <p class="caption"><span class="caption-text">CTF</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../ctf/learn_guide/">基础知识</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../ctf/attack_and_defence/">实战攻防演练</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../ctf/env_config/">测试环境搭建</a>
                   </li>
@@ -332,6 +332,22 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#go_3">Go开发框架</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#gin">Gin</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fiber">Fiber</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#beego">Beego</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#grpc">gRPC</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#go-micro">go-micro</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gin-vs-fiber">Gin VS Fiber 性能对比</a>
+    </li>
+        </ul>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#_2">高频常用命令</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#gotips">go静态编译tips</a>
@@ -396,9 +412,9 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#gogoroutine">如何评估一个独立go程序运行goroutine的内存占用</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#go_3">Go远程调试方法</a>
+    <li class="toctree-l3"><a class="reference internal" href="#go_4">Go远程调试方法</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#go_4">Go的新特性</a>
+    <li class="toctree-l3"><a class="reference internal" href="#go_5">Go的新特性</a>
     </li>
         </ul>
     </li>
@@ -659,6 +675,40 @@ go env GOPROXY
 <pre><code>&amp; 取址
 * 取值
 </code></pre>
+<h2 id="go_3">Go开发框架</h2>
+<h3 id="gin">Gin</h3>
+<p>Gin 是一个用 Go (Golang) 编写的 HTTP Web 框架。 它具有类似 Martini 的 API，但性能比 Martini 快 40 倍。</p>
+<ul>
+<li>API Docs: https://gin-gonic.com/zh-cn/docs/</li>
+<li>Github Repo: https://github.com/gin-gonic/gin</li>
+<li>Official Middleware: https://github.com/gin-gonic/contrib</li>
+</ul>
+<p>如果要开发自己的中间件，注意名称格式
++ nameOfMiddleware (https://github.com/yourusername/yourrepo)</p>
+<p>安装</p>
+<pre><code>go get -u github.com/gin-gonic/gin
+</code></pre>
+<h3 id="fiber">Fiber</h3>
+<p>official url:</p>
+<ul>
+<li>https://github.com/gofiber/fiber  有框架基本用法示例 </li>
+<li>https://gofiber.io/</li>
+<li>https://github.com/gofiber/recipes  有各种实现示例</li>
+</ul>
+<p>各种中间件:
+- https://github.com/gofiber/awesome-fiber<br />
+- https://github.com/gofiber/contrib
+- https://github.com/gofiber/template</p>
+<p>安装要求：Go version &gt;= 1.23，以后随其升级可能会更新版本要求</p>
+<pre><code>go get -u github.com/gofiber/fiber/v3
+</code></pre>
+<h3 id="beego">Beego</h3>
+<h3 id="grpc">gRPC</h3>
+<h3 id="go-micro">go-micro</h3>
+<h3 id="gin-vs-fiber">Gin VS Fiber 性能对比</h3>
+<p>两者都自称是最快的http库</p>
+<p>相同点：
+<img alt="gin_vs_fiber相同点" src="../../img/go/gin_vs_fiber.png" /></p>
 <h2 id="_2">高频常用命令</h2>
 <h3 id="gotips">go静态编译tips</h3>
 <p>交叉编译的参数信息参考官网：https://go.dev/doc/install/source#environment</p>
@@ -902,12 +952,12 @@ func main() {
 </code></pre>
 <p>在此示例中，我们创建了一个简单的 Goroutine，让它运行一段时间，然后使用 runtime.ReadMemStats 获取内存统计信息。我们获取了 Goroutine 数量和内存占用，并将其打印到控制台。</p>
 <p>请注意，这只是一个基本的示例，用于演示如何获取 Goroutine 内存占用的信息。在实际应用中，您可以将类似的内存统计代码嵌入到您的应用程序中，以便在运行时监视内存使用情况。此外，您可能需要在不同的应用程序状态下多次运行内存统计，以了解不同操作对内存的影响。</p>
-<h3 id="go_3">Go远程调试方法</h3>
+<h3 id="go_4">Go远程调试方法</h3>
 <ul>
 <li><a href="https://blog.csdn.net/zhangxm_qz/article/details/122154006">把手教你goland远程调试</a></li>
 <li><a href="https://juejin.cn/post/7035910722382987271">Go Lang远程调试 with Goland</a></li>
 </ul>
-<h3 id="go_4">Go的新特性</h3>
+<h3 id="go_5">Go的新特性</h3>
 <p>因为Go的版本迭代更新很快，还经常增加新语法，所以单独记录下。</p>
 <ul>
 <li><a href="https://www.bilibili.com/video/BV1PQKGeEEN2">基于go1.24的泛型实现Set</a></li>
