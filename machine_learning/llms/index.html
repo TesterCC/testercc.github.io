@@ -361,6 +361,12 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#_3">模型下载</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ollama-cli">Ollama-cli用法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#ollama">ollama常用命令</a>
+    </li>
+        </ul>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#hugging-cli">hugging-cli用法</a>
     </li>
         </ul>
@@ -549,7 +555,7 @@
 <p>使用API和token来访问大模型服务，一般使用Cherry Studio 或 Chatbox，配置方法基本都一致，只是app操作有差异。</p>
 <h3 id="_2">部署方式</h3>
 <p>目前最常用的2种方案：<strong>Ollama</strong>和<strong>LM Studio</strong></p>
-<p>因为找到的资料多用的是LM Studio且界面更美观，所以就先用这个。</p>
+<p>因为找到的资料多用的是LM Studio且界面更美观，所以就先用这个。而且相较于Ollama, LM Studio的GUI操作更加友好。</p>
 <p>设备硬件配置参考：https://lmstudio.ai/docs/system-requirements</p>
 <p>Windows和Linux主机最好还是有N卡，运行会更快一点。</p>
 <h3 id="_3">模型下载</h3>
@@ -559,6 +565,49 @@
 2.在常规中勾选，Use LM Studio's Hugging Face Proxy
 3.然后再切换到发现模型弹框，就可以正常通过LM Studio下载模型了</p>
 <p>比用huggingface-cli或者改js之类的解决方案要简单很多。</p>
+<h3 id="ollama-cli">Ollama-cli用法</h3>
+<p>安装完后ollama一般会直接配置好环境变量，在Terminal可以使用ollama命令。</p>
+<pre><code>ollama --help
+Large language model runner
+
+Usage:
+  ollama [flags]
+  ollama [command]
+
+Available Commands:
+  serve       Start ollama
+  create      Create a model from a Modelfile
+  show        Show information for a model
+  run         Run a model
+  stop        Stop a running model
+  pull        Pull a model from a registry
+  push        Push a model to a registry
+  list        List models
+  ps          List running models
+  cp          Copy a model
+  rm          Remove a model
+  help        Help about any command
+
+Flags:
+  -h, --help      help for ollama
+  -v, --version   Show version information
+
+Use &quot;ollama [command] --help&quot; for more information about a command.
+</code></pre>
+<h4 id="ollama">ollama常用命令</h4>
+<pre><code class="language-shell"># 下载并启动模型 llama3.2，更多其他模型去Ollama官方查询，https://ollama.com/search
+ollama run llama3.2
+# 启动成功后会进入一个交互式命令行，可输入文字进行交互。
+
+# 查看本地已有的模型
+ollama list
+NAME               ID              SIZE      MODIFIED
+llama3.2:latest    a80c4f17acd5    2.0 GB    2 minutes ago
+
+# 删除本地模型
+ollama rm llama3.2:latest
+deleted 'llama3.2:latest'
+</code></pre>
 <h3 id="hugging-cli">hugging-cli用法</h3>
 <p>万一LM Studio Hugging Face Proxy出问题，还是可以通过hugging-cli来下载模型文件。</p>
 <p>模型镜像网站：https://hf-mirror.com</p>
@@ -616,6 +665,7 @@ mstudio-community/DeepSeek-R1-Distill-Llama-8B-GGUF/DeepSeek-R1-Distill-Llama-8B
 <h2 id="ref">REF</h2>
 <ul>
 <li><a href="https://lmstudio.ai/">LM Studio官网</a></li>
+<li><a href="https://ollama.com/">Ollama</a></li>
 <li><a href="https://www.bilibili.com/video/BV1XDPQeeEF7/">上手代码复现DeepSeek-R1强化学习训练演示</a> -- 这个需要一定基础</li>
 <li><a href="https://mp.weixin.qq.com/s/hJ3CliDpLKNwGfhk_1Wuaw">如何借助 LLM 设计和实现任务型对话 Agent</a></li>
 <li><a href="https://www.bilibili.com/video/BV1DsNueLE72/">可能是最简单的DeepSeek R1本地运行教程</a> -- 只是想体验下直接看这个</li>
