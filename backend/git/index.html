@@ -185,6 +185,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/axure_rp/">Axure RP</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
               <ul>
@@ -346,6 +348,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#0git-clone">0.git clone</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#0git-log">0.git log</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#1git-merge">1.git merge</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#2git-commit-squash-branch_name">2.git commit --squash branch_name</a>
@@ -435,6 +439,34 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#17git-add">17.git add操作的恢复</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#18git-worktree">18.git worktree</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#181">18.1 列出所有工作树（包括默认工作树）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#182">18.2 添加新工作树</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#183">18.3 在新工作树中查看分支状态</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#184">18.4 移除工作树</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#185">18.5 移动或重命名工作树</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#186">18.6 临时工作树（实验性开发）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#187">18.7 清理过期工作树</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#git-worktree">git worktree高级用法与注意事项</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1.工作树与分支的关联</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2.跨工作树的文件冲突</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3git-worktree-git-clone">3.git worktree 与 git clone 的区别</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#git-ssh">服务器上的 Git - 生成 SSH 公钥</a>
     </li>
@@ -785,6 +817,17 @@ git clone --depth=1 git@xxx.com:xxx/abc.git
 --depth 用来指定克隆的深度，1表示克隆最近的一次commit。
 这种方法克隆的项目只包含最近的一次commit的一个分支，体积很小。
 </code></pre>
+<h2 id="0git-log">0.git log</h2>
+<p>查看提交日志的基本命令，可以代参数。</p>
+<p>git log --online</p>
+<pre><code class="language-shell">7469f4d (HEAD -&gt; main, origin/main) update - gitignore
+3548704 update - gitignore
+1013873 update - daily update
+4900299 update - daily notes
+94ddc54 update - daily notes
+33d27b9 update - local notes
+</code></pre>
+<p>通常是要进行<code>git commit --squash</code>之前时使用，方便查看要合并哪些id。</p>
 <h2 id="1git-merge">1.git merge</h2>
 <p>合并分支</p>
 <p>先切换的到你的主分支上,然后合并其它分支的代码。</p>
@@ -792,8 +835,8 @@ git clone --depth=1 git@xxx.com:xxx/abc.git
 git merge -m &quot;merge branch_name&quot; branch_name
 </code></pre>
 <p>这样就把branch_name分支的代码合并到master分支上了，且这一步的git commit 为 "merge branch_name"</p>
-<p>自己的项目这样也无妨，但是如果多人协作开发，这样提交会把你自己开发分支时的那些commit也都提交上去，看git log的时候很不友好。
-所以推荐使用git commit --squash</p>
+<p>自己的项目这样也无妨，但是如果多人协作开发，这样提交会把你自己开发分支时的那些commit也都提交上去，看<code>git log</code>的时候很不友好。
+所以推荐使用<code>git commit --squash</code></p>
 <h2 id="2git-commit-squash-branch_name">2.git commit --squash branch_name</h2>
 <p>在branch_name分支上的，合并多个提交为一条。</p>
 <p>在某些情况下，我们应该优先选择使用--squash选项（比如在开源项目中提交PR一般都会要求这样操作。）</p>
@@ -804,7 +847,8 @@ git commit -m &quot;merge branch fix_ftp_upload&quot;
 git push origin develop
 </code></pre>
 <h2 id="3git-commit-amend">3.git commit --amend</h2>
-<p>修改刚刚未push的提交</p>
+<p>修改刚刚未push的提交。
+注意，只要没push都可以通过这个修改本地仓库当前的commit。</p>
 <p>比如：
 修改git commit -m "xxx"写错了注释。可以操作如下：</p>
 <pre><code class="language-shell">git commit --amend
@@ -986,6 +1030,26 @@ git branch --set-upstream-to=origin/dev dev
 <pre><code class="language-bash">git remote add origin https://github.com/TesterCC/sec-dev-in-action-src.git
 git remote add upstream https://github.com/netxfly/sec-dev-in-action-src.git
 </code></pre>
+<p>同步源仓库代码的命令：</p>
+<pre><code class="language-bash">git remote -v
+origin  git@github.com:TesterCC/vulhub.git (fetch)
+origin  git@github.com:TesterCC/vulhub.git (push)
+upstream    git@github.com:vulhub/vulhub.git (fetch)
+upstream    git@github.com:vulhub/vulhub.git (push)
+</code></pre>
+<pre><code class="language-bash"># 切到你想要合并代码的本地分支
+git checkout master
+
+# 从upstream仓库拉取最新代码
+git fetch upstream
+
+# 合并upstream的master分支代码到本地分支，要是你想合并的是upstream仓库的其他分支，将master替换成对应的分支名即可。
+git merge upstream/master
+# 完成操作后本地就是合并后的最新代码，可与用git log查看。
+
+# 将本地最新的merge的内容，同步到自己的orign/master分支上，这样就完成了upstream master到origin master的同步。
+git push origin master
+</code></pre>
 <h2 id="17git-add">17.git add操作的恢复</h2>
 <p>如果误操作将文件git add了，想要恢复文件到 git add 之前的状态。 可以使用 git reset 命令来完成。</p>
 <p>以下是恢复文件到 git add 之前状态的步骤：</p>
@@ -1005,6 +1069,68 @@ git reset HEAD test_pcap/*.pcap
 <p>这将使文件回到尚未暂存的状态。</p>
 <p>注意区别：git reset 命令用于取消已暂存的更改，并将文件恢复到未暂存的状态。</p>
 <p>如果想撤销未暂存的修改并还原到最后一次提交的状态，可以使用 git checkout 命令。</p>
+<h2 id="18git-worktree">18.git worktree</h2>
+<p>据说是git 2.5之后才有的命令，正好看到有人演示使用。特别是要做hotfix的时候，比git stash好用一点，但还是看个人使用习惯。</p>
+<pre><code class="language-shell">git worktree --help
+
+NAME
+       git-worktree - Manage multiple working trees
+
+SYNOPSIS
+       git worktree add [-f] [--detach] [--checkout] [--lock [--reason &lt;string&gt;]]
+                          [-b &lt;new-branch&gt;] &lt;path&gt; [&lt;commit-ish&gt;]
+       git worktree list [-v | --porcelain [-z]]
+       git worktree lock [--reason &lt;string&gt;] &lt;worktree&gt;
+       git worktree move &lt;worktree&gt; &lt;new-path&gt;
+</code></pre>
+<h3 id="181">18.1 列出所有工作树（包括默认工作树）</h3>
+<pre><code class="language-shell">git worktree list
+
+/Users/user/project       (main)
+/Users/user/project-feat  (feature/new-feature)
+</code></pre>
+<h3 id="182">18.2 添加新工作树</h3>
+<pre><code class="language-shell"># 在当前仓库下创建新工作树到指定路径，并关联到指定分支
+git worktree add &lt;路径&gt; [&lt;分支名&gt;]
+
+# 示例：在当前目录下创建 worktree-foo 目录，关联到 feature/foo 分支
+git worktree add worktree-foo feature/foo
+
+# 若不指定分支，默认基于当前分支创建
+git worktree add worktree-bar
+</code></pre>
+<h3 id="183">18.3 在新工作树中查看分支状态</h3>
+<pre><code class="language-shell"># 进入新工作树目录，查看分支和文件状态
+cd worktree-foo
+git status  # 显示 feature/foo 分支的状态
+</code></pre>
+<h3 id="184">18.4 移除工作树</h3>
+<pre><code class="language-shell"># 移除指定路径的工作树
+git worktree remove &lt;路径&gt;
+
+# 示例：移除 worktree-foo 工作树
+git worktree remove worktree-foo
+</code></pre>
+<h3 id="185">18.5 移动或重命名工作树</h3>
+<pre><code class="language-shell"># 先移除原工作树，再添加到新路径
+git worktree remove old-path
+git worktree add new-path
+</code></pre>
+<h3 id="186">18.6 临时工作树（实验性开发）</h3>
+<pre><code class="language-shell"># 创建临时工作树（基于HEAD的分离HEAD状态）
+git worktree add -b temp-experiment --detach temp-dir
+</code></pre>
+<h3 id="187">18.7 清理过期工作树</h3>
+<pre><code class="language-shell">git worktree prune  # 清理无效的工作树
+</code></pre>
+<h3 id="git-worktree">git worktree高级用法与注意事项</h3>
+<h4 id="1">1.工作树与分支的关联</h4>
+<p>每个工作树默认关联一个分支，修改会直接反映到该分支。若需切换分支，需在工作树目录中使用 git checkout。</p>
+<h4 id="2">2.跨工作树的文件冲突</h4>
+<p>避免在不同工作树中同时修改同一文件，否则可能导致冲突（Git 不会自动阻止，但提交时会提示）。</p>
+<h4 id="3git-worktree-git-clone">3.git worktree 与 git clone 的区别</h4>
+<p>git worktree：共享 .git 目录，适合同一仓库的多分支开发，占用空间小。
+git clone：创建独立的 .git 目录，适合完全隔离的项目副本。</p>
 <h2 id="git-ssh">服务器上的 Git - 生成 SSH 公钥</h2>
 <p>ref: https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%92%A5</p>
 <pre><code class="language-bash">$ ssh-keygen -o   # 没有特别需求的化，可以一路回车

@@ -185,6 +185,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../sec_product/sec_requirement/">安全需求</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../sec_product/axure_rp/">Axure RP</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Incident Response 应急响应</span></p>
               <ul>
@@ -416,6 +418,16 @@
     <li class="toctree-l3"><a class="reference internal" href="#vmware-workstation-ovfova">VMware Workstation导出文件 ovf和ova的区别？</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#vm-esxi">VM ESXi是什么？</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#esxi">ESXI</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#vsphere">vSphere</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#vcenter">vCenter</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#esxi_1">ESXI安装步骤</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#vm-esxi-vm-workstation">VM ESXi 和 VM Workstation 的区别？</a>
     </li>
@@ -608,6 +620,23 @@
 后缀是ova，则只会导出一个ova的压缩包。</p>
 <h3 id="vm-esxi">VM ESXi是什么？</h3>
 <p>VM ESXi是VMware的一款产品。VMware服务器虚拟化的一整套解决方案叫VMware vSphere，里面包括两个重要部件：一个是ESXi，在虚拟化中通常叫Hypervisor，提供的是计算虚拟化；另一个部分叫VMware vCenter Server，是集中管理多台ESXi，并且可以实现许多高级功能，比如动态迁移、容错等功能。</p>
+<p>部署参考: <a href="https://blog.csdn.net/G_D0120/article/details/138537920">ESXI——简化部署Linux内核的操作系统</a></p>
+<h4 id="esxi">ESXI</h4>
+<p>安装在实体服务器上，其实是个Linux内核的操作系统，只有安装了ESXI以后你才能在上面创建虚拟机。可以理解成在你的台式机上装的vmware workstation，只不过ESXI不用运行在操作系统上（因为本身就是操作系统）而为虚拟机直接调用硬件资源。</p>
+<h4 id="vsphere">vSphere</h4>
+<p>vmware一套产品的总称，包含了vCenter和ESXi及其他组件，类似于OFFICE和WORD的关系。vSphere其实就是连接ESXI和vCenter的Client客户端，即：用来连接ESXI（不过只能连接一台ESXI，即"一对一"管理），也可以用来连接vCenter服务器（连接后，通过vCenter添加多台ESXI宿主机进行集中管理）。
+vSphere Web Client是为忙碌的管理员提供的一款通用的、基于浏览器的VMware管理工具，能够监控并管理VMware基础设施。在摆脱Windows平台下的vSphere Client之前，需要先在后台安装并配置Web Client组件。</p>
+<h4 id="vcenter">vCenter</h4>
+<p>客户端管理软件，用来操作和管理多台ESXI宿主机及其虚拟机，即"一对多"管理，比如监控虚拟机运行情况、创建虚拟机、调整虚拟机资源、迁移虚拟机等等。</p>
+<h3 id="esxi_1">ESXI安装步骤</h3>
+<ol>
+<li>先安装ESXI系统(即宿主机系统)</li>
+<li>接着安装vSphere(连接ESXI的client端)，通过vSphere连接ESXI服务器创建虚拟机。不过-vSphere只能一对一管理EXSI，即只能连接一台ESXI宿主机(不像XenCenterr客户端那样可以添加多台宿主机进行管理，没有"添加"项)。</li>
+<li>再用虚拟机安装vCenter。vCenter可以连接多台ESXI宿主机，并对宿主机上面的虚拟机进行管理。vCenter有Client客户端（即通过vSphere客户端连接）和Web端两种方式进行管理。</li>
+<li>ESXI是底层，vSphere是连接终端，vCenter是管理ESXI宿主机及vSphere上创建的虚拟机的。</li>
+<li>vCenter和ESXI要分别安装在两台服务器上，ESXI必须安装在物理机上，vCenter可以安装在物理机上，也可以安装在虚拟机上。</li>
+</ol>
+<p>对于不间断要求高的系统，ESXi主机+vCenter可以实现零宕机的功能。ESXi主机是为提供运行资源的地方，而vCenter是集中调度和管理虚拟机的管理者。</p>
 <h3 id="vm-esxi-vm-workstation">VM ESXi 和 VM Workstation 的区别？</h3>
 <p>通常Windows PC用的是VMware Workstation，是提供虚拟化的软件。</p>
 <p>ESXi和Workstation最大的区别在于系统架构不同，ESXi是裸金属结构，也就是直接安装在物理服务器上的；Workstation是寄生结构，它是装在Windows或Linux操作系统之上的.</p>
